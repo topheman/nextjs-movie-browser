@@ -1,0 +1,27 @@
+{
+  "name": "nextjs-movie-browser",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "repository": "https://github.com/topheman/nextjs-movie-browser",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "^10.15.0"
+  },
+  "keywords": [
+    "next.js",
+    "React"
+  ],
+  "author": "Christophe Rosset <tophe@topheman.com> (http://labs.topheman.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^7.0.2",
+    "react": "16.8.0-alpha.1",
+    "react-dom": "16.8.0-alpha.1"
+  }
+}

@@ -27,3 +27,10 @@ Resources:
 - [@zeit/next-typescript](https://github.com/zeit/next-plugins/tree/master/packages/next-typescript)
 - [Microsoft/TypeScript-Babel-Starter](https://github.com/Microsoft/TypeScript-Babel-Starter)
 - [deptno/next.js-typescript-starter-kit](deptno/next.js-typescript-starter-kit)
+- [Limitations of using @babel/preset-typescript](https://kulshekhar.github.io/ts-jest/user/babel7-or-ts)
+
+## Jest support
+
+Resources:
+
+- [ts-jest](https://github.com/kulshekhar/ts-jest)

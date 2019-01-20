@@ -8,7 +8,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run type-check",
+    "type-check": "tsc --noEmit"
   },
   "engines": {
     "node": "^10.15.0"
@@ -23,5 +24,11 @@
     "next": "^7.0.2",
     "react": "16.8.0-alpha.1",
     "react-dom": "16.8.0-alpha.1"
+  },
+  "devDependencies": {
+    "@types/next": "^7.0.6",
+    "@types/react": "^16.7.20",
+    "@zeit/next-typescript": "^1.1.1",
+    "typescript": "^3.2.4"
   }
 }

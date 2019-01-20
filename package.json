@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "test": "npm run type-check",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "pretty": "npx prettier --write '**/*.{tsx,ts,js,jsx,json,css,scss,md}'"
   },
   "engines": {
     "node": "^10.15.0"
@@ -29,6 +30,7 @@
     "@types/next": "^7.0.6",
     "@types/react": "^16.7.20",
     "@zeit/next-typescript": "^1.1.1",
+    "prettier": "1.16.0",
     "typescript": "^3.2.4"
   }
 }

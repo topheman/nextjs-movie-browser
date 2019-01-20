@@ -1,4 +1,5 @@
 .git
+.next
 package-lock.json
 yarn.lock
 package.json

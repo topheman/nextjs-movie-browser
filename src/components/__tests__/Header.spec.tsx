@@ -7,4 +7,8 @@ describe("src/component/Header", () => {
     const { getByText } = render(<Header />);
     expect(getByText("Home")).toBeTruthy();
   });
+  it(`should render title "${process.env.NEXTJS_APP_CLIENT_TITLE}"`, () => {
+    const { getByText } = render(<Header />);
+    expect(getByText(process.env.NEXTJS_APP_CLIENT_TITLE)).toBeTruthy();
+  });
 });

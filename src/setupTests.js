@@ -1,3 +1,8 @@
+const { loadConfig } = require("../scripts/config/next-env");
+
+// Inject config from .env files into test suite
+loadConfig();
+
 /**
  * Gives access to the following jest custom matchers:
  * - toBeInTheDOM

@@ -37,6 +37,8 @@
   "author": "Christophe Rosset <tophe@topheman.com> (http://labs.topheman.com/)",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^6.2.0",
+    "dotenv-expand": "^4.2.0",
     "next": "^7.0.2",
     "react": "16.8.0-alpha.1",
     "react-dom": "16.8.0-alpha.1"

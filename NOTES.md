@@ -31,6 +31,27 @@ Resources:
 
 ## Jest support
 
+Since transpiling is done with babel in development, in test, we do the same with [babel-jest](https://github.com/facebook/jest/tree/master/packages/babel-jest).
+
+- The "test" section of the [`.babelrc`](.babelrc) file will be used
+- The `jest.config.js` file is taken in account by default by jest
+- I configured the `src/setupTests.js` file like in CRA to be loaded before tests start
+
+With shipped version of `babel-core` (different packages using v6 - not `@babel/core`), I had the following error:
+
+> Test suite failed to run
+>
+> Plugin 0 specified in "~/nextjs-movie-browser/node_modules/next/babel.js" provided an invalid property of "default" (While processing preset: "~/nextjs-movie-browser/node_modules/next/babel.js")
+
+I fixed it with:
+
+```shell
+yarn add babel-core@^7.0.0-bridge --dev
+```
+
+In order to fix the peerDependencie to `babel-core` I used `babel-core@^7.0.0-bridge`, a version of `babel-core` that requires `@babel/core` under the hood - [see full explanation](https://github.com/babel/babel-bridge#solution).
+
 Resources:
 
-- [ts-jest](https://github.com/kulshekhar/ts-jest)
+- [Example app with Jest tests inside a NextJS TypeScript app](https://github.com/zeit/next.js/tree/canary/examples/with-jest-typescript)
+- [babel-jest](https://github.com/facebook/jest/tree/master/packages/babel-jest)

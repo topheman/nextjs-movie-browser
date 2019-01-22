@@ -12,6 +12,14 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+  server.get("/movie/:id(\\d+)((-:slug)?)", (req, res) =>
+    app.render(
+      req,
+      res,
+      "/movie",
+      Object.assign({ id: req.params.id }, req.query)
+    )
+  );
   server.get("/*", (req, res) => handle(req, res));
   server.listen(port, err => {
     if (err) throw err;

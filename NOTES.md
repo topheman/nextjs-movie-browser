@@ -55,3 +55,23 @@ Resources:
 
 - [Example app with Jest tests inside a NextJS TypeScript app](https://github.com/zeit/next.js/tree/canary/examples/with-jest-typescript)
 - [babel-jest](https://github.com/facebook/jest/tree/master/packages/babel-jest)
+
+## Custom Server
+
+By default, you start your app with `next start`. If you need to **customize routes**, **use route patterns**, you will have to make your own server entry point.
+
+- [Custom server and routing](https://nextjs.org/docs/#custom-server-and-routing)
+
+### Custom Server JavaScript
+
+Resources:
+
+- [next.js/examples/custom-server-express](https://github.com/zeit/next.js/tree/canary/examples/custom-server-express)
+- [async-labs/saas - NextJS with custom server](https://github.com/async-labs/saas/tree/master/app)
+
+### Custom Server TypeScript
+
+Resources:
+
+- [next.js/examples/custom-server-typescript](https://github.com/zeit/next.js/tree/canary/examples/custom-server-typescript)
+- [ts-node](https://github.com/TypeStrong/ts-node)

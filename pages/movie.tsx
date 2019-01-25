@@ -1,4 +1,3 @@
-import "isomorphic-fetch";
 import Head from "next/head";
 
 import Layout from "../src/components/Layout";
@@ -12,6 +11,7 @@ const getMovie = async (
   id: string | number,
   cb?: (data: TmdbMovieResult) => any
 ): Promise<TmdbMovieResult> => {
+  // isomorphic-fetch is required in _app.tsx to expose `fetch` server-side
   const response = await fetch(
     `${process.env.NEXTJS_APP_CLIENT_TMDB_API_ROOT_URL}/movie/${id}?api_key=${
       process.env.NEXTJS_APP_CLIENT_TMDB_API_KEY

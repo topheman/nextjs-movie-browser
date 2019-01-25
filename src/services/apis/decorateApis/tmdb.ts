@@ -6,14 +6,19 @@ export interface TmdbDecorateAPI {
 }
 
 const decorateApi = ({
-  client /* , cache, key */
+  client /* key */
 }: {
   client: AxiosInstance;
-}): TmdbDecorateAPI => ({
-  movie: id => {
-    const query = `/movie/${id}`;
-    return client.get(query).then(({ data }) => data);
-  }
-});
+}): TmdbDecorateAPI => {
+  client.defaults.params = {
+    api_key: process.env.NEXTJS_APP_CLIENT_TMDB_API_KEY
+  };
+  return {
+    movie: id => {
+      const query = `/movie/${id}`;
+      return client.get(query).then(({ data }) => data);
+    }
+  };
+};
 
 export default decorateApi;

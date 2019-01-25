@@ -19,8 +19,6 @@ const config: ApiManagerConfig = {
     },
     managerConfig: {
       decorateApi: decorateTmdbApi,
-      isCacheEnabled:
-        process.env.NEXTJS_APP_CLIENT_TMDB_API_CACHE_ENABLED === "true",
       // TODO add mock support
       mocks: undefined,
       makeMockedClient: undefined,
@@ -29,9 +27,21 @@ const config: ApiManagerConfig = {
   }
 };
 
-export const init = () => configure(config);
+/**
+ * Init the ApiManager before using it
+ * You can alter the config by passing a callback
+ *
+ * @param fn @optional (config) => alteredConfig
+ */
+export const init = (fn?: (config: ApiManagerConfig) => ApiManagerConfig) => {
+  if (typeof fn === "function") {
+    const alteredConfig: ApiManagerConfig = fn(config);
+    return configure(alteredConfig);
+  }
+  return configure(config);
+};
 
 type IApiTmdb = ApiManagerManager & TmdbDecorateAPI;
 
 export const apiTmdb = (): IApiTmdb =>
-  <IApiTmdb>getInstance(TARGET_API_TMDB_API);
+  getInstance(TARGET_API_TMDB_API) as IApiTmdb;

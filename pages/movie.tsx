@@ -1,34 +1,14 @@
 import Head from "next/head";
 
 import Layout from "../src/components/Layout";
-
-type TmdbMovieResult = {
-  title: string;
-  overview: string;
-};
-
-const getMovie = async (
-  id: string | number,
-  cb?: (data: TmdbMovieResult) => any
-): Promise<TmdbMovieResult> => {
-  // isomorphic-fetch is required in _app.tsx to expose `fetch` server-side
-  const response = await fetch(
-    `${process.env.NEXTJS_APP_CLIENT_TMDB_API_ROOT_URL}/movie/${id}?api_key=${
-      process.env.NEXTJS_APP_CLIENT_TMDB_API_KEY
-    }`
-  );
-  const data = await response.json();
-  if (cb) {
-    cb(data);
-  }
-  return data;
-};
+import { apiTmdb } from "../src/services/apis";
+import { TmdbMovieEntity } from "../src/@types/tmdb";
 
 /**
  * Returns Server Side rendered page on first load
  * Then the client will do the the request to the API and do the render
  */
-const Movie = ({ data }: { data: TmdbMovieResult }) => {
+const Movie = ({ data }: { data: TmdbMovieEntity }) => {
   const { title, overview } = data;
   return (
     <>
@@ -50,9 +30,9 @@ const Movie = ({ data }: { data: TmdbMovieResult }) => {
 Movie.getInitialProps = async (props: {
   req: any;
   query: { id: string };
-}): Promise<{ data: TmdbMovieResult; isServer: boolean }> => {
-  const data = await getMovie(props.query.id);
-  return { data, isServer: !!props.req };
+}): Promise<{ data: TmdbMovieEntity; server: boolean }> => {
+  const data = await apiTmdb().movie(props.query.id);
+  return { data, server: !!props.req };
 };
 
 export default Movie;

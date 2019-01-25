@@ -38,7 +38,6 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
-    "axios-cache-adapter": "^2.2.1",
     "axios-retry": "^3.1.2",
     "dotenv": "^6.2.0",
     "dotenv-expand": "^4.2.0",

@@ -58,7 +58,8 @@ export const configure = (config: ApiManagerConfig) => {
  * @return {Object}
  */
 export const getInstance = (key: string): ApiManagerManager => {
-  if (!!baseConfig) {
+  if (!baseConfig) {
+    console.log(baseConfig);
     throw new Error(
       `[apiManager] You must call .configure(config) before calling .getInstance(${key})`
     );

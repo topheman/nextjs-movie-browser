@@ -3,8 +3,6 @@
  * https://github.com/topheman/npm-registry-browser/blob/master/src/services/apis/Manager.js
  */
 
-//@ts-ignore
-import { setupCache } from "axios-cache-adapter";
 import invariant from "invariant";
 
 import { makeClient } from "./http-client";
@@ -14,14 +12,11 @@ export interface ApiManagerOptions {
   managerConfig: {
     decorateApi: ({
       client,
-      key,
-      cache
+      key
     }: {
       client: AxiosInstance;
       key: string;
-      cache?: any;
     }) => any;
-    isCacheEnabled: boolean;
     // TODO manage mock options
     mocks?: any;
     makeMockedClient?: any;
@@ -39,8 +34,7 @@ export type ApiManagerManager = Manager & { [key: string]: any };
  *
  * @param {Object} [options.managerConfig]
  * @param {String} [options.managerConfig.key]
- * @param {Function} [options.managerConfig.decorateApi] add custom methods: ({client, cache, key}) => { ...apis}
- * @param {Boolean} [options.manager.isCacheEnabled]
+ * @param {Function} [options.managerConfig.decorateApi] add custom methods: ({client, key}) => { ...apis}
  * @param {Array} [options.managerConfig.mocks] Only passed if mock mode is on - The mocks to be used
  * @param {Function} [options.managerConfig.makeMockedClient] Only passed if mock mode is on - The mockClient Factory
  * @param {Function} [options.managerConfig.preprocessMocking] Only passed if mock mode is on - allow you to rewrite the response per-request ([status, response, headers], config) -> [status, response, headers]
@@ -50,14 +44,12 @@ export type ApiManagerManager = Manager & { [key: string]: any };
 export default class Manager {
   key: string;
   client: AxiosInstance;
-  cache?: any;
   constructor(
     { managerConfig, httpClientBaseConfig = {} }: ApiManagerOptions,
     key: string
   ) {
     const {
-      decorateApi, // ({client, cache, key}) => { ...apis}
-      isCacheEnabled,
+      decorateApi, // ({client, key}) => { ...apis}
       mocks,
       makeMockedClient,
       preprocessMocking
@@ -68,16 +60,6 @@ export default class Manager {
     );
     const axiosConfig: AxiosRequestConfig = { ...httpClientBaseConfig }; // don't mutate arguments
     this.key = key;
-    if (isCacheEnabled) {
-      this.cache = setupCache({ maxAge: 15 * 60 * 1000 });
-      axiosConfig.adapter = this.cache.adapter;
-      if (process.env.NODE_ENV === "development") {
-        console.info(
-          `[Api][Manager](${this.key}) Cache is enabled`,
-          this.cache
-        );
-      }
-    }
     if (mocks) {
       console.warn(
         `[Api][Manager](${
@@ -104,8 +86,7 @@ export default class Manager {
     if (typeof decorateApi === "function") {
       const moreApis = decorateApi({
         client: this.client,
-        key: this.key,
-        cache: this.cache
+        key: this.key
       });
       const reservedAttributes = Object.keys(this);
       invariant(

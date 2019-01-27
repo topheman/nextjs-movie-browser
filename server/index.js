@@ -1,6 +1,9 @@
 const express = require("express");
 const next = require("next");
+const nextI18NextMiddleware = require("next-i18next/middleware");
+
 const { loadConfig } = require("../scripts/config/next-env");
+const nextI18next = require("../i18n");
 
 // load .env configuration
 loadConfig();
@@ -12,6 +15,7 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+  nextI18NextMiddleware(nextI18next, app, server);
   server.get("/movie/:id(\\d+)((-:slug)?)", (req, res) =>
     app.render(
       req,

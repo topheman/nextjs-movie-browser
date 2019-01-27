@@ -1,19 +1,24 @@
+import i18next from "i18next";
 import Link from "next/link";
+
+import { withNamespaces } from "../../i18n";
+import SwitchLanguage from "./SwitchLanguage";
 
 const films = [["Fight Club", 550], ["Pulp Fiction", 680], ["Star Wars", 11]];
 
-export default () => (
+const Header = ({ t }: { t: i18next.TranslationFunction }) => (
   <>
     <h1>{process.env.NEXTJS_APP_CLIENT_TITLE}</h1>
+    <SwitchLanguage />
     <ul>
       <li>
         <Link href="/">
-          <a>Home</a>
+          <a>{t("common-label-home")}</a>
         </Link>
       </li>
       <li>
         <Link href="/about">
-          <a>About</a>
+          <a>{t("common-label-about")}</a>
         </Link>
       </li>
     </ul>
@@ -40,3 +45,5 @@ export default () => (
     </ul>
   </>
 );
+
+export default withNamespaces("common")(Header);

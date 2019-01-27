@@ -2,7 +2,10 @@ import { AxiosInstance } from "axios";
 import { TmdbMovieEntity } from "../../../@types/tmdb";
 
 export interface TmdbDecorateAPI {
-  movie: (id: string | number) => Promise<TmdbMovieEntity>;
+  movie: (
+    id: number | string,
+    { language }: { language: string }
+  ) => Promise<TmdbMovieEntity>;
 }
 
 const decorateApi = ({
@@ -14,9 +17,15 @@ const decorateApi = ({
     api_key: process.env.NEXTJS_APP_CLIENT_TMDB_API_KEY
   };
   return {
-    movie: id => {
+    movie: (id, { language }) => {
       const query = `/movie/${id}`;
-      return client.get(query).then(({ data }) => data);
+      return client
+        .get(query, {
+          params: {
+            language: language || "en"
+          }
+        })
+        .then(({ data }) => data);
     }
   };
 };

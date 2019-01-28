@@ -1,26 +1,61 @@
+import { useState, useEffect } from "react";
+import { withRouter } from "next/router";
 import Head from "next/head";
-import i18next from "i18next";
 
 import Layout from "../src/components/Layout";
-import { withNamespaces, retrieveLanguageFromPageProps } from "../i18n";
+import { withNamespaces } from "../i18n";
 import { apiTmdb } from "../src/services/apis";
-import { TmdbMovieEntity } from "../src/@types/tmdb";
+import {
+  TmdbMovieEntity,
+  AppNextRootPageProps,
+  AppNextRootPageGetInitialProps
+} from "../src/@types";
+
+type IComponentProps = AppNextRootPageProps & {
+  data: TmdbMovieEntity;
+  query: { id: string };
+};
+
+type IGetInitialProps = AppNextRootPageGetInitialProps & {
+  query: { id: string };
+};
 
 /**
- * ⚠️ TODO connect the page component to the language Provider when ready
- * (which will trigger re-render on language change)
  *
  * Returns Server Side rendered page on first load
  * Then the client will do the the request to the API and do the render
  */
-const Movie = ({
-  data,
-  t
-}: {
-  data: TmdbMovieEntity;
-  t: i18next.TranslationFunction;
-}) => {
-  const { title, overview } = data;
+const Movie = ({ data, t, router, languageOverride }: IComponentProps) => {
+  /**
+   * Keep a local version of the data from the API to retrigger API calls on:
+   * - route change
+   * - language change
+   *
+   * Note: If you don't need the client to make an API call with the new language
+   * directly after updating the UI's language, you don't need this local state
+   *
+   * In order to make the UI reflect the new language with the API content,
+   * I recall the static getInitialProps passing the arguments it is waiting for
+   */
+  const [localData, setLocalData] = useState(data);
+  useEffect(() => {
+    console.log(
+      "movie.tsx",
+      "useEffect",
+      languageOverride,
+      router.query && router.query.id,
+      localData
+    );
+    const id = router.query && (router.query.id as string);
+    if (id) {
+      Movie.getInitialProps({
+        languageOverride,
+        query: { id: id }
+      }).then(({ data }: { data: TmdbMovieEntity }) => setLocalData(data));
+    }
+  }, [languageOverride, router.query && router.query.id]); // ⚠️ TODO prevent double firing
+  const { title, overview } = localData;
+  console.log("movie.tsx", "render", languageOverride);
   return (
     <>
       <Head>
@@ -36,18 +71,19 @@ const Movie = ({
 };
 
 /**
- * Static method that will trigger a request to the API from the server
+ * Static method that will trigger a request to the API on route change
  * and pass the result as props to the render method.
+ * This is called both on server and client route change.
  */
-Movie.getInitialProps = async (props: {
-  req: any;
-  query: { id: string };
-}): Promise<{
+Movie.getInitialProps = async (
+  props: IGetInitialProps
+): Promise<{
   data: TmdbMovieEntity;
   server: boolean;
   namespacesRequired: string[];
 }> => {
-  const language = retrieveLanguageFromPageProps(props);
+  console.log("movie.tsx", "getInitialProps");
+  const language = props.languageOverride;
   const data = await apiTmdb().movie(props.query.id, { language });
   return {
     data,
@@ -56,4 +92,4 @@ Movie.getInitialProps = async (props: {
   };
 };
 
-export default withNamespaces("movie")(Movie);
+export default withNamespaces("movie")(withRouter(Movie));

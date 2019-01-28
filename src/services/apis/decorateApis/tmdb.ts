@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { TmdbMovieEntity } from "../../../@types/tmdb";
+import { TmdbMovieEntity } from "../../../@types";
 
 export interface TmdbDecorateAPI {
   movie: (

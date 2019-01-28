@@ -10,16 +10,26 @@
  */
 
 import { init as initApiClient } from "../src/services/apis";
-import App, { Container, NextAppContext } from "next/app";
+import App, { Container } from "next/app";
 
 import { appWithTranslation, i18n } from "../i18n";
+import {
+  LanguageManagerProvider,
+  LanguageManagerConsumer
+} from "../src/services/i18n/LanguageManager";
+import { getLanguageOverrideFromCookie } from "../src/services/i18n/utils";
+import { CustomNextAppContext } from "../src/@types";
 
 const server = typeof window === "undefined"; // accessible sync
 
 initApiClient();
 
-class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }: NextAppContext) {
+class MyApp extends App<{ languageOverride: string }> {
+  static async getInitialProps({
+    Component,
+    router,
+    ctx
+  }: CustomNextAppContext) {
     // const server = !!ctx.req; // only accessible async
 
     console.log({
@@ -29,21 +39,45 @@ class MyApp extends App {
       language: i18n.language
     });
 
-    let pageProps = {};
+    const languageOverride = getLanguageOverrideFromCookie(
+      (ctx.req && ctx.req.headers.cookie) ||
+        (typeof "window" !== "undefined" && document && document.cookie)
+    );
+
+    // set `languageOverride` as prop of the root page
+    let pageProps = { languageOverride };
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
+      // inject `languageOverride` attribute in the params of getInitialProps of the root page
+      pageProps = await Component.getInitialProps({ languageOverride, ...ctx });
+      // set `languageOverride` as prop of the root page on the object returned by getInitialProps
+      pageProps.languageOverride = languageOverride;
     }
 
-    return { pageProps };
+    return {
+      pageProps
+    };
   }
 
   render() {
     const { Component, pageProps } = this.props;
+    console.log(
+      "render - languageOverride from pageProps",
+      pageProps.languageOverride
+    );
 
     return (
       <Container>
-        <Component {...pageProps} />
+        <LanguageManagerProvider
+          i18n={i18n}
+          languageOverride={pageProps.languageOverride}
+        >
+          <LanguageManagerConsumer>
+            {({ languageOverride: lang }) => (
+              <Component {...pageProps} languageOverride={lang} />
+            )}
+          </LanguageManagerConsumer>
+        </LanguageManagerProvider>
       </Container>
     );
   }

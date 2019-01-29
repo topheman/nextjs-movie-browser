@@ -24,7 +24,10 @@ const server = typeof window === "undefined"; // accessible sync
 
 initApiClient();
 
-class MyApp extends App<{ languageOverride: string }> {
+class MyApp extends App<{
+  languageOverride: string;
+  languageOverrideFull: string;
+}> {
   static async getInitialProps({
     Component,
     router,
@@ -41,17 +44,32 @@ class MyApp extends App<{ languageOverride: string }> {
 
     const languageOverride = getLanguageOverrideFromCookie(
       (ctx.req && ctx.req.headers.cookie) ||
-        (typeof "window" !== "undefined" && document && document.cookie)
+        (typeof "window" !== "undefined" &&
+          typeof document !== "undefined" &&
+          document.cookie)
+    );
+
+    const languageOverrideFull = getLanguageOverrideFromCookie(
+      (ctx.req && ctx.req.headers.cookie) ||
+        (typeof "window" !== "undefined" &&
+          typeof document !== "undefined" &&
+          document.cookie),
+      true
     );
 
     // set `languageOverride` as prop of the root page
-    let pageProps = { languageOverride };
+    let pageProps = { languageOverride, languageOverrideFull };
 
     if (Component.getInitialProps) {
       // inject `languageOverride` attribute in the params of getInitialProps of the root page
-      pageProps = await Component.getInitialProps({ languageOverride, ...ctx });
+      pageProps = await Component.getInitialProps({
+        languageOverride,
+        languageOverrideFull,
+        ...ctx
+      });
       // set `languageOverride` as prop of the root page on the object returned by getInitialProps
       pageProps.languageOverride = languageOverride;
+      pageProps.languageOverrideFull = languageOverrideFull;
     }
 
     return {
@@ -67,10 +85,18 @@ class MyApp extends App<{ languageOverride: string }> {
         <LanguageManagerProvider
           i18n={i18n}
           languageOverride={pageProps.languageOverride}
+          languageOverrideFull={pageProps.languageOverrideFull}
         >
           <LanguageManagerConsumer>
-            {({ languageOverride: lang }) => (
-              <Component {...pageProps} languageOverride={lang} />
+            {({
+              languageOverride: langOverride,
+              languageOverrideFull: langOverrideFull
+            }) => (
+              <Component
+                {...pageProps}
+                languageOverride={langOverride}
+                languageOverrideFull={langOverrideFull}
+              />
             )}
           </LanguageManagerConsumer>
         </LanguageManagerProvider>

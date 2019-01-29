@@ -4,16 +4,17 @@ import { NextContext, NextComponentType } from "@types/next";
 export interface AppNextRootPageProps {
   t: i18next.TranslationFunction;
   router: SingletonRouter;
-  languageOverride: string;
+  languageOverrideFull: string;
 }
 
 export interface AppNextRootPageGetInitialProps {
   req?: any;
-  languageOverride: string;
+  languageOverrideFull: string;
 }
 
 export interface CustomNextContext<Q extends DefaultQuery = DefaultQuery> {
   languageOverride: string; // SPECIFIC
+  languageOverrideFull: string; // SPECIFIC
   /** path section of URL */
   pathname: string;
   /** query string section of URL parsed as an object */

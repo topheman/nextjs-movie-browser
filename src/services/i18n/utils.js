@@ -1,13 +1,16 @@
 const COOKIE_LANGUAGE_OVERRIDE = "i18nOverride";
+const COOKIE_LANGUAGE_OVERRIDE_FULL = "i18nOverrideFull";
 
 /**
  *
- * @type (cookie?: string) => string | null
+ * @type (cookie?: string, full?: boolean) => string | null
  */
-const getLanguageOverrideFromCookie = cookie => {
+const getLanguageOverrideFromCookie = (cookie, full = false) => {
   if (cookie) {
     const pattern = new RegExp(
-      `${COOKIE_LANGUAGE_OVERRIDE}=([a-zA-Z0-9]*(-[a-zA-Z0-9]*)?)+`
+      `${
+        full ? COOKIE_LANGUAGE_OVERRIDE_FULL : COOKIE_LANGUAGE_OVERRIDE
+      }=([a-zA-Z0-9]*(-[a-zA-Z0-9]*)?)+`
     );
     const match = cookie.match(pattern);
     if (match) {
@@ -19,13 +22,15 @@ const getLanguageOverrideFromCookie = cookie => {
 
 /**
  *
- * @type (languageCode: string) => void
+ * @type (languageCode: string, full?: boolean) => void
  */
-const setLanguageOverrideFromCookie = languageCode => {
+const setLanguageOverrideFromCookie = (languageCode, full = false) => {
   if (typeof window === "undefined") {
     throw new Error("This method is ment to be used only client side");
   }
-  document.cookie = `${COOKIE_LANGUAGE_OVERRIDE}=${languageCode}`;
+  document.cookie = `${
+    full ? COOKIE_LANGUAGE_OVERRIDE_FULL : COOKIE_LANGUAGE_OVERRIDE
+  }=${languageCode}`;
 };
 
 module.exports = {

@@ -81,9 +81,9 @@ export class LanguageManagerProvider extends Component<
     formatLanguageCode = languageCodeToISO6391
   ) => {
     const formattedLanguageCode = formatLanguageCode(language);
-    this.props.i18n.changeLanguage(formattedLanguageCode);
     setLanguageOverrideFromCookie(formattedLanguageCode);
     setLanguageOverrideFromCookie(language, true);
+    this.props.i18n.changeLanguage(formattedLanguageCode);
     this.setState({
       language: formattedLanguageCode,
       languageOverride: formattedLanguageCode,

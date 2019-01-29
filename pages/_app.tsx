@@ -42,20 +42,28 @@ class MyApp extends App<{
       language: i18n.language
     });
 
-    const languageOverride = getLanguageOverrideFromCookie(
-      (ctx.req && ctx.req.headers.cookie) ||
-        (typeof "window" !== "undefined" &&
-          typeof document !== "undefined" &&
-          document.cookie)
-    );
+    const languageOverride =
+      getLanguageOverrideFromCookie(
+        (ctx.req && ctx.req.headers.cookie) ||
+          (typeof "window" !== "undefined" &&
+            typeof document !== "undefined" &&
+            document.cookie)
+      ) || i18n.options.defaultLanguage;
 
-    const languageOverrideFull = getLanguageOverrideFromCookie(
-      (ctx.req && ctx.req.headers.cookie) ||
-        (typeof "window" !== "undefined" &&
-          typeof document !== "undefined" &&
-          document.cookie),
-      true
-    );
+    const languageOverrideFull =
+      getLanguageOverrideFromCookie(
+        (ctx.req && ctx.req.headers.cookie) ||
+          (typeof "window" !== "undefined" &&
+            typeof document !== "undefined" &&
+            document.cookie),
+        true
+      ) || i18n.options.defaultLanguage;
+
+    console.log({
+      language: i18n.language,
+      languageOverride,
+      languageOverrideFull
+    });
 
     // set `languageOverride` as prop of the root page
     let pageProps = { languageOverride, languageOverrideFull };

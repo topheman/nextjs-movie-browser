@@ -30,10 +30,31 @@ const setLanguageOverrideFromCookie = (languageCode, full = false) => {
   }
   document.cookie = `${
     full ? COOKIE_LANGUAGE_OVERRIDE_FULL : COOKIE_LANGUAGE_OVERRIDE
-  }=${languageCode}`;
+  }=${languageCode}; path=/`;
+};
+
+/**
+ *
+ * @type ({defaultLanguage: string, defaultLanguageFull: string}) => any
+ */
+const languageManagerMiddleware = ({
+  defaultLanguage,
+  defaultLanguageFull
+}) => (req, res, next) => {
+  /**
+   * At the very first visit, force default language, set the custom cookies
+   * that will be used by the LanguageManager
+   */
+  if (!req.cookies.i18nOverride) {
+    req.lng = defaultLanguage;
+    res.cookie("i18nOverride", defaultLanguage);
+    res.cookie("i18nOverrideFull", defaultLanguageFull);
+  }
+  return next();
 };
 
 module.exports = {
   getLanguageOverrideFromCookie,
-  setLanguageOverrideFromCookie
+  setLanguageOverrideFromCookie,
+  languageManagerMiddleware
 };

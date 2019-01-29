@@ -61,10 +61,6 @@ class MyApp extends App<{ languageOverride: string }> {
 
   render() {
     const { Component, pageProps } = this.props;
-    console.log(
-      "render - languageOverride from pageProps",
-      pageProps.languageOverride
-    );
 
     return (
       <Container>

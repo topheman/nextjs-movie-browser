@@ -21,7 +21,6 @@ type IGetInitialProps = AppNextRootPageGetInitialProps & {
 };
 
 /**
- *
  * Returns Server Side rendered page on first load
  * Then the client will do the the request to the API and do the render
  */
@@ -36,16 +35,11 @@ const Movie = ({ data, t, router, languageOverride }: IComponentProps) => {
    *
    * In order to make the UI reflect the new language with the API content,
    * I recall the static getInitialProps passing the arguments it is waiting for
+   *
+   * @todo prevent double firing of the API call (those are get requests which will be cached but still)
    */
   const [localData, setLocalData] = useState(data);
   useEffect(() => {
-    console.log(
-      "movie.tsx",
-      "useEffect",
-      languageOverride,
-      router.query && router.query.id,
-      localData
-    );
     const id = router.query && (router.query.id as string);
     if (id) {
       Movie.getInitialProps({
@@ -53,9 +47,8 @@ const Movie = ({ data, t, router, languageOverride }: IComponentProps) => {
         query: { id: id }
       }).then(({ data }: { data: TmdbMovieEntity }) => setLocalData(data));
     }
-  }, [languageOverride, router.query && router.query.id]); // ⚠️ TODO prevent double firing
+  }, [languageOverride, router.query && router.query.id]); // -> here double firing of API call
   const { title, overview } = localData;
-  console.log("movie.tsx", "render", languageOverride);
   return (
     <>
       <Head>
@@ -82,7 +75,6 @@ Movie.getInitialProps = async (
   server: boolean;
   namespacesRequired: string[];
 }> => {
-  console.log("movie.tsx", "getInitialProps");
   const language = props.languageOverride;
   const data = await apiTmdb().movie(props.query.id, { language });
   return {

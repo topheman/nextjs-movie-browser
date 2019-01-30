@@ -15,5 +15,5 @@ Home.getInitialProps = async () => {
     namespacesRequired: ["home", "common"]
   };
 };
-
+console.log(withNamespaces.toString());
 export default withNamespaces("home")(Home);

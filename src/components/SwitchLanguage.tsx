@@ -14,11 +14,12 @@ const languages = [
   { code: "es-ES", label: "Spanish" }
 ];
 
-const SwitchLanguage = () => {
+const SwitchLanguage = (props: any) => {
   return (
     <LanguageManagerConsumer>
       {({ languageOverrideFull, switchLanguage }) => (
         <select
+          {...props}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             if (e.target.value) {
               switchLanguage(e.target.value);

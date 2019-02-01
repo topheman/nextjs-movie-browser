@@ -9,7 +9,7 @@ const films = [["Fight Club", 550], ["Pulp Fiction", 680], ["Star Wars", 11]];
 const Header = ({ t }: { t: i18next.TranslationFunction }) => (
   <>
     <h1>{process.env.NEXTJS_APP_CLIENT_TITLE}</h1>
-    <SwitchLanguage />
+    <SwitchLanguage data-testid="switch-language" />
     <ul>
       <li>
         <Link href="/">

@@ -57,7 +57,9 @@ export const withNamespacesMock = () => (Comp: any) => {
           const t = (code: string) =>
             `[${code}] (${translateContext.i18n.language})`;
           const alteredProps = {
-            t
+            t,
+            i18n: translateContext.i18n
+            // changeLanguage: translateContext.i18n.changeLanguage
           };
           return <Comp {...props} {...alteredProps} />;
         }}

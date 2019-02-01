@@ -88,6 +88,14 @@ class MyApp extends App<{
   render() {
     const { Component, pageProps } = this.props;
 
+    /**
+     * The LanguageManagerProvider will allow any Component deep in the tree to connect with
+     * LanguageManagerConsumer, in order to access:
+     * language, languageOverride, languageOverrideFull and switchLanguage
+     *
+     * The LanguageManagerConsumer just bellow is there in order to force the tree to re-render
+     * when switchLanguage is called
+     */
     return (
       <Container>
         <LanguageManagerProvider

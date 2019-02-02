@@ -142,3 +142,7 @@ jest.mock("react-i18next", () => ({
   withNamespaces: withNamespacesMock
 }));
 ```
+
+Note: If you use shallow rendering (like Enzyme), you don't need everything I explained above. Since you will be rendering only ONE component deep, you can settle with exporting undecorated version of your components (without `withNamespaces`) and inject a stub of `t` prop - [read more](https://react.i18next.com/misc/testing).
+
+Since I'm using [react-testing-library](https://github.com/kentcdodds/react-testing-library), I'm rendering a whole tree in jsdom, which is why I had to mock the context to pass the `i18n` instance accross the whole tree.

@@ -1,5 +1,18 @@
 # nextjs-movie-browser/notes
 
+- [TypeScript support](#typescript-support)
+- [Jest support](#jest-support)
+- [Custom Server](#custom-server)
+  - [Custom Server JavaScript](#custom-server-javascript)
+  - [Custom Server TypeScript](#custom-server-typescript)
+- [i18n - Internationalization](#i18n---internationalization)
+  - [next-i18next](#next-i18next)
+  - [Features missing](#features-missing)
+    - [Handle missing language](#handle-missing-language)
+    - [Override language codes with variations](#override-language-codes-with-variations)
+  - [i18n - Implementation](#i18n---implementation)
+  - [i18n - Unit tests](#i18n---unit-tests)
+
 ## TypeScript support
 
 Thanks to [@zeit/next-typescript](https://github.com/zeit/next-plugins/tree/master/packages/next-typescript), we can add TypeScript support to NextJS very simply.
@@ -41,7 +54,7 @@ With shipped version of `babel-core` (different packages using v6 - not `@babel/
 
 > Test suite failed to run
 >
-> Plugin 0 specified in "~/nextjs-movie-browser/node_modules/next/babel.js" provided an invalid property of "default" (While processing preset: "~/nextjs-movie-browser/node_modules/next/babel.js")
+> Plugin 0 specified in "\~/nextjs-movie-browser/node_modules/next/babel.js" provided an invalid property of "default" (While processing preset: "\~/nextjs-movie-browser/node_modules/next/babel.js")
 
 I fixed it with:
 
@@ -75,3 +88,57 @@ Resources:
 
 - [next.js/examples/custom-server-typescript](https://github.com/zeit/next.js/tree/canary/examples/custom-server-typescript)
 - [ts-node](https://github.com/TypeStrong/ts-node)
+
+## i18n - Internationalization
+
+I'm relying on [next-i18next](https://www.npmjs.com/package/next-i18next), a next.js plugin based on [i18next](https://www.i18next.com/) and [react-i18next](https://github.com/i18next/react-i18next).
+
+### next-i18next
+
+It handles SSR out of the box as well as namespace codesplitting (only sends down to the client the translations that it needs).
+
+### Features missing
+
+#### Handle missing language
+
+The [tmdb API](https://developers.themoviedb.org/3) offers a lot of languages. I wanted to be able to consume all of them without having to translate my UI for each of them. I managed to properly fallback the UI to a default language (english) when translations were missing but still render the API content in the language the user asked for (all that with SSR working).
+
+#### Override language codes with variations
+
+The translation files of your UI are in `static/locales/${languageCode}/`.
+
+For the UI, I wanted to be able to handle language codes like "en", "fr" ... ([ISO 639-1 codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)).
+
+For the API calls, since it handles it, I wanted to handle more specific codes: a combination of [ISO 639-1 codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (languages) and [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) (countries), to be able to be more granular - some languages are available in different regions around the world, we might want to expose specific versions. Example:
+
+- "fr-FR" is french
+- "pt-PT" is portuguese
+- "pt-BR" is portuguese (bresilian variation)
+
+[Resource about language codes](https://developers.themoviedb.org/3/getting-started/languages)
+
+### i18n - Implementation
+
+Reusable code is in [src/services/i18n](src/services/i18n).
+
+When you use `next-i18next`, you wrap your root page (`_app.tsx`) with the HOC `appWithTranslation` which will pass via context the i18n instance.
+
+Then you use the `withNamespaces` HOC to expose `t` (the translate function) to the component you want to translate.
+
+And I added a specific [`LanguageManager`](src/services/i18n/LanguageManager.tsx) that lets you manage language codes / change language on the fly.
+
+### i18n - Unit tests
+
+You can test a translated component by using the [`renderI18nNamespacesWrappedComponent`](src/testUtils.tsx) utility which mocks `appWithTranslation`.
+
+You can test a translated component that also uses the specific feature I added like language codes and switch language with [`renderI18nWithLanguageManagerProvider`](src/testUtils.tsx).
+
+Anyway, you'll have to mock `withNamespaces` from `next-i18next` with my own [`withNamespacesMock`](src/services/i18n/NamespaceMock.tsx):
+
+```js
+// src/setupTests.js
+const { withNamespacesMock } = require("./services/i18n/NamespaceMock");
+jest.mock("react-i18next", () => ({
+  withNamespaces: withNamespacesMock
+}));
+```

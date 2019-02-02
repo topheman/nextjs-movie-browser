@@ -55,9 +55,9 @@ const Movie = ({ data, t, router, languageOverrideFull }: IComponentProps) => {
         <meta name="description" content={overview} />
       </Head>
       <Layout>
-        <h2>{title}</h2>
+        <h2 dir="auto">{title}</h2>
         <h3>{t("movie-label-synopsis")}</h3>
-        <p>{overview}</p>
+        <p dir="auto">{overview}</p>
       </Layout>
     </>
   );

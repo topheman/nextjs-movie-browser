@@ -11,7 +11,9 @@ import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 const languages = [
   { code: "en-US", label: "English" },
   { code: "fr-FR", label: "French" },
-  { code: "es-ES", label: "Spanish" }
+  { code: "es-ES", label: "Spanish" },
+  { code: "he-IL", label: "Hebrew" },
+  { code: "fa-IR", label: "Persian" }
 ];
 
 const SwitchLanguage = (props: any) => {

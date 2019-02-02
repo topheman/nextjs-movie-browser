@@ -35,6 +35,13 @@ import { Component, createContext } from "react";
 
 import { setLanguageOverrideFromCookie } from "./utils";
 
+// will be executed by default on switchLanguage (you can override it, see bellow)
+const updateHtmlLangAttribute = ({
+  language
+}: ILanguageManagerProviderState) => {
+  document.getElementsByTagName("html")[0].lang = language;
+};
+
 /**
  * Converts "fr-FR" to "fr"
  * Used by default for switchLanguage (you can override it)
@@ -64,9 +71,15 @@ interface ILanguageManagerProviderProps {
   languageOverrideFull: string;
 }
 
+interface ILanguageManagerProviderState {
+  language: string;
+  languageOverride: string;
+  languageOverrideFull: string;
+}
+
 export class LanguageManagerProvider extends Component<
   ILanguageManagerProviderProps,
-  { language: string; languageOverride: string; languageOverrideFull: string }
+  ILanguageManagerProviderState
 > {
   constructor(props: ILanguageManagerProviderProps) {
     super(props);
@@ -78,17 +91,29 @@ export class LanguageManagerProvider extends Component<
   }
   switchLanguage = (
     language: string,
-    formatLanguageCode = languageCodeToISO6391
+    formatLanguageCode = languageCodeToISO6391,
+    cb = updateHtmlLangAttribute
   ) => {
     const formattedLanguageCode = formatLanguageCode(language);
     setLanguageOverrideFromCookie(formattedLanguageCode);
     setLanguageOverrideFromCookie(language, true);
     this.props.i18n.changeLanguage(formattedLanguageCode);
-    this.setState({
-      language: formattedLanguageCode,
-      languageOverride: formattedLanguageCode,
-      languageOverrideFull: language
-    });
+    this.setState(
+      {
+        language: formattedLanguageCode,
+        languageOverride: formattedLanguageCode,
+        languageOverrideFull: language
+      },
+      () => {
+        if (typeof document !== "undefined" && typeof cb === "function") {
+          cb({
+            language: formattedLanguageCode,
+            languageOverride: formattedLanguageCode,
+            languageOverrideFull: language
+          });
+        }
+      }
+    );
   };
   render() {
     return (

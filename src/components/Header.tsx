@@ -6,10 +6,18 @@ import SwitchLanguage from "./SwitchLanguage";
 
 const films = [["Fight Club", 550], ["Pulp Fiction", 680], ["Star Wars", 11]];
 
+const languages = [
+  { code: "en-US", label: "English" },
+  { code: "fr-FR", label: "French" },
+  { code: "es-ES", label: "Spanish" },
+  { code: "he-IL", label: "Hebrew" },
+  { code: "fa-IR", label: "Persian" }
+];
+
 const Header = ({ t }: { t: i18next.TranslationFunction }) => (
   <>
     <h1>{process.env.NEXTJS_APP_CLIENT_TITLE}</h1>
-    <SwitchLanguage data-testid="switch-language" />
+    <SwitchLanguage languages={languages} data-testid="switch-language" />
     <ul>
       <li>
         <Link href="/">

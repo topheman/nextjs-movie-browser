@@ -8,20 +8,16 @@ import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
  * The api uses both ISO_639-1 and ISO_3166-1 (like "fr-FR", "en-US", "pt-BR" ...)
  * See https://developers.themoviedb.org/3/getting-started/languages
  */
-const languages = [
-  { code: "en-US", label: "English" },
-  { code: "fr-FR", label: "French" },
-  { code: "es-ES", label: "Spanish" },
-  { code: "he-IL", label: "Hebrew" },
-  { code: "fa-IR", label: "Persian" }
-];
 
-const SwitchLanguage = (props: any) => {
+const SwitchLanguage: React.ComponentType<{
+  languages: { code: string; label: string }[];
+  remainingProps?: any;
+}> = ({ languages, ...remainingProps }) => {
   return (
     <LanguageManagerConsumer>
       {({ languageOverrideFull, switchLanguage }) => (
         <select
-          {...props}
+          {...remainingProps}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             if (e.target.value) {
               switchLanguage(e.target.value);

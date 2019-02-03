@@ -2,11 +2,11 @@ import i18next from "i18next";
 import Link from "next/link";
 
 import { withNamespaces } from "../../i18n";
-import SwitchLanguage from "./SwitchLanguage";
+import I18nPopup from "./I18nPopup";
 
 const films = [["Fight Club", 550], ["Pulp Fiction", 680], ["Star Wars", 11]];
 
-const languages = [
+const allLanguages = [
   { code: "en-US", label: "English" },
   { code: "fr-FR", label: "French" },
   { code: "es-ES", label: "Spanish" },
@@ -17,7 +17,7 @@ const languages = [
 const Header = ({ t }: { t: i18next.TranslationFunction }) => (
   <>
     <h1>{process.env.NEXTJS_APP_CLIENT_TITLE}</h1>
-    <SwitchLanguage languages={languages} data-testid="switch-language" />
+    <I18nPopup allLanguages={allLanguages} />
     <ul>
       <li>
         <Link href="/">

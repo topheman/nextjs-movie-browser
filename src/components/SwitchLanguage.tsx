@@ -1,6 +1,11 @@
 import React from "react";
 
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
+import { LanguageList } from "../@types";
+
+export interface ISwitchLanguageProps {
+  languages: LanguageList;
+}
 
 /**
  * Language codes using a combination of ISO_639-1 and ISO_3166-1
@@ -9,10 +14,10 @@ import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
  * See https://developers.themoviedb.org/3/getting-started/languages
  */
 
-const SwitchLanguage: React.ComponentType<{
-  languages: { code: string; label: string }[];
-  remainingProps?: any;
-}> = ({ languages, ...remainingProps }) => {
+const SwitchLanguage: React.ComponentType<ISwitchLanguageProps> = ({
+  languages,
+  ...remainingProps
+}) => {
   return (
     <LanguageManagerConsumer>
       {({ languageOverrideFull, switchLanguage }) => (

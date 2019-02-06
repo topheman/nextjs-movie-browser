@@ -41,7 +41,7 @@ export const init = (fn?: (config: ApiManagerConfig) => ApiManagerConfig) => {
   return configure(config);
 };
 
-type IApiTmdb = ApiManagerManager & TmdbDecorateAPI;
+export type IApiTmdb = ApiManagerManager & TmdbDecorateAPI;
 
 export const apiTmdb = (): IApiTmdb =>
   getInstance(TARGET_API_TMDB_API) as IApiTmdb;

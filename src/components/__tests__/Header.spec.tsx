@@ -17,11 +17,11 @@ describe.only("src/component/Header", () => {
     expect(getByText("[common-label-home] (en)")).toBeTruthy();
     expect(getByText("[common-label-about] (en)")).toBeTruthy();
   });
-  it("should change language UI on select change", async () => {
+  it("should change default language UI on select change", async () => {
     const { getByTestId, getByText } = renderI18nWithLanguageManagerProvider(
       Header
     );
-    const input = getByTestId("switch-language");
+    const input = getByTestId("switch-default-language");
     expect(input).toBeTruthy();
     expect(getByText("[common-label-home] (en)")).toBeTruthy();
     expect(input.value).toBe("en-US");

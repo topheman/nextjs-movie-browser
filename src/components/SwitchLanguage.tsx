@@ -4,7 +4,8 @@ import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import { LanguageList } from "../@types";
 
 export interface ISwitchLanguageProps {
-  languages: LanguageList;
+  defaultLanguages: LanguageList;
+  translationLanguages: LanguageList;
 }
 
 /**
@@ -15,29 +16,74 @@ export interface ISwitchLanguageProps {
  */
 
 const SwitchLanguage: React.ComponentType<ISwitchLanguageProps> = ({
-  languages,
+  defaultLanguages,
+  translationLanguages,
   ...remainingProps
 }) => {
   return (
     <LanguageManagerConsumer>
-      {({ defaultLanguageFullCode, switchDefaultLanguage }) => (
-        <select
-          {...remainingProps}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-            if (e.target.value) {
-              switchDefaultLanguage(e.target.value);
-            }
-          }}
-          value={defaultLanguageFullCode}
-        >
-          {languages.map(({ code, label }) => {
-            return (
-              <option key={code} value={code}>
-                {label}
-              </option>
-            );
-          })}
-        </select>
+      {({
+        translationLanguageFullCode,
+        defaultLanguageFullCode,
+        switchDefaultLanguage,
+        switchTranslationLanguage,
+        resetTranslationLanguage
+      }) => (
+        <div {...remainingProps}>
+          {translationLanguages && translationLanguages.length > 0 && (
+            <div>
+              <label>
+                <span>Translation language</span>
+                <select
+                  data-testid="switch-translation-language"
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    if (e.target.value) {
+                      switchTranslationLanguage(e.target.value);
+                    }
+                  }}
+                  value={translationLanguageFullCode}
+                >
+                  {translationLanguages.map(({ code, label }) => {
+                    return (
+                      <option key={code} value={code}>
+                        {label}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+            </div>
+          )}
+          {translationLanguageFullCode && (
+            <div>
+              <button onClick={() => resetTranslationLanguage()}>
+                Reset tranlation
+              </button>
+            </div>
+          )}
+          <div>
+            <label>
+              <span>Default language</span>
+              <select
+                data-testid="switch-default-language"
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                  if (e.target.value) {
+                    switchDefaultLanguage(e.target.value);
+                  }
+                }}
+                value={defaultLanguageFullCode}
+              >
+                {defaultLanguages.map(({ code, label }) => {
+                  return (
+                    <option key={code} value={code}>
+                      {label}
+                    </option>
+                  );
+                })}
+              </select>
+            </label>
+          </div>
+        </div>
       )}
     </LanguageManagerConsumer>
   );

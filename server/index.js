@@ -26,13 +26,21 @@ app.prepare().then(() => {
     })
   );
   nextI18NextMiddleware(nextI18next, app, server);
-  server.get("/movie/:id(\\d+)((-:slug)?)", (req, res) =>
-    app.render(
-      req,
-      res,
-      "/movie",
-      Object.assign({ id: req.params.id }, req.query)
-    )
+  server.get(
+    "/movie/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
+    (req, res) =>
+      app.render(
+        req,
+        res,
+        "/movie",
+        Object.assign(
+          {
+            id: req.params.id,
+            translationLanguageFullCode: req.params.translationLanguageFullCode
+          },
+          req.query
+        )
+      )
   );
   server.get("/*", (req, res) => handle(req, res));
   server.listen(port, err => {

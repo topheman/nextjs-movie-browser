@@ -5,22 +5,26 @@ import SwitchLanguage from "./SwitchLanguage";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 
 interface II18nPopupProps {
-  allLanguages: LanguageList;
+  defaultLanguages: LanguageList;
+  translationLanguages: LanguageList;
 }
 
-const I18nPopup: React.ComponentType<II18nPopupProps> = ({ allLanguages }) => {
+const I18nPopup: React.ComponentType<II18nPopupProps> = ({
+  defaultLanguages,
+  translationLanguages
+}) => {
   const [open, toggleOpen] = useState(false);
   return (
     <LanguageManagerConsumer>
-      {({ defaultLanguageFullCode }) => (
+      {({ defaultLanguageFullCode, translationLanguageFullCode }) => (
         <>
           <button onClick={() => toggleOpen(!open)}>
-            {defaultLanguageFullCode}
+            {translationLanguageFullCode || defaultLanguageFullCode}
           </button>
           <div style={{ display: open ? "initial" : "none" }}>
             <SwitchLanguage
-              languages={allLanguages}
-              data-testid="switch-language"
+              defaultLanguages={defaultLanguages}
+              translationLanguages={translationLanguages}
             />
           </div>
         </>

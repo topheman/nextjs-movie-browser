@@ -1,53 +1,67 @@
 import i18next from "i18next";
-import Link from "next/link";
+// import LinkWithLanguage from "next/link";
 
 import { withNamespaces } from "../../i18n";
 import I18nPopup from "./I18nPopup";
+import { LinkWithLanguage } from "../services/i18n/LanguageManager";
 
 const films = [["Fight Club", 550], ["Pulp Fiction", 680], ["Star Wars", 11]];
 
-const allLanguages = [
+const defaultLanguages = [
   { code: "en-US", label: "English" },
   { code: "fr-FR", label: "French" },
   { code: "es-ES", label: "Spanish" },
   { code: "he-IL", label: "Hebrew" },
-  { code: "fa-IR", label: "Persian" }
+  { code: "fa-IR", label: "Persian" },
+  { code: "pt-PT", label: "Portuguese" }
+];
+
+const translationLanguages = [
+  { code: "en-US", label: "English" },
+  { code: "fr-FR", label: "French" },
+  { code: "es-ES", label: "Spanish" },
+  { code: "he-IL", label: "Hebrew" },
+  { code: "fa-IR", label: "Persian" },
+  { code: "pt-PT", label: "Portuguese" }
 ];
 
 const Header = ({ t }: { t: i18next.TranslationFunction }) => (
   <>
     <h1>{process.env.NEXTJS_APP_CLIENT_TITLE}</h1>
-    <I18nPopup allLanguages={allLanguages} />
+    <I18nPopup
+      defaultLanguages={defaultLanguages}
+      translationLanguages={translationLanguages}
+    />
     <ul>
       <li>
-        <Link href="/">
+        <LinkWithLanguage href="/">
           <a>{t("common-label-home")}</a>
-        </Link>
+        </LinkWithLanguage>
       </li>
       <li>
-        <Link href="/about">
+        <LinkWithLanguage href="/about">
           <a>{t("common-label-about")}</a>
-        </Link>
+        </LinkWithLanguage>
       </li>
     </ul>
     <ul>
       {films.map(([title, id]) => (
         <li key={id}>
-          <Link
+          <LinkWithLanguage
             href={{ pathname: `/movie`, query: { id } }}
             as={`/movie/${id}`}
           >
             <a>{title}</a>
-          </Link>{" "}
+          </LinkWithLanguage>{" "}
           /{" "}
-          <Link
+          <LinkWithLanguage
             href={{ pathname: `/movie`, query: { id } }}
             as={`/movie/${id}-${(title as string)
               .toLowerCase()
               .replace(" ", "-")}`}
           >
             <a>{title}</a>
-          </Link>
+          </LinkWithLanguage>
         </li>
       ))}
     </ul>

@@ -35,12 +35,8 @@ class MyApp extends App<{
   }: CustomNextAppContext) {
     // const server = !!ctx.req; // only accessible async
 
-    console.log({
-      pathname: router.pathname,
-      query: JSON.stringify(router.query),
-      server,
-      language: i18n.language
-    });
+    const translationLanguageFullCode =
+      router.query.translationLanguageFullCode;
 
     const defaultLanguageShortCode =
       getDefaultLanguageFromCookie(
@@ -60,24 +56,35 @@ class MyApp extends App<{
       ) || i18n.options.defaultLanguage;
 
     console.log({
+      pathname: router.pathname,
+      query: JSON.stringify(router.query),
+      server,
       language: i18n.language,
       defaultLanguageShortCode,
-      defaultLanguageFullCode
+      defaultLanguageFullCode,
+      translationLanguageFullCode
     });
 
-    // set `defaultLanguageShortCode` as prop of the root page
-    let pageProps = { defaultLanguageShortCode, defaultLanguageFullCode };
+    const basePageProps = {
+      translationLanguageFullCode,
+      defaultLanguageShortCode,
+      defaultLanguageFullCode
+    };
+    let pageProps = {
+      ...basePageProps
+    };
 
     if (Component.getInitialProps) {
-      // inject `defaultLanguageShortCode` attribute in the params of getInitialProps of the root page
+      // inject the basePageProps in the parameters of getInitialProps
       pageProps = await Component.getInitialProps({
-        defaultLanguageShortCode,
-        defaultLanguageFullCode,
+        ...basePageProps,
         ...ctx
       });
-      // set `defaultLanguageShortCode` as prop of the root page on the object returned by getInitialProps
-      pageProps.defaultLanguageShortCode = defaultLanguageShortCode;
-      pageProps.defaultLanguageFullCode = defaultLanguageFullCode;
+      // return the basePageProps inside the pageProps
+      pageProps = {
+        ...basePageProps,
+        ...pageProps
+      };
     }
 
     return {
@@ -105,11 +112,13 @@ class MyApp extends App<{
         >
           <LanguageManagerConsumer>
             {({
+              translationLanguageFullCode: translationLangFullCode,
               defaultLanguageShortCode: defaultLangShortCode,
               defaultLanguageFullCode: defaultLangFullCode
             }) => (
               <Component
                 {...pageProps}
+                translationLanguageFullCode={translationLangFullCode}
                 defaultLanguageShortCode={defaultLangShortCode}
                 defaultLanguageFullCode={defaultLangFullCode}
               />

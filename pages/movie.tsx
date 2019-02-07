@@ -28,6 +28,7 @@ const Movie = ({
   data,
   t,
   router,
+  translationLanguageFullCode,
   defaultLanguageFullCode
 }: IComponentProps) => {
   /**
@@ -44,15 +45,25 @@ const Movie = ({
    * @todo prevent double firing of the API call (those are get requests which will be cached but still)
    */
   const [localData, setLocalData] = useState(data);
+  console.log("before useEffect", {
+    translationLanguageFullCode,
+    defaultLanguageFullCode,
+    id: router.query && router.query.id
+  });
   useEffect(() => {
     const id = router.query && (router.query.id as string);
     if (id) {
       Movie.getInitialProps({
+        translationLanguageFullCode,
         defaultLanguageFullCode,
         query: { id: id }
       }).then(({ data }: { data: TmdbMovieEntity }) => setLocalData(data));
     }
-  }, [defaultLanguageFullCode, router.query && router.query.id]); // -> here double firing of API call
+  }, [
+    translationLanguageFullCode,
+    defaultLanguageFullCode,
+    router.query && router.query.id
+  ]); // -> here double firing of API call
   const { title, overview } = localData;
   return (
     <>
@@ -80,7 +91,9 @@ Movie.getInitialProps = async (
   server: boolean;
   namespacesRequired: string[];
 }> => {
-  const language = props.defaultLanguageFullCode;
+  const translationLanguageFullCode = props.translationLanguageFullCode;
+  const defaultLanguageFullCode = props.defaultLanguageFullCode;
+  const language = translationLanguageFullCode || defaultLanguageFullCode;
   const data = await apiTmdb().movie(props.query.id, { language });
   return {
     data,

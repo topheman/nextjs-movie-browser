@@ -11,6 +11,7 @@
  * - `defaultLanguageShortCode`: format "fr" - persists between refreshes (stored in cookie), wont fallback on `fallbackLng`
  * - `defaultLanguageFullCode`: format "fr-FR" or "fr"
  * - `switchDefaultLanguage(language)`
+ * - `resetTranslationLanguage(language)`
  *
  * Example 1: Supported languages ["en", "fr", "es"] with fallbackLng = "en"
  * - switchDefaultLanguage("es-ES")
@@ -30,7 +31,10 @@
  * `switchDefaultLanguage("fr-FR", false)` // won't strip the language code
  */
 import i18next from "i18next";
-import { Component, createContext } from "react";
+import React, { Component, createContext } from "react";
+import Router, { withRouter, SingletonRouter } from "next/router";
+import Link, { LinkProps } from "next/link";
+import url from "url";
 
 import { setDefaultLanguageFromCookie } from "./utils";
 
@@ -52,8 +56,11 @@ const languageCodeToISO6391 = (languageCode: string): string =>
 
 export interface ILanguageManagerConsumerProps {
   language: string;
+  translationLanguageFullCode: string | undefined;
   defaultLanguageShortCode: string;
   defaultLanguageFullCode: string;
+  resetTranslationLanguage: () => void;
+  switchTranslationLanguage: (language: string) => void;
   switchDefaultLanguage: (
     language: string,
     formatLanguageCode?: (languageCode: string) => string
@@ -66,17 +73,19 @@ const LanguageManagerContext = createContext<ILanguageManagerConsumerProps>(
 
 interface ILanguageManagerProviderProps {
   i18n: i18next.i18n;
+  router: SingletonRouter;
   defaultLanguageShortCode: string;
   defaultLanguageFullCode: string;
 }
 
 interface ILanguageManagerProviderState {
   language: string;
+  translationLanguageFullCode?: string;
   defaultLanguageShortCode: string;
   defaultLanguageFullCode: string;
 }
 
-export class LanguageManagerProvider extends Component<
+class LanguageManagerProviderUndecorated extends Component<
   ILanguageManagerProviderProps,
   ILanguageManagerProviderState
 > {
@@ -84,12 +93,116 @@ export class LanguageManagerProvider extends Component<
     super(props);
     this.state = {
       language: props.i18n.language,
+      translationLanguageFullCode:
+        props.router &&
+        props.router.query &&
+        (props.router.query.translationLanguageFullCode as string),
       defaultLanguageShortCode:
         props.defaultLanguageShortCode || props.i18n.language,
       defaultLanguageFullCode:
         props.defaultLanguageFullCode || props.i18n.language
     };
   }
+  componentDidMount() {
+    Router.events.on("routeChangeComplete", this.routeChangeCompleteEvent);
+  }
+  componentWillUnmount() {
+    Router.events.off("routeChangeComplete", this.routeChangeCompleteEvent);
+  }
+  routeChangeCompleteEvent = (url: string) => {
+    const match = url.match(/translationLanguageFullCode=([\w,-]+)/);
+    if (match) {
+      this.setState({
+        translationLanguageFullCode: match[1]
+      });
+    }
+  };
+  switchTranslationLanguage = (language: string | null) => {
+    const options = {
+      query:
+        typeof this.props.router.query === "string"
+          ? this.props.router.query
+          : {
+              ...this.props.router.query,
+              translationLanguageFullCode: language
+            },
+      shallow: true
+    };
+    const parsedUrl = url.parse(this.props.router.asPath || "");
+    let newQuery = "";
+    if (
+      parsedUrl &&
+      parsedUrl.query &&
+      parsedUrl.query.match(/translationLanguageFullCode=([\w,-]+)$/)
+    ) {
+      newQuery += parsedUrl.query.replace(
+        /translationLanguageFullCode=([\w,-]+)/,
+        `translationLanguageFullCode=${language}`
+      );
+    } else {
+      newQuery =
+        (parsedUrl.query ? "&" : "") +
+        `translationLanguageFullCode=${language}`;
+    }
+    const replaceUrl = url.format({
+      pathname: this.props.router.pathname,
+      query:
+        typeof this.props.router.query === "string"
+          ? this.props.router.query
+          : {
+              ...this.props.router.query,
+              translationLanguageFullCode: language
+            }
+    });
+    const asUrl = `${parsedUrl.pathname}?${newQuery}`;
+    console.log(replaceUrl, asUrl, options);
+    this.props.router.replace(replaceUrl, asUrl, options);
+  };
+  resetTranslationLanguage = () => {
+    if (
+      this.props.router.query &&
+      this.props.router.query.translationLanguageFullCode
+    ) {
+      const options = {
+        query:
+          typeof this.props.router.query === "string"
+            ? this.props.router.query
+            : {
+                ...this.props.router.query,
+                translationLanguageFullCode: undefined
+              },
+        shallow: true
+      };
+      const parsedUrl = url.parse(this.props.router.asPath || "");
+      let newQuery = "";
+      if (
+        parsedUrl &&
+        parsedUrl.query &&
+        parsedUrl.query.match(/translationLanguageFullCode=([\w,-]+)$/)
+      ) {
+        newQuery += parsedUrl.query.replace(
+          /translationLanguageFullCode=([\w,-]+)/,
+          ""
+        );
+      }
+      const replaceUrl = url.format({
+        pathname: this.props.router.pathname,
+        query:
+          typeof this.props.router.query === "string"
+            ? this.props.router.query
+            : {
+                ...this.props.router.query,
+                translationLanguageFullCode: undefined
+              }
+      });
+      const asUrl = `${parsedUrl.pathname}${newQuery ? `?${newQuery}` : ""}`;
+      console.log(replaceUrl, asUrl, options);
+      this.props.router.replace(replaceUrl, asUrl, options);
+      this.setState({
+        translationLanguageFullCode: undefined
+      });
+    }
+  };
   switchDefaultLanguage = (
     language: string,
     formatLanguageCode = languageCodeToISO6391,
@@ -121,9 +234,12 @@ export class LanguageManagerProvider extends Component<
       <LanguageManagerContext.Provider
         value={{
           language: this.state.language,
+          translationLanguageFullCode: this.state.translationLanguageFullCode,
           defaultLanguageShortCode: this.state.defaultLanguageShortCode,
           defaultLanguageFullCode: this.state.defaultLanguageFullCode,
-          switchDefaultLanguage: this.switchDefaultLanguage
+          switchDefaultLanguage: this.switchDefaultLanguage,
+          switchTranslationLanguage: this.switchTranslationLanguage,
+          resetTranslationLanguage: this.resetTranslationLanguage
         }}
       >
         {this.props.children}
@@ -131,5 +247,45 @@ export class LanguageManagerProvider extends Component<
     );
   }
 }
+export const LanguageManagerProvider = withRouter(
+  LanguageManagerProviderUndecorated
+);
 
 export const LanguageManagerConsumer = LanguageManagerContext.Consumer;
+
+export const LinkWithLanguage = withRouter<LinkProps>(
+  ({ router, children, href, as, ...props }) => {
+    let alteredHref = typeof href === "string" ? href : { ...href };
+    let alteredAs = as;
+    const translationLanguageFullCode =
+      router && router.query && router.query.translationLanguageFullCode;
+    if (translationLanguageFullCode) {
+      const queryString = url.format({
+        pathname: "",
+        query: {
+          translationLanguageFullCode
+        }
+      });
+      if (typeof alteredHref === "string") {
+        alteredHref += queryString;
+      } else {
+        alteredHref = {
+          ...alteredHref,
+          query:
+            typeof alteredHref.query === "string"
+              ? alteredHref.query
+              : {
+                  ...alteredHref.query, // propagate href.query (can contain ids)
+                  translationLanguageFullCode
+                }
+        };
+        alteredAs = (alteredAs || "") + queryString;
+      }
+    }
+    return (
+      <Link href={alteredHref} as={alteredAs} {...props}>
+        {React.cloneElement(React.Children.only(children))}
+      </Link>
+    );
+  }
+);

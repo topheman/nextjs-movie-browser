@@ -7,7 +7,7 @@ import {
   LanguageManagerConsumer
 } from "./services/i18n/LanguageManager";
 import { i18n as i18nInstance } from "../i18n";
-import { setLanguageOverrideFromCookie } from "./services/i18n/utils";
+import { setDefaultLanguageFromCookie } from "./services/i18n/utils";
 
 /**
  * ⚠️ This is a hack, the other import ways don't work (how does `next-i18next` manages it internally ?... It's the same code ...):
@@ -71,12 +71,12 @@ export const renderI18nNamespacesWrappedComponent = (
  * which will do the same as `renderI18nNamespacesWrappedComponent` and also
  * wrap your component with a `LanguageManager.Provider`, so you can access:
  * - language
- * - languageOverride
- * - languageOverrideFull
- * - switchLanguage
+ * - defaultLanguageShortCode
+ * - defaultLanguageFullCode
+ * - switchDefaultLanguage
  *
  * It also wraps with a `LanguageManager.Consumer` (like in _app.tsx) in order to force re-render
- * when switchLanguage is called
+ * when switchDefaultLanguage is called
  */
 export const renderI18nWithLanguageManagerProvider = (
   Comp: typeof React.Component,
@@ -85,8 +85,8 @@ export const renderI18nWithLanguageManagerProvider = (
     i18n = i18nInstance,
     defaultNS = "common",
     initialLanguage = "en",
-    languageOverride = "en",
-    languageOverrideFull = "en-US"
+    defaultLanguageShortCode = "en",
+    defaultLanguageFullCode = "en-US"
   } = {}
 ) => {
   i18n.language = initialLanguage;
@@ -98,8 +98,8 @@ export const renderI18nWithLanguageManagerProvider = (
     >
       <LanguageManagerProvider
         i18n={i18nInstance}
-        languageOverride={languageOverride}
-        languageOverrideFull={languageOverrideFull}
+        defaultLanguageShortCode={defaultLanguageShortCode}
+        defaultLanguageFullCode={defaultLanguageFullCode}
       >
         <LanguageManagerConsumer>
           {languageManagerCtx => <Comp {...languageManagerCtx} />}
@@ -117,10 +117,10 @@ export const renderI18nWithLanguageManagerProvider = (
 
 export const resetLanguage = ({
   initialLanguage = "en",
-  languageOverride = "en",
-  languageOverrideFull = "en-US"
+  defaultLanguageShortCode = "en",
+  defaultLanguageFullCode = "en-US"
 } = {}) => () => {
   i18nInstance.language = initialLanguage;
-  setLanguageOverrideFromCookie(languageOverride);
-  setLanguageOverrideFromCookie(languageOverrideFull, true);
+  setDefaultLanguageFromCookie(defaultLanguageShortCode);
+  setDefaultLanguageFromCookie(defaultLanguageFullCode, true);
 };

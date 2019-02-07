@@ -24,7 +24,12 @@ type IGetInitialProps = AppNextRootPageGetInitialProps & {
  * Returns Server Side rendered page on first load
  * Then the client will do the the request to the API and do the render
  */
-const Movie = ({ data, t, router, languageOverrideFull }: IComponentProps) => {
+const Movie = ({
+  data,
+  t,
+  router,
+  defaultLanguageFullCode
+}: IComponentProps) => {
   /**
    * Keep a local version of the data from the API to retrigger API calls on:
    * - route change
@@ -43,11 +48,11 @@ const Movie = ({ data, t, router, languageOverrideFull }: IComponentProps) => {
     const id = router.query && (router.query.id as string);
     if (id) {
       Movie.getInitialProps({
-        languageOverrideFull,
+        defaultLanguageFullCode,
         query: { id: id }
       }).then(({ data }: { data: TmdbMovieEntity }) => setLocalData(data));
     }
-  }, [languageOverrideFull, router.query && router.query.id]); // -> here double firing of API call
+  }, [defaultLanguageFullCode, router.query && router.query.id]); // -> here double firing of API call
   const { title, overview } = localData;
   return (
     <>
@@ -75,7 +80,7 @@ Movie.getInitialProps = async (
   server: boolean;
   namespacesRequired: string[];
 }> => {
-  const language = props.languageOverrideFull;
+  const language = props.defaultLanguageFullCode;
   const data = await apiTmdb().movie(props.query.id, { language });
   return {
     data,

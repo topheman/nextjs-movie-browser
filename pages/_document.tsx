@@ -8,22 +8,26 @@ import Document, {
   NextDocumentContext
 } from "next/document";
 
-import { getLanguageOverrideFromCookie } from "../src/services/i18n/utils";
+import { getDefaultLanguageFromCookie } from "../src/services/i18n/utils";
 
 export default class MyDocument extends Document<{
-  languageOverride: string;
-  languageOverrideFull: string;
+  defaultLanguageShortCode: string;
+  defaultLanguageFullCode: string;
 }> {
   static async getInitialProps(ctx: NextDocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
-    const languageOverride = getLanguageOverrideFromCookie(
+    const defaultLanguageShortCode = getDefaultLanguageFromCookie(
       ctx.req && ctx.req.headers.cookie
     );
-    const languageOverrideFull = getLanguageOverrideFromCookie(
+    const defaultLanguageFullCode = getDefaultLanguageFromCookie(
       ctx.req && ctx.req.headers.cookie,
       true
     );
-    return { ...initialProps, languageOverride, languageOverrideFull };
+    return {
+      ...initialProps,
+      defaultLanguageShortCode,
+      defaultLanguageFullCode
+    };
   }
 
   /**
@@ -34,7 +38,7 @@ export default class MyDocument extends Document<{
    */
   render() {
     return (
-      <html lang={this.props.languageOverride}>
+      <html lang={this.props.defaultLanguageShortCode}>
         <Head>
           <style>{`/* custom! */`}</style>
         </Head>

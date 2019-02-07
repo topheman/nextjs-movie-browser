@@ -6,36 +6,35 @@
  * If you want to allow to use unsupported language code (for example because
  * you don't have locale translations, but your content API does)
  *
- * The following Provider expose via the Consumer:
- * - language: the language used for the translations (this one will fallback to fallbackLng on refresh if no translations supported)
- * - languageOverride: format "fr" - this one WON'T fallback to fallbackLng on refresh if no translations supported
- *     -> you can rely on it for language code selection combo box for example
- * - languageOverrideFull: format "fr-FR" or "fr"
- * - switchLanguage(language)
+ * The following Provider exposes via the Consumer:
+ * - `language`: the language used for the translations (this one will fallback to `fallbackLng` on refresh if no translations supported)
+ * - `defaultLanguageShortCode`: format "fr" - persists between refreshes (stored in cookie), wont fallback on `fallbackLng`
+ * - `defaultLanguageFullCode`: format "fr-FR" or "fr"
+ * - `switchDefaultLanguage(language)`
  *
  * Example 1: Supported languages ["en", "fr", "es"] with fallbackLng = "en"
- * - switchLanguage("es-ES")
+ * - switchDefaultLanguage("es-ES")
  * - reload page
- * - document.cookie === "i18next=es; i18nOverride=es; i18nOverrideFull=es-ES"
+ * - document.cookie === "i18next=es; i18nDefaultLanguageShortCode=es; i18nDefaultLanguageFullCode=es-ES"
  * - After reload, the UI and the API content is in spanish
- * - language === "es" / languageOverride === "es" / languageOverrideFullCode === "es-ES"
+ * - language === "es" / defaultLanguageShortCode === "es" / defaultLanguageFullCodeCode === "es-ES"
  *
  * Example 2: Supported languages ["en", "fr"] with fallbackLng = "en"
- * - switchLanguage("es-ES")
+ * - switchDefaultLanguage("es-ES")
  * - reload page
- * - document.cookie === "i18next=en; i18nOverride=es; i18nOverrideFull=es-ES"
+ * - document.cookie === "i18next=en; i18nDefaultLanguageShortCode=es; i18nDefaultLanguageFullCode=es-ES"
  * - After reload, the UI is in english and the API content is in spanish
- * - language === "en" / languageOverride === "es" / languageOverrideFullCode === "es-ES"
+ * - language === "en" / defaultLanguageShortCode === "es" / defaultLanguageFullCodeCode === "es-ES"
  *
- * If you want to use language code like "en-US" in /static/locales, use the second arg of `switchLanguage`
- * `switchLanguage("fr-FR", false)` // won't strip the language code
+ * If you want to use language code like "en-US" in /static/locales, use the second arg of `switchDefaultLanguage`
+ * `switchDefaultLanguage("fr-FR", false)` // won't strip the language code
  */
 import i18next from "i18next";
 import { Component, createContext } from "react";
 
-import { setLanguageOverrideFromCookie } from "./utils";
+import { setDefaultLanguageFromCookie } from "./utils";
 
-// will be executed by default on switchLanguage (you can override it, see bellow)
+// will be executed by default on switchDefaultLanguage (you can override it, see bellow)
 const updateHtmlLangAttribute = ({
   language
 }: ILanguageManagerProviderState) => {
@@ -44,7 +43,7 @@ const updateHtmlLangAttribute = ({
 
 /**
  * Converts "fr-FR" to "fr"
- * Used by default for switchLanguage (you can override it)
+ * Used by default for switchDefaultLanguage (you can override it)
  * See https://developers.themoviedb.org/3/getting-started/languages
  * @param languageCode
  */
@@ -53,9 +52,9 @@ const languageCodeToISO6391 = (languageCode: string): string =>
 
 export interface ILanguageManagerConsumerProps {
   language: string;
-  languageOverride: string;
-  languageOverrideFull: string;
-  switchLanguage: (
+  defaultLanguageShortCode: string;
+  defaultLanguageFullCode: string;
+  switchDefaultLanguage: (
     language: string,
     formatLanguageCode?: (languageCode: string) => string
   ) => void;
@@ -67,14 +66,14 @@ const LanguageManagerContext = createContext<ILanguageManagerConsumerProps>(
 
 interface ILanguageManagerProviderProps {
   i18n: i18next.i18n;
-  languageOverride: string;
-  languageOverrideFull: string;
+  defaultLanguageShortCode: string;
+  defaultLanguageFullCode: string;
 }
 
 interface ILanguageManagerProviderState {
   language: string;
-  languageOverride: string;
-  languageOverrideFull: string;
+  defaultLanguageShortCode: string;
+  defaultLanguageFullCode: string;
 }
 
 export class LanguageManagerProvider extends Component<
@@ -85,31 +84,33 @@ export class LanguageManagerProvider extends Component<
     super(props);
     this.state = {
       language: props.i18n.language,
-      languageOverride: props.languageOverride || props.i18n.language,
-      languageOverrideFull: props.languageOverrideFull || props.i18n.language
+      defaultLanguageShortCode:
+        props.defaultLanguageShortCode || props.i18n.language,
+      defaultLanguageFullCode:
+        props.defaultLanguageFullCode || props.i18n.language
     };
   }
-  switchLanguage = (
+  switchDefaultLanguage = (
     language: string,
     formatLanguageCode = languageCodeToISO6391,
     cb = updateHtmlLangAttribute
   ) => {
     const formattedLanguageCode = formatLanguageCode(language);
-    setLanguageOverrideFromCookie(formattedLanguageCode);
-    setLanguageOverrideFromCookie(language, true);
+    setDefaultLanguageFromCookie(formattedLanguageCode);
+    setDefaultLanguageFromCookie(language, true);
     this.props.i18n.changeLanguage(formattedLanguageCode);
     this.setState(
       {
         language: formattedLanguageCode,
-        languageOverride: formattedLanguageCode,
-        languageOverrideFull: language
+        defaultLanguageShortCode: formattedLanguageCode,
+        defaultLanguageFullCode: language
       },
       () => {
         if (typeof document !== "undefined" && typeof cb === "function") {
           cb({
             language: formattedLanguageCode,
-            languageOverride: formattedLanguageCode,
-            languageOverrideFull: language
+            defaultLanguageShortCode: formattedLanguageCode,
+            defaultLanguageFullCode: language
           });
         }
       }
@@ -120,9 +121,9 @@ export class LanguageManagerProvider extends Component<
       <LanguageManagerContext.Provider
         value={{
           language: this.state.language,
-          languageOverride: this.state.languageOverride,
-          languageOverrideFull: this.state.languageOverrideFull,
-          switchLanguage: this.switchLanguage
+          defaultLanguageShortCode: this.state.defaultLanguageShortCode,
+          defaultLanguageFullCode: this.state.defaultLanguageFullCode,
+          switchDefaultLanguage: this.switchDefaultLanguage
         }}
       >
         {this.props.children}

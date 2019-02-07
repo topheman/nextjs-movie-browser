@@ -20,15 +20,15 @@ const SwitchLanguage: React.ComponentType<ISwitchLanguageProps> = ({
 }) => {
   return (
     <LanguageManagerConsumer>
-      {({ languageOverrideFull, switchLanguage }) => (
+      {({ defaultLanguageFullCode, switchDefaultLanguage }) => (
         <select
           {...remainingProps}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             if (e.target.value) {
-              switchLanguage(e.target.value);
+              switchDefaultLanguage(e.target.value);
             }
           }}
-          value={languageOverrideFull}
+          value={defaultLanguageFullCode}
         >
           {languages.map(({ code, label }) => {
             return (

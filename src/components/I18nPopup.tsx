@@ -12,10 +12,10 @@ const I18nPopup: React.ComponentType<II18nPopupProps> = ({ allLanguages }) => {
   const [open, toggleOpen] = useState(false);
   return (
     <LanguageManagerConsumer>
-      {({ languageOverrideFull }) => (
+      {({ defaultLanguageFullCode }) => (
         <>
           <button onClick={() => toggleOpen(!open)}>
-            {languageOverrideFull}
+            {defaultLanguageFullCode}
           </button>
           <div style={{ display: open ? "initial" : "none" }}>
             <SwitchLanguage

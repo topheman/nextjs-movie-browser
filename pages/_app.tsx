@@ -17,7 +17,7 @@ import {
   LanguageManagerProvider,
   LanguageManagerConsumer
 } from "../src/services/i18n/LanguageManager";
-import { getLanguageOverrideFromCookie } from "../src/services/i18n/utils";
+import { getDefaultLanguageFromCookie } from "../src/services/i18n/utils";
 import { CustomNextAppContext } from "../src/@types";
 
 const server = typeof window === "undefined"; // accessible sync
@@ -25,8 +25,8 @@ const server = typeof window === "undefined"; // accessible sync
 initApiClient();
 
 class MyApp extends App<{
-  languageOverride: string;
-  languageOverrideFull: string;
+  defaultLanguageShortCode: string;
+  defaultLanguageFullCode: string;
 }> {
   static async getInitialProps({
     Component,
@@ -42,16 +42,16 @@ class MyApp extends App<{
       language: i18n.language
     });
 
-    const languageOverride =
-      getLanguageOverrideFromCookie(
+    const defaultLanguageShortCode =
+      getDefaultLanguageFromCookie(
         (ctx.req && ctx.req.headers.cookie) ||
           (typeof "window" !== "undefined" &&
             typeof document !== "undefined" &&
             document.cookie)
       ) || i18n.options.defaultLanguage;
 
-    const languageOverrideFull =
-      getLanguageOverrideFromCookie(
+    const defaultLanguageFullCode =
+      getDefaultLanguageFromCookie(
         (ctx.req && ctx.req.headers.cookie) ||
           (typeof "window" !== "undefined" &&
             typeof document !== "undefined" &&
@@ -61,23 +61,23 @@ class MyApp extends App<{
 
     console.log({
       language: i18n.language,
-      languageOverride,
-      languageOverrideFull
+      defaultLanguageShortCode,
+      defaultLanguageFullCode
     });
 
-    // set `languageOverride` as prop of the root page
-    let pageProps = { languageOverride, languageOverrideFull };
+    // set `defaultLanguageShortCode` as prop of the root page
+    let pageProps = { defaultLanguageShortCode, defaultLanguageFullCode };
 
     if (Component.getInitialProps) {
-      // inject `languageOverride` attribute in the params of getInitialProps of the root page
+      // inject `defaultLanguageShortCode` attribute in the params of getInitialProps of the root page
       pageProps = await Component.getInitialProps({
-        languageOverride,
-        languageOverrideFull,
+        defaultLanguageShortCode,
+        defaultLanguageFullCode,
         ...ctx
       });
-      // set `languageOverride` as prop of the root page on the object returned by getInitialProps
-      pageProps.languageOverride = languageOverride;
-      pageProps.languageOverrideFull = languageOverrideFull;
+      // set `defaultLanguageShortCode` as prop of the root page on the object returned by getInitialProps
+      pageProps.defaultLanguageShortCode = defaultLanguageShortCode;
+      pageProps.defaultLanguageFullCode = defaultLanguageFullCode;
     }
 
     return {
@@ -91,7 +91,7 @@ class MyApp extends App<{
     /**
      * The LanguageManagerProvider will allow any Component deep in the tree to connect with
      * LanguageManagerConsumer, in order to access:
-     * language, languageOverride, languageOverrideFull and switchLanguage
+     * language, defaultLanguageShortCode, defaultLanguageFullCode and switchLanguage
      *
      * The LanguageManagerConsumer just bellow is there in order to force the tree to re-render
      * when switchLanguage is called
@@ -100,18 +100,18 @@ class MyApp extends App<{
       <Container>
         <LanguageManagerProvider
           i18n={i18n}
-          languageOverride={pageProps.languageOverride}
-          languageOverrideFull={pageProps.languageOverrideFull}
+          defaultLanguageShortCode={pageProps.defaultLanguageShortCode}
+          defaultLanguageFullCode={pageProps.defaultLanguageFullCode}
         >
           <LanguageManagerConsumer>
             {({
-              languageOverride: langOverride,
-              languageOverrideFull: langOverrideFull
+              defaultLanguageShortCode: defaultLangShortCode,
+              defaultLanguageFullCode: defaultLangFullCode
             }) => (
               <Component
                 {...pageProps}
-                languageOverride={langOverride}
-                languageOverrideFull={langOverrideFull}
+                defaultLanguageShortCode={defaultLangShortCode}
+                defaultLanguageFullCode={defaultLangFullCode}
               />
             )}
           </LanguageManagerConsumer>

@@ -21,8 +21,8 @@ app.prepare().then(() => {
   // will correctly init the cookie for the i18n on first load
   server.use(
     languageManagerMiddleware({
-      defaultLanguage: nextI18next.DEFAULT_LANGUAGE,
-      defaultLanguageFull: nextI18next.DEFAULT_LANGUAGE_FULL
+      defaultLanguageShortCode: nextI18next.DEFAULT_LANGUAGE_SHORT_CODE,
+      defaultLanguageFullCode: nextI18next.DEFAULT_LANGUAGE_FULL_CODE
     })
   );
   nextI18NextMiddleware(nextI18next, app, server);

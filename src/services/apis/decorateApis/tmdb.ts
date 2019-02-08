@@ -4,7 +4,7 @@ import { TmdbMovieEntity } from "../../../@types";
 export interface TmdbDecorateAPI {
   movie: (
     id: number | string,
-    { language }: { language: string }
+    { language, append }: { language: string; append?: string[] }
   ) => Promise<TmdbMovieEntity>;
 }
 
@@ -17,12 +17,13 @@ const decorateApi = ({
     api_key: process.env.NEXTJS_APP_CLIENT_TMDB_API_KEY
   };
   return {
-    movie: (id, { language }) => {
+    movie: (id, { language, append = ["credits", "translations"] }) => {
       const query = `/movie/${id}`;
       return client
         .get(query, {
           params: {
-            language: language || "en"
+            language: language || "en",
+            append_to_response: append.join(",")
           }
         })
         .then(({ data }) => data);

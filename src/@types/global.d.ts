@@ -1,5 +1,6 @@
 import { SingletonRouter } from "next/router";
 import { NextContext, NextComponentType } from "@types/next";
+import { MyMobxStore } from "../stores";
 
 export interface AppNextRootPageProps {
   t: i18next.TranslationFunction;
@@ -15,6 +16,7 @@ export interface AppNextRootPageGetInitialProps {
 }
 
 export interface CustomNextContext<Q extends DefaultQuery = DefaultQuery> {
+  mobxStore: MyMobxStore; // SPECIFIC
   translationLanguageFullCode?: string; // SPECIFIC
   defaultLanguageShortCode: string; // SPECIFIC
   defaultLanguageFullCode: string; // SPECIFIC
@@ -38,4 +40,11 @@ export interface CustomNextAppContext<Q extends DefaultQuery = DefaultQuery> {
   Component: NextComponentType<any, any, NextContext<Q>>;
   router: RouterProps<Q>;
   ctx: CustomNextContext<Q>;
+}
+
+export class CustomNextApp<P = {}> extends React.Component<
+  P & DefaultAppIProps & AppProps
+> {
+  mobxStore: MyMobxStore;
+  static getInitialProps(context: NextAppContext): Promise<DefaultAppIProps>;
 }

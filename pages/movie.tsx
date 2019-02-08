@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { withRouter } from "next/router";
 import Head from "next/head";
+import { inject, observer } from "mobx-react";
 
 import Layout from "../src/components/Layout";
 import { withNamespaces } from "../i18n";
@@ -10,13 +11,17 @@ import {
   AppNextRootPageProps,
   AppNextRootPageGetInitialProps
 } from "../src/@types";
+import TranslationsStore from "../src/stores/TranslationsStore";
+import { MyMobxStore } from "../src/stores";
 
 type IComponentProps = AppNextRootPageProps & {
   data: TmdbMovieEntity;
   query: { id: string };
+  translationsStore: TranslationsStore;
 };
 
 type IGetInitialProps = AppNextRootPageGetInitialProps & {
+  mobxStore?: MyMobxStore;
   query: { id: string };
 };
 
@@ -29,7 +34,8 @@ const Movie = ({
   t,
   router,
   translationLanguageFullCode,
-  defaultLanguageFullCode
+  defaultLanguageFullCode,
+  translationsStore
 }: IComponentProps) => {
   /**
    * Keep a local version of the data from the API to retrigger API calls on:
@@ -45,11 +51,6 @@ const Movie = ({
    * @todo prevent double firing of the API call (those are get requests which will be cached but still)
    */
   const [localData, setLocalData] = useState(data);
-  console.log("before useEffect", {
-    translationLanguageFullCode,
-    defaultLanguageFullCode,
-    id: router.query && router.query.id
-  });
   useEffect(() => {
     const id = router.query && (router.query.id as string);
     if (id) {
@@ -57,7 +58,12 @@ const Movie = ({
         translationLanguageFullCode,
         defaultLanguageFullCode,
         query: { id: id }
-      }).then(({ data }: { data: TmdbMovieEntity }) => setLocalData(data));
+      }).then(({ data }: { data: TmdbMovieEntity }) => {
+        translationsStore.setTranslations(
+          (data.translations && data.translations.translations) || []
+        );
+        setLocalData(data);
+      });
     }
   }, [
     translationLanguageFullCode,
@@ -95,6 +101,12 @@ Movie.getInitialProps = async (
   const defaultLanguageFullCode = props.defaultLanguageFullCode;
   const language = translationLanguageFullCode || defaultLanguageFullCode;
   const data = await apiTmdb().movie(props.query.id, { language });
+  // only injected server-side to be able to prepare the store for ssr
+  if (props.mobxStore) {
+    props.mobxStore.translationsStore.setTranslations(
+      (data.translations && data.translations.translations) || []
+    );
+  }
   return {
     data,
     server: !!props.req,
@@ -102,4 +114,6 @@ Movie.getInitialProps = async (
   };
 };
 
-export default withNamespaces("movie")(withRouter(Movie));
+export default withNamespaces("movie")(
+  inject("translationsStore")(observer(withRouter(Movie)))
+);

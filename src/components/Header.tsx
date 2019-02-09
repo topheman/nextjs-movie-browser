@@ -14,11 +14,7 @@ const films = [
 
 const defaultLanguages = [
   { code: "en-US", label: "English" },
-  { code: "fr-FR", label: "French" },
-  { code: "es-ES", label: "Spanish" },
-  { code: "he-IL", label: "Hebrew" },
-  { code: "fa-IR", label: "Persian" },
-  { code: "pt-PT", label: "Portuguese" }
+  { code: "fr-FR", label: "French" }
 ];
 
 const Header = ({ t }: { t: i18next.TranslationFunction }) => {

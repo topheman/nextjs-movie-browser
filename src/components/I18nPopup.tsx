@@ -47,20 +47,15 @@ const I18nPopup: React.ComponentType<II18nPopupProps> = ({
                 languagesList={[
                   { code: "", label: "Choose your language" }
                 ].concat(translationLanguages)}
-                onLanguageChange={languageCode =>
-                  switchTranslationLanguage(languageCode)
-                }
+                onLanguageChange={languageCode => {
+                  if (languageCode === "") {
+                    return resetTranslationLanguage();
+                  }
+                  return switchTranslationLanguage(languageCode);
+                }}
                 value={translationLanguageFullCode}
                 data-testid="switch-translation-language"
               />
-            )}
-            {translationLanguageFullCode && (
-              <button
-                onClick={() => resetTranslationLanguage()}
-                style={{ display: "block" }}
-              >
-                Reset tranlation
-              </button>
             )}
             <SelectLanguage
               style={{ display: "block" }}

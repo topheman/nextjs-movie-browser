@@ -22,9 +22,7 @@ const SelectLanguage: React.SFC<
       <select
         data-testid={dataTestid}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-          if (e.target.value) {
-            onLanguageChange(e.target.value);
-          }
+          return onLanguageChange(e.target.value);
         }}
         value={value}
       >

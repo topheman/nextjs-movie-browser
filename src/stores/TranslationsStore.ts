@@ -22,6 +22,9 @@ class TranslationsStore implements TranslationsStoreInitialState {
   @action setTranslations(translations: (TmdbTranslationEntity)[]) {
     this.rawData = observable.array(translations);
   }
+  @action resetTranslations() {
+    this.rawData = observable.array([]);
+  }
 }
 
 export default TranslationsStore;

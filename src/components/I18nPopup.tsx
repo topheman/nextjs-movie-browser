@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { inject, observer } from "mobx-react";
 
 import { LanguageList } from "../@types";
 import SelectLanguage from "./SelectLanguage";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
+import TranslationsStore from "../stores/TranslationsStore";
 
 interface II18nPopupProps {
   defaultLanguages: LanguageList;
-  translationLanguages: LanguageList;
+  translationsStore?: TranslationsStore;
+  popupOpen: boolean;
+  togglePopupOpen: (open: boolean) => void;
 }
 
 /**
@@ -18,9 +21,11 @@ interface II18nPopupProps {
 
 const I18nPopup: React.ComponentType<II18nPopupProps> = ({
   defaultLanguages,
-  translationLanguages
+  translationsStore,
+  popupOpen,
+  togglePopupOpen
 }) => {
-  const [open, toggleOpen] = useState(false);
+  const translationLanguages = translationsStore!.availableLanguages;
   return (
     <LanguageManagerConsumer>
       {({
@@ -31,15 +36,17 @@ const I18nPopup: React.ComponentType<II18nPopupProps> = ({
         resetTranslationLanguage
       }) => (
         <>
-          <button onClick={() => toggleOpen(!open)}>
+          <button onClick={() => togglePopupOpen(!popupOpen)}>
             {translationLanguageFullCode || defaultLanguageFullCode}
           </button>
-          <div style={{ display: open ? "initial" : "none" }}>
+          <div style={{ display: popupOpen ? "initial" : "none" }}>
             {translationLanguages && translationLanguages.length > 0 && (
               <SelectLanguage
                 style={{ display: "block" }}
                 label="Translation language"
-                languagesList={translationLanguages}
+                languagesList={[
+                  { code: "", label: "Choose your language" }
+                ].concat(translationLanguages)}
                 onLanguageChange={languageCode =>
                   switchTranslationLanguage(languageCode)
                 }
@@ -72,4 +79,4 @@ const I18nPopup: React.ComponentType<II18nPopupProps> = ({
   );
 };
 
-export default I18nPopup;
+export default inject("translationsStore")(observer(I18nPopup));

@@ -119,7 +119,7 @@ class MyApp extends App {
       // inject the basePageProps in the parameters of getInitialProps
       pageProps = await Component.getInitialProps({
         ...basePageProps,
-        ...ctx
+        ...ctx // contains the mobxStore (see above)
       });
       // return the basePageProps inside the pageProps
       pageProps = {

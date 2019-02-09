@@ -1,6 +1,8 @@
 import React from "react";
 import { render } from "react-testing-library";
+import { Provider as MobxProvider } from "mobx-react";
 
+import { createStore, MyMobxStore } from "./stores";
 import { appWithTranslationMock } from "./services/i18n/NamespaceMock";
 import {
   LanguageManagerProvider,
@@ -113,6 +115,15 @@ export const renderI18nWithLanguageManagerProvider = (
     initialLanguage
   });
   return render(<AppWithTranslation />, renderOptions);
+};
+
+export const withMobxStore = (initialState?: MyMobxStore) => (Comp: any) => {
+  const mobxStore = createStore(initialState);
+  return (props: any) => (
+    <MobxProvider {...mobxStore}>
+      <Comp {...props} />
+    </MobxProvider>
+  );
 };
 
 export const resetLanguage = ({

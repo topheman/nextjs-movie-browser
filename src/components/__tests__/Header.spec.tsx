@@ -2,24 +2,27 @@ import {
   renderI18nNamespacesWrappedComponent,
   renderI18nWithLanguageManagerProvider,
   fireEvent,
-  cleanup
+  cleanup,
+  withMobxStore
 } from "../../testUtils";
 import { default as Header } from "../Header";
 
-describe.only("src/component/Header", () => {
+const HeaderWithMobx = withMobxStore()(Header);
+
+describe("src/component/Header", () => {
   afterEach(cleanup);
   it(`should render "${process.env.NEXTJS_APP_CLIENT_TITLE}"`, () => {
-    const { getByText } = renderI18nNamespacesWrappedComponent(Header);
+    const { getByText } = renderI18nNamespacesWrappedComponent(HeaderWithMobx);
     expect(getByText(process.env.NEXTJS_APP_CLIENT_TITLE)).toBeTruthy();
   });
   it("should render correct links", () => {
-    const { getByText } = renderI18nNamespacesWrappedComponent(Header);
+    const { getByText } = renderI18nNamespacesWrappedComponent(HeaderWithMobx);
     expect(getByText("[common-label-home] (en)")).toBeTruthy();
     expect(getByText("[common-label-about] (en)")).toBeTruthy();
   });
   it("should change default language UI on select change", async () => {
     const { getByTestId, getByText } = renderI18nWithLanguageManagerProvider(
-      Header
+      HeaderWithMobx
     );
     const input = getByTestId("switch-default-language");
     expect(input).toBeTruthy();

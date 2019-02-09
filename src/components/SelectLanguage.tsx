@@ -1,5 +1,3 @@
-import React from "react";
-
 import { LanguageList } from "../@types";
 
 const SelectLanguage: React.SFC<

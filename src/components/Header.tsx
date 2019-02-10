@@ -4,6 +4,7 @@ import i18next from "i18next";
 import { withNamespaces } from "../../i18n";
 import I18nPopup from "./I18nPopup";
 import { LinkWithLanguage } from "../services/i18n/LanguageManager";
+import { normalizeString } from "../utils/helpers";
 
 const films = [
   ["Fight Club", 550],
@@ -45,10 +46,7 @@ const Header = ({ t }: { t: i18next.TranslationFunction }) => {
           <li key={id}>
             <LinkWithLanguage
               href={{ pathname: `/movie`, query: { id } }}
-              as={`/movie/${id}-${(title as string)
-                .toLowerCase() // ⚠️ TODO make a correct sanitize function
-                .replace(/é/g, "e")
-                .replace(/ /g, "-")}`}
+              as={`/movie/${id}-${normalizeString(title as string)}`}
             >
               <a>{title}</a>
             </LinkWithLanguage>

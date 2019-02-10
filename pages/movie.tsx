@@ -14,6 +14,8 @@ import {
 import TranslationsStore from "../src/stores/TranslationsStore";
 import { MyMobxStore } from "../src/stores";
 
+import MovieInfos from "../src/components/MovieInfos";
+
 type IComponentProps = AppNextRootPageProps & {
   data: TmdbMovieEntity;
   query: { id: string };
@@ -31,7 +33,7 @@ type IGetInitialProps = AppNextRootPageGetInitialProps & {
  */
 const Movie = ({
   data,
-  t,
+  // t,
   router,
   translationLanguageFullCode,
   defaultLanguageFullCode,
@@ -70,16 +72,20 @@ const Movie = ({
     defaultLanguageFullCode,
     router.query && router.query.id
   ]); // -> here double firing of API call
-  const { title, overview } = localData;
+  // retrieve default language if translation is not available
+  const localDataWithDefaultTranslation = translationsStore.retrieveDataWithFallback(
+    translationLanguageFullCode,
+    defaultLanguageFullCode,
+    localData
+  );
+  let { title, overview } = localDataWithDefaultTranslation;
   return (
     <>
       <Head>
         <meta name="description" content={overview} />
       </Head>
       <Layout>
-        <h2 dir="auto">{title}</h2>
-        <h3>{t("movie-label-synopsis")}</h3>
-        <p dir="auto">{overview}</p>
+        <MovieInfos title={title} overview={overview} />
       </Layout>
     </>
   );

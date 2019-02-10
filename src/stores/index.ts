@@ -10,7 +10,7 @@ import TranslationsStore, {
 export interface MyMobxStore {
   translationsStore: TranslationsStore;
 }
-
+// ⚠️ TODO fix mixup between store / initialState
 export const createStore = (
   initialState: {
     translationsStore?: TranslationsStoreInitialState;

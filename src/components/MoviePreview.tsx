@@ -2,7 +2,7 @@ import i18next from "i18next";
 
 import { withNamespaces } from "../../i18n";
 
-const MovieInfos = ({
+const MoviePreview = ({
   t,
   title,
   overview
@@ -20,4 +20,4 @@ const MovieInfos = ({
   );
 };
 
-export default withNamespaces("movie")(MovieInfos);
+export default withNamespaces("movie")(MoviePreview);

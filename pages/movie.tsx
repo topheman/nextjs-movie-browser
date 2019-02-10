@@ -14,7 +14,7 @@ import {
 import TranslationsStore from "../src/stores/TranslationsStore";
 import { MyMobxStore } from "../src/stores";
 
-import MovieInfos from "../src/components/MovieInfos";
+import MovieComponent from "../src/components/Movie";
 
 type IComponentProps = AppNextRootPageProps & {
   data: TmdbMovieEntity;
@@ -78,14 +78,18 @@ const Movie = ({
     defaultLanguageFullCode,
     localData
   );
-  let { title, overview } = localDataWithDefaultTranslation;
+  const { title, overview } = localDataWithDefaultTranslation;
   return (
     <>
       <Head>
         <meta name="description" content={overview} />
       </Head>
       <Layout>
-        <MovieInfos title={title} overview={overview} />
+        <MovieComponent
+          {...localData}
+          title={title || localData.title}
+          overview={overview || localData.overview}
+        />
       </Layout>
     </>
   );

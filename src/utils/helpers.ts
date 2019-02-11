@@ -12,7 +12,7 @@ export function normalizeString(string: string) {
     "ÀÁÂÃÄÅĄĀāàáâãäåąßÒÓÔÕÕÖØŐòóôőõöøĎďDŽdžÈÉÊËĘèéêëęðÇçČčĆćÐÌÍÎÏĪìíîïīÙÚÛÜŰùűúûüĽĹŁľĺłÑŇŃňñńŔŕŠŚŞšśşŤťŸÝÿýŽŻŹžżźđĢĞģğ";
   const out =
     "AAAAAAAAaaaaaaaasOOOOOOOOoooooooDdDZdzEEEEEeeeeeeCcCcCcDIIIIIiiiiiUUUUUuuuuuLLLlllNNNnnnRrSSSsssTtYYyyZZZzzzdGGgg";
-  return string
+  return (string || "")
     .toLowerCase()
     .split("")
     .map(
@@ -20,8 +20,9 @@ export function normalizeString(string: string) {
         let index = accents.indexOf(letter);
         return index !== -1 ? out[index] : letter;
       }
-    )
+    ) // remove accents
     .join("")
-    .replace(/[^\x00-\x7F]/g, "")
+    .replace(/[^\x00-\x7F]/g, "") // remove non ascii chars
+    .replace(/[^\w\s]/gi, "")
     .replace(/ /g, "-");
 }

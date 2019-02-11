@@ -64,8 +64,9 @@ export interface TmdbTranslationEntity {
 export interface TmdbTranslationEntityData {
   name?: string;
   title?: string;
-  overview: string;
-  homepage: string;
+  overview?: string;
+  homepage?: string;
+  biography?: string;
 }
 export interface TmdbCredits {
   cast?: (TmdbCastEntity)[] | null;
@@ -92,4 +93,63 @@ export interface TmdbCrewEntity {
   job: string;
   name: string;
   profile_path?: string | null;
+}
+export interface TmdbPersonEntity {
+  birthday: string;
+  known_for_department: string;
+  deathday?: null;
+  id: number;
+  name: string;
+  movie_credits: TmdbPersonMovieCredits;
+  also_known_as?: (string)[] | null;
+  gender: number;
+  biography: string;
+  popularity: number;
+  place_of_birth: string;
+  profile_path: string;
+  adult: boolean;
+  imdb_id: string;
+  homepage?: string;
+  translations?: TmdbTranslations;
+}
+export interface TmdbPersonMovieCredits {
+  cast?: (TmdbPersonCastEntity)[] | null;
+  crew?: (TmdbPersonPersonCrewEntity)[] | null;
+}
+export interface TmdbPersonCastEntity {
+  release_date: string;
+  adult: boolean;
+  vote_average: number;
+  vote_count: number;
+  video: boolean;
+  title: string;
+  popularity: number;
+  genre_ids?: (number | null)[] | null;
+  original_language: string;
+  character: string;
+  original_title: string;
+  poster_path?: string | null;
+  id: number;
+  backdrop_path?: string | null;
+  overview: string;
+  credit_id: string;
+}
+export interface TmdbPersonCrewEntity {
+  id: number;
+  department: string;
+  original_language: string;
+  original_title: string;
+  job: string;
+  overview: string;
+  genre_ids?: (number)[] | null;
+  video: boolean;
+  credit_id: string;
+  poster_path: string;
+  popularity: number;
+  backdrop_path: string;
+  vote_count: number;
+  title: string;
+  adult: boolean;
+  vote_average: number;
+  release_date: string;
 }

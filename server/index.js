@@ -42,6 +42,22 @@ app.prepare().then(() => {
         )
       )
   );
+  server.get(
+    "/person/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
+    (req, res) =>
+      app.render(
+        req,
+        res,
+        "/person",
+        Object.assign(
+          {
+            id: req.params.id,
+            translationLanguageFullCode: req.params.translationLanguageFullCode
+          },
+          req.query
+        )
+      )
+  );
   server.get("/*", (req, res) => handle(req, res));
   server.listen(port, err => {
     if (err) throw err;

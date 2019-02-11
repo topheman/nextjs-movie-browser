@@ -58,8 +58,9 @@ class TranslationsStore implements TranslationsStoreInitialState {
             ["fallbackData", fallbackLanguageFullCode]
           ].forEach(([accumulatorKey, languageCode]) => {
             if (
+              translation &&
               languageCode ===
-              `${translation.iso_639_1}-${translation.iso_3166_1}`
+                `${translation.iso_639_1}-${translation.iso_3166_1}`
             ) {
               (acc as any)[accumulatorKey as string] = removeFalsy(
                 translation.data as TTranslationData

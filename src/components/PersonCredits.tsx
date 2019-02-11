@@ -27,7 +27,7 @@ const PersonCredits = ({
                   <LinkWithLanguage
                     href={{ pathname: `/movie`, query: { id: film.id } }}
                     as={`/movie/${film.id}-${normalizeString(
-                      film.title as string
+                      film.original_title as string
                     )}`}
                   >
                     <a>{film.title}</a>

@@ -1,10 +1,21 @@
 import { observable, computed, action } from "mobx";
 
-import { TmdbTranslationEntity, TmdbTranslationEntityData } from "../@types";
+import { TmdbTranslationEntity } from "../@types";
 
 export interface TranslationsStoreInitialState {
   rawData: (TmdbTranslationEntity)[] | null;
 }
+
+const removeFalsy = <T>(obj: T): T => {
+  let newObj: T = {} as T;
+  Object.keys(obj).forEach(prop => {
+    const key = prop as keyof typeof obj; // needed for typescript
+    if (obj[key]) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
+};
 
 class TranslationsStore implements TranslationsStoreInitialState {
   @observable rawData: (TmdbTranslationEntity)[] | null = [];
@@ -26,44 +37,48 @@ class TranslationsStore implements TranslationsStoreInitialState {
     this.rawData = observable.array([]);
   }
   /**
-   * If no `translationLanguageFullCode` passed, will use the `defaultLanguageFullCode`
-   * If `translationLanguageFullCode` is passed, will try to return translated data
-   * then fallback to defaultLanguage
-   * If no language matches, will return `data`
+   * Retrieve missing translated parts of `data` using the tranlation infos.
+   * 1) Injects data in `translationLanguageFullCode` if parameter passed and translation available in the language
+   * 2) Injects data in `defaultLanguageFullCode` if data available in the language
+   * 3) Injects data in `fallbackLanguageFullCode` if data available in the language
    */
-  @action retrieveDataWithFallback(
+  @action retrieveDataWithFallback<TData, TTranslationData>(
+    data: TData,
+    defaultLanguageFullCode: string,
     translationLanguageFullCode: string | undefined,
-    defaultLanguageFullCode: string | undefined,
-    data: TmdbTranslationEntityData
+    fallbackLanguageFullCode = "en-US"
   ) {
     const match =
       this.rawData &&
       this.rawData.reduce(
         (acc, translation) => {
-          if (
-            translationLanguageFullCode ===
-            `${translation.iso_639_1}-${translation.iso_3166_1}`
-          ) {
-            acc["translationData"] = {
-              ...translation.data
-            };
-          }
-          if (
-            defaultLanguageFullCode ===
-            `${translation.iso_639_1}-${translation.iso_3166_1}`
-          ) {
-            acc["defaultData"] = {
-              ...translation.data
-            };
-          }
+          [
+            ["translationData", translationLanguageFullCode],
+            ["defaultData", defaultLanguageFullCode],
+            ["fallbackData", fallbackLanguageFullCode]
+          ].forEach(([accumulatorKey, languageCode]) => {
+            if (
+              languageCode ===
+              `${translation.iso_639_1}-${translation.iso_3166_1}`
+            ) {
+              (acc as any)[accumulatorKey as string] = removeFalsy(
+                translation.data as TTranslationData
+              );
+            }
+          });
           return acc;
         },
-        { translationData: {}, defaultData: {} }
+        { translationData: {}, defaultData: {}, fallbackData: {} } as {
+          translationData: TTranslationData;
+          defaultData: TTranslationData;
+          fallbackData: TTranslationData;
+        }
       );
     if (match) {
       // any missing data will be replaced by the default language
       const result = {
         ...data,
+        ...match.fallbackData,
         ...match.defaultData,
         ...match.translationData
       };

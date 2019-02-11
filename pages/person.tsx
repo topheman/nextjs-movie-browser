@@ -74,18 +74,18 @@ const Person = ({
   ]); // -> here double firing of API call
   // retrieve default language if translation is not available
   const localDataWithDefaultTranslation = translationsStore.retrieveDataWithFallback(
-    translationLanguageFullCode,
+    localData,
     defaultLanguageFullCode,
-    localData
+    translationLanguageFullCode
   );
   const { biography } = localDataWithDefaultTranslation;
   return (
     <>
       <Head>
-        <meta name="description" content={biography as string} />
+        <meta name="description" content={biography} />
       </Head>
       <Layout>
-        <PersonComponent {...localData} biography={biography as string} />
+        <PersonComponent {...localDataWithDefaultTranslation} />
       </Layout>
     </>
   );

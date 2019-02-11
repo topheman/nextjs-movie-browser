@@ -74,22 +74,18 @@ const Movie = ({
   ]); // -> here double firing of API call
   // retrieve default language if translation is not available
   const localDataWithDefaultTranslation = translationsStore.retrieveDataWithFallback(
-    translationLanguageFullCode,
+    localData,
     defaultLanguageFullCode,
-    localData
+    translationLanguageFullCode
   );
-  const { title, overview } = localDataWithDefaultTranslation;
+  const { overview } = localDataWithDefaultTranslation;
   return (
     <>
       <Head>
         <meta name="description" content={overview} />
       </Head>
       <Layout>
-        <MovieComponent
-          {...localData}
-          title={title || localData.title}
-          overview={overview || localData.overview}
-        />
+        <MovieComponent {...localDataWithDefaultTranslation} />
       </Layout>
     </>
   );

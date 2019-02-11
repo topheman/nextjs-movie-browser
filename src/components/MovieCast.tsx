@@ -14,22 +14,43 @@ const MovieCast = ({
 }) => {
   return (
     <>
-      <h3>{t("movie-label-cast")}</h3>
       {credits.cast && (
-        <ul>
-          {credits.cast.map(person => (
-            <li key={person.id}>
-              <LinkWithLanguage
-                href={{ pathname: `/person`, query: { id: person.id } }}
-                as={`/person/${person.id}-${normalizeString(
-                  person.name as string
-                )}`}
-              >
-                <a>{person.name}</a>
-              </LinkWithLanguage>
-            </li>
-          ))}
-        </ul>
+        <>
+          <h3>{t("movie-label-cast")}</h3>
+          <ul>
+            {credits.cast.map(person => (
+              <li key={person.credit_id}>
+                <LinkWithLanguage
+                  href={{ pathname: `/person`, query: { id: person.id } }}
+                  as={`/person/${person.id}-${normalizeString(
+                    person.name as string
+                  )}`}
+                >
+                  <a>{person.name}</a>
+                </LinkWithLanguage>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {credits.crew && (
+        <>
+          <h3>{t("movie-label-crew")}</h3>
+          <ul>
+            {credits.crew.map(person => (
+              <li key={person.credit_id}>
+                <LinkWithLanguage
+                  href={{ pathname: `/person`, query: { id: person.id } }}
+                  as={`/person/${person.id}-${normalizeString(
+                    person.name as string
+                  )}`}
+                >
+                  <a>{person.name}</a>
+                </LinkWithLanguage>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </>
   );

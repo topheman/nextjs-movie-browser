@@ -100,7 +100,8 @@ export interface TmdbPersonEntity {
   deathday?: null;
   id: number;
   name: string;
-  movie_credits: TmdbPersonMovieCredits;
+  movie_credits?: TmdbPersonMovieCredits;
+  tv_credits?: TmdbPersonTvCredits;
   also_known_as?: (string)[] | null;
   gender: number;
   biography: string;
@@ -152,4 +153,45 @@ export interface TmdbPersonCrewEntity {
   adult: boolean;
   vote_average: number;
   release_date: string;
+}
+export interface TmdbPersonTvCredits {
+  cast?: (TmdbPersonTvCastEntity)[] | null;
+  crew?: (TmdbPersonTvCrewEntity)[] | null;
+}
+export interface TmdbPersonTvCastEntity {
+  origin_country?: (string | null)[] | null;
+  original_name: string;
+  genre_ids?: (number | null)[] | null;
+  vote_count: number;
+  backdrop_path?: string | null;
+  name: string;
+  first_air_date: string;
+  original_language: string;
+  popularity: number;
+  character: string;
+  episode_count: number;
+  id: number;
+  credit_id: string;
+  vote_average: number;
+  overview: string;
+  poster_path?: string | null;
+}
+export interface TmdbPersonTvCrewEntity {
+  id: number;
+  department: string;
+  original_language: string;
+  episode_count: number;
+  job: string;
+  overview: string;
+  origin_country?: (string)[] | null;
+  original_name: string;
+  vote_count: number;
+  name: string;
+  popularity: number;
+  credit_id: string;
+  backdrop_path?: string | null;
+  first_air_date: string;
+  vote_average: number;
+  genre_ids?: (number)[] | null;
+  poster_path: string;
 }

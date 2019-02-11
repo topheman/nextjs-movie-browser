@@ -32,7 +32,10 @@ const decorateApi = ({
         })
         .then(({ data }) => data);
     },
-    person: (id, { language, append = ["movie_credits", "translations"] }) => {
+    person: (
+      id,
+      { language, append = ["movie_credits", "tv_credits", "translations"] }
+    ) => {
       const query = `/person/${id}`;
       return client
         .get(query, {

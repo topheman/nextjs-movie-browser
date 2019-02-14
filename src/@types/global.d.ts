@@ -1,6 +1,7 @@
 import { SingletonRouter } from "next/router";
 import { NextContext, NextComponentType } from "@types/next";
 import { MyMobxStore } from "../stores";
+import TranslationsStore from "../stores/TranslationsStore";
 
 export interface AppNextRootPageProps {
   t: i18next.TranslationFunction;

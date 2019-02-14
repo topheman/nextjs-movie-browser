@@ -4,6 +4,7 @@ import { inject, observer } from "mobx-react";
 import hoistNonReactStatics from "hoist-non-react-statics";
 
 import Layout from "../components/Layout";
+import ShowLoadingState from "../components/ShowLoadingState";
 import { withNamespaces } from "../../i18n";
 import {
   AppWithIdNextRootPageProps,
@@ -148,24 +149,41 @@ const withCallingApi = <ApiEntity extends any>({
           this.props.translationLanguageFullCode ||
         prevProps.defaultLanguageFullCode !== this.props.defaultLanguageFullCode
       ) {
+        this.props.uiStore.setLoadingState({ error: false, loading: true });
         prepareParamsAndCallApi(
           { ...this.props, query: { id: this.props.data.id } },
           ({ language, id }) => apiCall({ id, language })
-        ).then(data => this.setStateData(data));
+        )
+          .then(data => {
+            this.setStateData(data);
+            this.props.uiStore.setLoadingState({
+              error: false,
+              loading: false
+            });
+          })
+          .catch(() => {
+            this.props.uiStore.setLoadingState({ error: true, loading: false });
+          });
       }
     }
     render() {
       console.log(`${PageWithId.displayName}.render`);
       return (
         <Layout>
-          <Comp {...this.state.data} />
+          <ShowLoadingState>
+            {({ error }) => {
+              return (
+                <>{error ? <div>Error</div> : <Comp {...this.state.data} />}</>
+              );
+            }}
+          </ShowLoadingState>
         </Layout>
       );
     }
   }
 
   return withNamespaces(namespaces)(
-    inject("translationsStore")(
+    inject("translationsStore", "uiStore")(
       observer(withRouter(hoistNonReactStatics(PageWithId, Comp)))
     )
   );

@@ -6,9 +6,11 @@ useStaticRendering(isServer);
 import TranslationsStore, {
   TranslationsStoreInitialState
 } from "./TranslationsStore";
+import UIStore from "./UIStore";
 
 export interface MyMobxStore {
-  translationsStore: TranslationsStore;
+  translationsStore?: TranslationsStore;
+  uiStore?: UIStore;
 }
 // ⚠️ TODO fix mixup between store / initialState
 export const createStore = (
@@ -17,7 +19,8 @@ export const createStore = (
   } = {}
 ): MyMobxStore => {
   const store = {
-    translationsStore: new TranslationsStore(initialState.translationsStore)
+    translationsStore: new TranslationsStore(initialState.translationsStore),
+    uiStore: new UIStore()
   };
   return store;
 };

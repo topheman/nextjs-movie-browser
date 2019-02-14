@@ -2,6 +2,7 @@ import { SingletonRouter } from "next/router";
 import { NextContext, NextComponentType } from "@types/next";
 import { MyMobxStore } from "../stores";
 import TranslationsStore from "../stores/TranslationsStore";
+import UIStore from "../stores/UIStore";
 
 export interface AppNextRootPageProps {
   t: i18next.TranslationFunction;
@@ -14,6 +15,7 @@ export interface AppWithIdNextRootPageProps<T> extends AppNextRootPageProps {
   data: T;
   query: { id: string };
   translationsStore: TranslationsStore;
+  uiStore: UIStore;
 }
 
 export interface AppNextRootPageGetInitialProps {

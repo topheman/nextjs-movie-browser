@@ -12,7 +12,7 @@
 import App from "next/app"; // using `CustomNextApp` bellow (for types)
 import { Container } from "next/app";
 import { Provider as MobxProvider } from "mobx-react";
-import { RouterProps } from "next/router";
+import Router, { RouterProps } from "next/router";
 import { NextComponentType } from "next";
 
 import { init as initApiClient } from "../src/services/apis";
@@ -67,7 +67,7 @@ class MyApp extends App {
     router,
     ctx
   }: CustomNextAppContext) {
-    // const server = !!ctx.req; // only accessible async
+    console.log("App.getInitialProps");
 
     const translationLanguageFullCode =
       router.query.translationLanguageFullCode;
@@ -133,7 +133,48 @@ class MyApp extends App {
     };
   }
 
+  /**
+   * Manage loading state of the router
+   */
+  onRouteChangeStart(url: string) {
+    console.log(`router`, `Loading: ${url}`);
+    this.mobxStore &&
+      this.mobxStore.uiStore &&
+      this.mobxStore.uiStore.setLoadingState({ error: false, loading: true });
+  }
+  onRouteChangeComplete(url: string) {
+    console.log(`router`, `Complete: ${url}`);
+    this.mobxStore &&
+      this.mobxStore.uiStore &&
+      this.mobxStore.uiStore.setLoadingState({
+        error: false,
+        loading: false
+      });
+  }
+  onRouteChangeError(err: any, url: string) {
+    console.log(`router`, `Error: ${url} / ${err.message}`, err);
+    this.mobxStore &&
+      this.mobxStore.uiStore &&
+      this.mobxStore.uiStore.setLoadingState({
+        error: true,
+        loading: false
+      });
+  }
+  componentDidMount() {
+    console.log("App.componentDidMount");
+    Router.events.on("routeChangeStart", (url: string) =>
+      this.onRouteChangeStart(url)
+    );
+    Router.events.on("routeChangeComplete", (url: string) =>
+      this.onRouteChangeComplete(url)
+    );
+    Router.events.on("routeChangeError", (err: any, url: string) =>
+      this.onRouteChangeError(err, url)
+    );
+  }
+
   render() {
+    console.log("App.render");
     const { Component, pageProps } = this.props;
 
     /**

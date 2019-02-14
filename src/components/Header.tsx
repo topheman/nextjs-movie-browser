@@ -5,6 +5,7 @@ import { withNamespaces } from "../../i18n";
 import I18nPopup from "./I18nPopup";
 import { LinkWithLanguage } from "../services/i18n/LanguageManager";
 import { normalizeString } from "../utils/helpers";
+import ShowLoadingState from "./ShowLoadingState";
 
 const films = [
   ["Fight Club", 550],
@@ -53,6 +54,9 @@ const Header = ({ t }: { t: i18next.TranslationFunction }) => {
           </li>
         ))}
       </ul>
+      <ShowLoadingState>
+        {({ loading }) => <div>{loading ? "Loading ..." : "Loaded"}</div>}
+      </ShowLoadingState>
     </>
   );
 };

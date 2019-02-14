@@ -108,6 +108,19 @@ const withCallingApi = <ApiEntity extends any>({
       // store data from getInitialProps into state to be able to trigger a change when detecting language change
       this.state.data = props.data;
     }
+    /**
+     * Sets data in state fallbacking with proper language for fields alike to be translated
+     * like `overview`, `title`, `biography` ...
+     */
+    setStateData(data: ApiEntity) {
+      console.log(`${PageWithId.displayName}.setStateData`);
+      const translatedData = this.props.translationsStore.retrieveDataWithFallback(
+        data,
+        this.props.defaultLanguageFullCode,
+        this.props.translationLanguageFullCode
+      );
+      this.setState({ data: translatedData });
+    }
     componentDidMount() {
       console.log(`${PageWithId.displayName}.componentDidMount`);
       this.props.translationsStore.setTranslations(
@@ -115,6 +128,7 @@ const withCallingApi = <ApiEntity extends any>({
           this.props.data.translations.translations) ||
           []
       );
+      this.setStateData(this.props.data);
     }
     componentDidUpdate(prevProps: IComponentProps) {
       console.log(`${PageWithId.displayName}.componentDidUpdate`);
@@ -126,7 +140,7 @@ const withCallingApi = <ApiEntity extends any>({
       );
       // just after first load (from ssr), ensure state is updated if data provided by getInitialProps changes
       if (prevProps.data.id !== this.props.data.id) {
-        this.setState({ data: this.props.data });
+        this.setStateData(this.props.data);
       }
       // re-call api with different language when it changes
       if (
@@ -137,19 +151,14 @@ const withCallingApi = <ApiEntity extends any>({
         prepareParamsAndCallApi(
           { ...this.props, query: { id: this.props.data.id } },
           ({ language, id }) => apiCall({ id, language })
-        ).then(data => this.setState({ data }));
+        ).then(data => this.setStateData(data));
       }
     }
     render() {
       console.log(`${PageWithId.displayName}.render`);
-      const data = this.props.translationsStore.retrieveDataWithFallback(
-        this.state.data,
-        this.props.defaultLanguageFullCode,
-        this.props.translationLanguageFullCode
-      );
       return (
         <Layout>
-          <Comp {...data} />
+          <Comp {...this.state.data} />
         </Layout>
       );
     }

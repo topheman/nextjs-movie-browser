@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { Component } from "react";
 import { withRouter } from "next/router";
-import Head from "next/head";
 import { inject, observer } from "mobx-react";
 
 import Layout from "../src/components/Layout";
@@ -8,117 +7,130 @@ import { withNamespaces } from "../i18n";
 import { apiTmdb } from "../src/services/apis";
 import {
   TmdbMovieEntity,
-  AppNextRootPageProps,
-  AppNextRootPageGetInitialProps
+  AppWithIdNextRootPageProps,
+  AppWithIdNextRootPageGetInitialProps
 } from "../src/@types";
-import TranslationsStore from "../src/stores/TranslationsStore";
-import { MyMobxStore } from "../src/stores";
 
 import MovieComponent from "../src/components/Movie";
 
-type IComponentProps = AppNextRootPageProps & {
-  data: TmdbMovieEntity;
-  query: { id: string };
-  translationsStore: TranslationsStore;
-};
+type IComponentProps = AppWithIdNextRootPageProps<TmdbMovieEntity>;
 
-type IGetInitialProps = AppNextRootPageGetInitialProps & {
-  mobxStore?: MyMobxStore;
-  query: { id: string };
-};
+type IComponentState = { data: TmdbMovieEntity | undefined };
 
-/**
- * Returns Server Side rendered page on first load
- * Then the client will do the the request to the API and do the render
- */
-const Movie = ({
-  data,
-  // t,
-  router,
-  translationLanguageFullCode,
-  defaultLanguageFullCode,
-  translationsStore
-}: IComponentProps) => {
-  /**
-   * Keep a local version of the data from the API to retrigger API calls on:
-   * - route change
-   * - language change
-   *
-   * Note: If you don't need the client to make an API call with the new language
-   * directly after updating the UI's language, you don't need this local state
-   *
-   * In order to make the UI reflect the new language with the API content,
-   * I recall the static getInitialProps passing the arguments it is waiting for
-   *
-   * @todo prevent double firing of the API call (those are get requests which will be cached but still)
-   */
-  const [localData, setLocalData] = useState(data);
-  useEffect(() => {
-    const id = router.query && (router.query.id as string);
-    if (id) {
-      Movie.getInitialProps({
-        translationLanguageFullCode,
-        defaultLanguageFullCode,
-        query: { id: id }
-      }).then(({ data }: { data: TmdbMovieEntity }) => {
-        translationsStore.setTranslations(
-          (data.translations && data.translations.translations) || []
-        );
-        setLocalData(data);
-      });
-    }
-  }, [
-    translationLanguageFullCode,
-    defaultLanguageFullCode,
-    router.query && router.query.id
-  ]); // -> here double firing of API call
-  // retrieve default language if translation is not available
-  const localDataWithDefaultTranslation = translationsStore.retrieveDataWithFallback(
-    localData,
-    defaultLanguageFullCode,
-    translationLanguageFullCode
-  );
-  const { overview } = localDataWithDefaultTranslation;
-  return (
-    <>
-      <Head>
-        <meta name="description" content={overview} />
-      </Head>
-      <Layout>
-        <MovieComponent {...localDataWithDefaultTranslation} />
-      </Layout>
-    </>
-  );
-};
+type IGetInitialProps = AppWithIdNextRootPageGetInitialProps;
 
-/**
- * Static method that will trigger a request to the API on route change
- * and pass the result as props to the render method.
- * This is called both on server and client route change.
- */
-Movie.getInitialProps = async (
-  props: IGetInitialProps
-): Promise<{
-  data: TmdbMovieEntity;
-  server: boolean;
-  namespacesRequired: string[];
-}> => {
+type ICallApi = <C extends any, T>(
+  props: C,
+  apiCall: ({ language, id }: { language: string; id: string }) => Promise<T>
+) => Promise<T>;
+
+const callApi: ICallApi = async (props, apiCall) => {
+  console.log("callApi");
   const translationLanguageFullCode = props.translationLanguageFullCode;
   const defaultLanguageFullCode = props.defaultLanguageFullCode;
   const language = translationLanguageFullCode || defaultLanguageFullCode;
-  const data = await apiTmdb().movie(props.query.id, { language });
-  // only injected server-side to be able to prepare the store for ssr
-  if (props.mobxStore) {
-    props.mobxStore.translationsStore.setTranslations(
-      (data.translations && data.translations.translations) || []
+  const data = await apiCall({ language, id: props.query.id });
+  return data;
+};
+
+/**
+ * Lifecycle:
+ *
+ * Server-side:
+ * - getInitialProps
+ *   -> callApi
+ * - constructor
+ * - render
+ *
+ * Client-side
+ * - constructor
+ * - render
+ * - componentDidMount
+ * Change link
+ * - getInitialProps
+ *   -> callApi
+ * - render
+ * - componentDidUpdate
+ */
+class Movie extends Component<IComponentProps, IComponentState> {
+  state: IComponentState = {
+    data: undefined
+  };
+  static async getInitialProps(
+    props: IGetInitialProps
+  ): Promise<{
+    data: TmdbMovieEntity;
+    namespacesRequired: string[];
+  }> {
+    console.log("Movie.getInitialProps");
+    const data = await callApi(props, ({ language, id }) =>
+      apiTmdb().movie(id, { language })
+    );
+    // store injected from _app.tsx, used in ssr
+    const translationsStore =
+      props.mobxStore && props.mobxStore.translationsStore;
+    if (translationsStore) {
+      translationsStore.setTranslations(
+        (data.translations && data.translations.translations) || []
+      );
+    }
+    return {
+      data,
+      namespacesRequired: ["movie", "common"]
+    };
+  }
+  constructor(props: IComponentProps) {
+    super(props);
+    console.log("Movie.constructor");
+    // store data from getInitialProps into state to be able to trigger a change when detecting language change
+    this.state.data = props.data;
+  }
+  componentDidMount() {
+    console.log("Movie.componentDidMount");
+    this.props.translationsStore.setTranslations(
+      (this.props.data.translations &&
+        this.props.data.translations.translations) ||
+        []
     );
   }
-  return {
-    data,
-    server: !!props.req,
-    namespacesRequired: ["movie", "common"]
-  };
-};
+  componentDidUpdate(prevProps: IComponentProps) {
+    console.log("Movie.componentDidUpdate");
+    // update translations client side when change from getInitialProps
+    this.props.translationsStore.setTranslations(
+      (this.props.data.translations &&
+        this.props.data.translations.translations) ||
+        []
+    );
+    // just after first load (from ssr), ensure state is updated if data provided by getInitialProps changes
+    if (prevProps.data.id !== this.props.data.id) {
+      this.setState({ data: this.props.data });
+    }
+    // re-call api with different language when it changes
+    if (
+      prevProps.translationLanguageFullCode !==
+        this.props.translationLanguageFullCode ||
+      prevProps.defaultLanguageFullCode !== this.props.defaultLanguageFullCode
+    ) {
+      callApi(
+        { ...this.props, query: { id: this.props.data.id } },
+        ({ language, id }) => apiTmdb().movie(id, { language })
+      ).then(data => this.setState({ data }));
+    }
+  }
+  render() {
+    console.log("Movie.render");
+    const data = this.props.translationsStore.retrieveDataWithFallback(
+      this.state.data,
+      this.props.defaultLanguageFullCode,
+      this.props.translationLanguageFullCode
+    );
+    return (
+      <Layout>
+        <MovieComponent {...data} />
+      </Layout>
+    );
+  }
+}
 
 export default withNamespaces("movie")(
   inject("translationsStore")(observer(withRouter(Movie)))

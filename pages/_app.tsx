@@ -95,15 +95,15 @@ class MyApp extends App {
     // that will be injected via ssr
     ctx.mobxStore = mobxStore;
 
-    console.log({
-      pathname: router.pathname,
-      query: JSON.stringify(router.query),
-      server,
-      language: i18n.language,
-      defaultLanguageShortCode,
-      defaultLanguageFullCode,
-      translationLanguageFullCode
-    });
+    // console.log({
+    //   pathname: router.pathname,
+    //   query: JSON.stringify(router.query),
+    //   server,
+    //   language: i18n.language,
+    //   defaultLanguageShortCode,
+    //   defaultLanguageFullCode,
+    //   translationLanguageFullCode
+    // });
 
     const basePageProps = {
       initialMobxState: mobxStore, // store that will be serialized for ssr (see constructor)

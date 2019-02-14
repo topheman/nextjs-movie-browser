@@ -9,10 +9,22 @@ export interface AppNextRootPageProps {
   defaultLanguageFullCode: string;
 }
 
+export interface AppWithIdNextRootPageProps<T> extends AppNextRootPageProps {
+  data: T;
+  query: { id: string };
+  translationsStore: TranslationsStore;
+}
+
 export interface AppNextRootPageGetInitialProps {
   req?: any;
   translationLanguageFullCode?: string;
   defaultLanguageFullCode: string;
+}
+
+export interface AppWithIdNextRootPageGetInitialProps
+  extends AppNextRootPageGetInitialProps {
+  mobxStore?: MyMobxStore;
+  query: { id: string };
 }
 
 export interface CustomNextContext<Q extends DefaultQuery = DefaultQuery> {

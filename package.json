@@ -48,7 +48,7 @@
     "isomorphic-fetch": "^2.2.1",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
-    "next": "^7.0.2",
+    "next": "^8.0.1",
     "next-i18next": "^0.21.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",

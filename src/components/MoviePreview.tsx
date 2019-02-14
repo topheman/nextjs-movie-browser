@@ -1,6 +1,7 @@
 import i18next from "i18next";
 
 import { withNamespaces } from "../../i18n";
+import TextContent from "./TextContent";
 
 const MoviePreview = ({
   t,
@@ -15,7 +16,7 @@ const MoviePreview = ({
     <>
       <h2 dir="auto">{title}</h2>
       <h3>{t("movie-label-synopsis")}</h3>
-      <p dir="auto">{overview}</p>
+      <TextContent dir="auto">{overview}</TextContent>
     </>
   );
 };

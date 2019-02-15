@@ -1,4 +1,4 @@
-import withCallingApi from "../src/utils/with-calling-api";
+import withCallingApi from "../src/components/with-calling-api";
 import { apiTmdb } from "../src/services/apis";
 import Person from "../src/components/Person";
 

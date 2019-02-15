@@ -5,7 +5,7 @@ import { inject, observer } from "mobx-react";
 import Layout from "../src/components/Layout";
 import { withNamespaces } from "../i18n";
 import TranslationsStore from "../src/stores/TranslationsStore";
-import withBlankWrapper from "../src/utils/with-blank-wrapper";
+import withBlankWrapper from "../src/components/with-blank-wrapper";
 
 const About = ({
   t,

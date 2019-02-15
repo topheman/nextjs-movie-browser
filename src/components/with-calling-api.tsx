@@ -3,8 +3,8 @@ import { withRouter } from "next/router";
 import { inject, observer } from "mobx-react";
 import hoistNonReactStatics from "hoist-non-react-statics";
 
-import Layout from "../components/Layout";
-import ShowLoadingState from "../components/ShowLoadingState";
+import Layout from "./Layout";
+import ShowLoadingState from "./ShowLoadingState";
 import { withNamespaces } from "../../i18n";
 import {
   AppWithIdNextRootPageProps,

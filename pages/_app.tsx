@@ -24,6 +24,7 @@ import {
 import { getDefaultLanguageFromCookie } from "../src/services/i18n/utils";
 import { createStore, MyMobxStore } from "../src/stores";
 import { CustomNextAppContext } from "../src/@types";
+import LoadingErrorModal from "../src/components/LoadingErrorModal";
 
 const server = typeof window === "undefined"; // accessible sync
 
@@ -199,12 +200,15 @@ class MyApp extends App {
                 defaultLanguageShortCode: defaultLangShortCode,
                 defaultLanguageFullCode: defaultLangFullCode
               }) => (
-                <Component
-                  {...pageProps}
-                  translationLanguageFullCode={translationLangFullCode}
-                  defaultLanguageShortCode={defaultLangShortCode}
-                  defaultLanguageFullCode={defaultLangFullCode}
-                />
+                <>
+                  <LoadingErrorModal />
+                  <Component
+                    {...pageProps}
+                    translationLanguageFullCode={translationLangFullCode}
+                    defaultLanguageShortCode={defaultLangShortCode}
+                    defaultLanguageFullCode={defaultLangFullCode}
+                  />
+                </>
               )}
             </LanguageManagerConsumer>
           </LanguageManagerProvider>

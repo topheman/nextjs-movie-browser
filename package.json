@@ -65,6 +65,7 @@
     "@types/next": "^7.0.6",
     "@types/node": "^10.12.18",
     "@types/react": "^16.8.2",
+    "@types/react-dom": "^16.8.1",
     "@zeit/next-typescript": "^1.1.1",
     "babel-core": "^7.0.0-bridge",
     "babel-jest": "^23.6.0",

@@ -4,7 +4,6 @@ import { inject, observer } from "mobx-react";
 import hoistNonReactStatics from "hoist-non-react-statics";
 
 import Layout from "./Layout";
-import ShowLoadingState from "./ShowLoadingState";
 import { withNamespaces } from "../../i18n";
 import {
   AppWithIdNextRootPageProps,
@@ -170,13 +169,7 @@ const withCallingApi = <ApiEntity extends any>({
       console.log(`${PageWithId.displayName}.render`);
       return (
         <Layout>
-          <ShowLoadingState>
-            {({ error }) => {
-              return (
-                <>{error ? <div>Error</div> : <Comp {...this.state.data} />}</>
-              );
-            }}
-          </ShowLoadingState>
+          <Comp {...this.state.data} />
         </Layout>
       );
     }

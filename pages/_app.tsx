@@ -136,35 +136,29 @@ class MyApp extends App {
   /**
    * Manage loading state of the router
    */
-  onRouteChangeStart(url: string) {
+  onRouteChangeStart = (url: string) => {
     console.log(`router`, `Loading: ${url}`);
     this.mobxStore &&
       this.mobxStore.uiStore &&
       this.mobxStore.uiStore.setLoadingState({ loading: true });
-  }
-  onRouteChangeComplete(url: string) {
+  };
+  onRouteChangeComplete = (url: string) => {
     console.log(`router`, `Complete: ${url}`);
     this.mobxStore &&
       this.mobxStore.uiStore &&
       this.mobxStore.uiStore.setLoadingState({ loading: false });
-  }
-  onRouteChangeError(err: any, url: string) {
+  };
+  onRouteChangeError = (err: any, url: string) => {
     console.log(`router`, `Error: ${url} / ${err.message}`, err);
     this.mobxStore &&
       this.mobxStore.uiStore &&
       this.mobxStore.uiStore.setLoadingState({ loading: false });
-  }
+  };
   componentDidMount() {
     console.log("App.componentDidMount");
-    Router.events.on("routeChangeStart", (url: string) =>
-      this.onRouteChangeStart(url)
-    );
-    Router.events.on("routeChangeComplete", (url: string) =>
-      this.onRouteChangeComplete(url)
-    );
-    Router.events.on("routeChangeError", (err: any, url: string) =>
-      this.onRouteChangeError(err, url)
-    );
+    Router.events.on("routeChangeStart", this.onRouteChangeStart);
+    Router.events.on("routeChangeComplete", this.onRouteChangeComplete);
+    Router.events.on("routeChangeError", this.onRouteChangeError);
   }
 
   render() {

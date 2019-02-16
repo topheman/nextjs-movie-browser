@@ -44,7 +44,7 @@ export default class MyDocument extends Document<{
         </Head>
         <body className="custom_class">
           <Main />
-          <div id="loading-modal-error" />
+          <div id="modal" />
           <NextScript />
         </body>
       </html>

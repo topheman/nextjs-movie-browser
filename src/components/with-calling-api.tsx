@@ -4,6 +4,7 @@ import { inject, observer } from "mobx-react";
 import hoistNonReactStatics from "hoist-non-react-statics";
 
 import Layout from "./Layout";
+import Error from "./Error";
 import { withNamespaces } from "../../i18n";
 import {
   AppWithIdNextRootPageProps,
@@ -148,20 +149,18 @@ const withCallingApi = <ApiEntity extends any>({
           this.props.translationLanguageFullCode ||
         prevProps.defaultLanguageFullCode !== this.props.defaultLanguageFullCode
       ) {
-        this.props.uiStore.setLoadingState({ error: false, loading: true });
+        this.props.uiStore.setLoadingState({ loading: true });
         prepareParamsAndCallApi(
           { ...this.props, query: { id: this.props.data.id } },
           ({ language, id }) => apiCall({ id, language })
         )
           .then(data => {
             this.setStateData(data);
-            this.props.uiStore.setLoadingState({
-              error: false,
-              loading: false
-            });
+            this.props.uiStore.setLoadingState({ loading: false });
           })
           .catch(() => {
-            this.props.uiStore.setLoadingState({ error: true, loading: false });
+            this.setState({ data: undefined });
+            this.props.uiStore.setLoadingState({ loading: false });
           });
       }
     }
@@ -169,7 +168,7 @@ const withCallingApi = <ApiEntity extends any>({
       console.log(`${PageWithId.displayName}.render`);
       return (
         <Layout>
-          <Comp {...this.state.data} />
+          {!this.state.data ? <Error /> : <Comp {...this.state.data} />}
         </Layout>
       );
     }

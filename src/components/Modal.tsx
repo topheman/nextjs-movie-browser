@@ -1,24 +1,13 @@
-import { inject, observer } from "mobx-react";
-
 import Portal from "./Portal";
-import UIStore from "../stores/UIStore";
 
-let LoadingErrorModal = ({ uiStore }: { uiStore?: UIStore }) => {
-  if (uiStore!.error) {
+let Modal = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
+  if (isOpen) {
     return (
-      <Portal selector="#loading-modal-error">
+      <Portal selector="#modal">
         <div className="overlay">
           <div className="modal">
             <p>An error occured</p>
-            <button
-              type="button"
-              onClick={() =>
-                uiStore!.setLoadingState({
-                  loading: uiStore!.loading,
-                  error: false
-                })
-              }
-            >
+            <button type="button" onClick={() => close()}>
               Close Modal
             </button>
             {/* 
@@ -58,6 +47,4 @@ let LoadingErrorModal = ({ uiStore }: { uiStore?: UIStore }) => {
   return null;
 };
 
-LoadingErrorModal = inject("uiStore")(observer(LoadingErrorModal));
-
-export default LoadingErrorModal;
+export default Modal;

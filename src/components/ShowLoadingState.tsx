@@ -7,16 +7,10 @@ import UIStore from "../stores/UIStore";
 @observer
 export default class ShowLoadingState extends Component<{
   uiStore?: UIStore;
-  children: ({
-    error,
-    loading
-  }: {
-    error: boolean;
-    loading: boolean;
-  }) => JSX.Element;
+  children: ({ loading }: { loading: boolean }) => JSX.Element;
 }> {
   render() {
-    const { error, loading } = this.props.uiStore!;
-    return this.props.children({ error, loading });
+    const { loading } = this.props.uiStore!;
+    return this.props.children({ loading });
   }
 }

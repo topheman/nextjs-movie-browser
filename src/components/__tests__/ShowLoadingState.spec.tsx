@@ -4,19 +4,15 @@ import { render, cleanup } from "../../testUtils";
 import UIStore from "../../stores/UIStore";
 
 const makeLoadingStateConnectedComponent = ({
-  loading,
-  error
+  loading
 }: {
   loading: boolean;
-  error: boolean;
 }) => Comp => {
   const uiStore = new UIStore();
-  uiStore.setLoadingState({ loading, error });
+  uiStore.setLoadingState({ loading });
   const Wrapper = props => (
     <ShowLoadingState uiStore={uiStore}>
-      {({ error, loading }) => (
-        <Comp {...props} error={error} loading={loading} />
-      )}
+      {({ loading }) => <Comp {...props} loading={loading} />}
     </ShowLoadingState>
   );
   return {
@@ -25,24 +21,15 @@ const makeLoadingStateConnectedComponent = ({
   };
 };
 
-const makeTestComponent = ({
-  loading,
-  error
-}: {
-  loading: boolean;
-  error: boolean;
-}) => {
-  const Test = ({ error, loading }) => (
-    <>
-      {error && <span data-testid="error">error</span>}
-      {loading && <span data-testid="loading">loading</span>}
-    </>
+const makeTestComponent = ({ loading }: { loading: boolean }) => {
+  const Test = ({ loading }: { loading: boolean }) => (
+    <>{loading && <span data-testid="loading">loading</span>}</>
   );
-  return makeLoadingStateConnectedComponent({ loading, error })(Test);
+  return makeLoadingStateConnectedComponent({ loading })(Test);
 };
 
-const renderWithLoadingState = ({ loading = false, error = false }) => {
-  const { Wrapper, uiStore } = makeTestComponent({ loading, error });
+const renderWithLoadingState = ({ loading = false }) => {
+  const { Wrapper, uiStore } = makeTestComponent({ loading });
   const result = render(<Wrapper />);
   return {
     ...result,
@@ -52,17 +39,11 @@ const renderWithLoadingState = ({ loading = false, error = false }) => {
 
 describe("src/components/ShowLoadingState", () => {
   afterEach(cleanup);
-  [
-    { error: false, loading: false },
-    { error: false, loading: true },
-    { error: true, loading: false }
-  ].forEach(({ error, loading }) => {
-    it(`should render {error: ${error}, loading: ${loading}}`, () => {
+  [{ loading: false }, { loading: true }].forEach(({ loading }) => {
+    it(`should render {loading: ${loading}}`, () => {
       const { queryByTestId } = renderWithLoadingState({
-        error,
         loading
       });
-      expect(queryByTestId("error"))[error ? "toBeTruthy" : "toBeFalsy"]();
       expect(queryByTestId("loading"))[loading ? "toBeTruthy" : "toBeFalsy"]();
     });
   });

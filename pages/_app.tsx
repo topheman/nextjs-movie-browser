@@ -24,7 +24,6 @@ import {
 import { getDefaultLanguageFromCookie } from "../src/services/i18n/utils";
 import { createStore, MyMobxStore } from "../src/stores";
 import { CustomNextAppContext } from "../src/@types";
-import LoadingErrorModal from "../src/components/LoadingErrorModal";
 
 const server = typeof window === "undefined"; // accessible sync
 
@@ -141,25 +140,19 @@ class MyApp extends App {
     console.log(`router`, `Loading: ${url}`);
     this.mobxStore &&
       this.mobxStore.uiStore &&
-      this.mobxStore.uiStore.setLoadingState({ error: false, loading: true });
+      this.mobxStore.uiStore.setLoadingState({ loading: true });
   }
   onRouteChangeComplete(url: string) {
     console.log(`router`, `Complete: ${url}`);
     this.mobxStore &&
       this.mobxStore.uiStore &&
-      this.mobxStore.uiStore.setLoadingState({
-        error: false,
-        loading: false
-      });
+      this.mobxStore.uiStore.setLoadingState({ loading: false });
   }
   onRouteChangeError(err: any, url: string) {
     console.log(`router`, `Error: ${url} / ${err.message}`, err);
     this.mobxStore &&
       this.mobxStore.uiStore &&
-      this.mobxStore.uiStore.setLoadingState({
-        error: true,
-        loading: false
-      });
+      this.mobxStore.uiStore.setLoadingState({ loading: false });
   }
   componentDidMount() {
     console.log("App.componentDidMount");
@@ -200,15 +193,12 @@ class MyApp extends App {
                 defaultLanguageShortCode: defaultLangShortCode,
                 defaultLanguageFullCode: defaultLangFullCode
               }) => (
-                <>
-                  <LoadingErrorModal />
-                  <Component
-                    {...pageProps}
-                    translationLanguageFullCode={translationLangFullCode}
-                    defaultLanguageShortCode={defaultLangShortCode}
-                    defaultLanguageFullCode={defaultLangFullCode}
-                  />
-                </>
+                <Component
+                  {...pageProps}
+                  translationLanguageFullCode={translationLangFullCode}
+                  defaultLanguageShortCode={defaultLangShortCode}
+                  defaultLanguageFullCode={defaultLangFullCode}
+                />
               )}
             </LanguageManagerConsumer>
           </LanguageManagerProvider>

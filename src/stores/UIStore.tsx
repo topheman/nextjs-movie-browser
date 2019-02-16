@@ -2,15 +2,7 @@ import { observable, action } from "mobx";
 
 class UIStore {
   @observable loading = false;
-  @observable error = false;
-  @action setLoadingState({
-    loading,
-    error
-  }: {
-    loading: boolean;
-    error: boolean;
-  }) {
-    this.error = error;
+  @action setLoadingState({ loading }: { loading: boolean }) {
     this.loading = loading;
   }
 }

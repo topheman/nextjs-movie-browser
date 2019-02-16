@@ -7,7 +7,7 @@ import { withNamespaces } from "../i18n";
 import TranslationsStore from "../src/stores/TranslationsStore";
 import withBlankWrapper from "../src/components/with-blank-wrapper";
 
-const Home = ({
+const HomePage = ({
   t,
   translationsStore
 }: {
@@ -26,12 +26,12 @@ const Home = ({
   );
 };
 
-Home.getInitialProps = async () => {
+HomePage.getInitialProps = async () => {
   return {
     namespacesRequired: ["home", "common"]
   };
 };
 
 export default withNamespaces("home")(
-  inject("translationsStore")(observer(withBlankWrapper(Home)))
+  inject("translationsStore")(observer(withBlankWrapper(HomePage)))
 );

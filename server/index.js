@@ -2,6 +2,7 @@ const express = require("express");
 const next = require("next");
 const nextI18NextMiddleware = require("next-i18next/middleware");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const { loadConfig } = require("../scripts/config/next-env");
 const nextI18next = require("../i18n");
@@ -26,6 +27,15 @@ app.prepare().then(() => {
     })
   );
   nextI18NextMiddleware(nextI18next, app, server);
+  server.get("/robots.txt", (req, res) => {
+    const options = {
+      root: path.resolve(__dirname, "..", "static/"),
+      headers: {
+        "Content-Type": "text/plain;charset=UTF-8"
+      }
+    };
+    return res.status(200).sendFile("robots.txt", options);
+  });
   server.get(
     "/movie/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
     (req, res) =>

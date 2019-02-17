@@ -1,0 +1,46 @@
+# Disallow all the site but the homepage to the main search engine crawlers
+#   Respecting TMDB Api terms of use (the goal of this project is an open source technical challenge,
+#   not to take the place of tmdb website)
+# Not disallowing social media crawlers, so that they could make thumbnails (part of the technical challenge - SSR)
+#
+# User agents from https://www.keycdn.com/blog/web-crawlers
+
+User-agent: googlebot
+Allow: /$
+Disallow: /
+
+User-agent: bingbot
+Allow: /$
+Disallow: /
+
+User-agent: slurp
+Allow: /$
+Disallow: /
+
+User-agent: duckduckbot
+Allow: /$
+Disallow: /
+
+User-agent: baiduspider
+Allow: /$
+Disallow: /
+
+User-agent: yandexbot
+Allow: /$
+Disallow: /
+
+User-agent: exabot
+Allow: /$
+Disallow: /
+
+User-agent: ia_archiver
+Allow: /$
+Disallow: /
+
+User-agent: sogou
+Allow: /$
+Disallow: /
+
+User-agent: sogou
+Allow: /$
+Disallow: /

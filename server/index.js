@@ -72,7 +72,13 @@ app.prepare().then(() => {
   server.listen(port, err => {
     if (err) throw err;
     console.log(
-      `> Ready on http://localhost:${port} - mode: ${process.env.NODE_ENV}`
+      `> Ready on http://localhost:${port} - mode: ${
+        process.env.NODE_ENV
+      } - with NEXTJS_APP_CLIENT_BASE_PATH${
+        process.env.NEXTJS_APP_CLIENT_BASE_PATH
+          ? `=${process.env.NEXTJS_APP_CLIENT_BASE_PATH}`
+          : " not set, will use hostname"
+      }`
     );
   });
 });

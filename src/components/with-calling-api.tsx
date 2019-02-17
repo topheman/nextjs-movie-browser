@@ -10,6 +10,7 @@ import {
   AppWithIdNextRootPageProps,
   AppWithIdNextRootPageGetInitialProps
 } from "../@types";
+import { getPathName } from "../utils/url";
 
 type IPrepareCallApi = <C extends any, T>(
   props: C,
@@ -168,7 +169,15 @@ const withCallingApi = <ApiEntity extends any>({
       console.log(`${PageWithId.displayName}.render`);
       return (
         <Layout>
-          {!this.state.data ? <Error /> : <Comp {...this.state.data} />}
+          {!this.state.data ? (
+            <Error />
+          ) : (
+            <Comp
+              {...this.state.data}
+              basePath={this.props.basePath}
+              pathname={getPathName(this.props.router)}
+            />
+          )}
         </Layout>
       );
     }

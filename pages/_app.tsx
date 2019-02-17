@@ -24,6 +24,7 @@ import {
 import { getDefaultLanguageFromCookie } from "../src/services/i18n/utils";
 import { createStore, MyMobxStore } from "../src/stores";
 import { CustomNextAppContext } from "../src/@types";
+import { getBasePath } from "../src/utils/url";
 
 const server = typeof window === "undefined"; // accessible sync
 
@@ -102,10 +103,20 @@ class MyApp extends App {
     //   language: i18n.language,
     //   defaultLanguageShortCode,
     //   defaultLanguageFullCode,
-    //   translationLanguageFullCode
+    //   translationLanguageFullCode,
+    //   router,
+    //   req: ctx.req,
+    //   basePath: getBasePath(
+    //     ctx.req,
+    //     typeof location !== "undefined" ? location : undefined
+    //   )
     // });
 
     const basePageProps = {
+      basePath: getBasePath(
+        ctx.req,
+        typeof location !== "undefined" ? location : undefined
+      ),
       initialMobxState: mobxStore, // store that will be serialized for ssr (see constructor)
       translationLanguageFullCode,
       defaultLanguageShortCode,

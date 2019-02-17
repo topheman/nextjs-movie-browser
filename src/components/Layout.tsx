@@ -5,7 +5,7 @@ import Header from "./Header";
 export default (props: any) => (
   <>
     <Head>
-      <title>{process.env.NEXTJS_APP_CLIENT_TITLE}</title>
+      <title key="title">{process.env.NEXTJS_APP_CLIENT_TITLE}</title>
     </Head>
     <Header />
     <main>{props.children}</main>

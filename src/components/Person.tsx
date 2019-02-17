@@ -1,17 +1,21 @@
-import Head from "next/head";
-
 import PersonPreview from "./PersonPreview";
 import PersonCredits from "./PersonCredits";
+import MetaTags, { personMetaTagsExtractProps } from "./MetaTags";
 import { TmdbPersonEntity } from "../@types";
 
-const Person = (props: TmdbPersonEntity) => {
+interface PersonProps extends TmdbPersonEntity {
+  basePath: string;
+  pathname: string;
+}
+
+const Person = ({ basePath, pathname, ...personProps }: PersonProps) => {
   return (
     <>
-      <Head>
-        <meta name="description" content={props.biography} />
-      </Head>
-      <PersonPreview {...props} />
-      <PersonCredits {...props} />
+      <MetaTags
+        {...personMetaTagsExtractProps(personProps, { basePath, pathname })}
+      />
+      <PersonPreview {...personProps} />
+      <PersonCredits {...personProps} />
     </>
   );
 };

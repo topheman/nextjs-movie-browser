@@ -9,6 +9,7 @@ export interface AppNextRootPageProps {
   router: SingletonRouter;
   translationLanguageFullCode?: string;
   defaultLanguageFullCode: string;
+  basePath: string; // used to make canonical url for SEO
 }
 
 export interface AppWithIdNextRootPageProps<T> extends AppNextRootPageProps {

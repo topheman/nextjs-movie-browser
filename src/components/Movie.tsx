@@ -1,17 +1,21 @@
-import Head from "next/head";
-
 import MoviePreview from "./MoviePreview";
 import MovieCast from "./MovieCast";
+import MetaTags, { movieMetaTagsExtractProps } from "./MetaTags";
 import { TmdbMovieEntity } from "../@types";
 
-const Movie = (props: TmdbMovieEntity) => {
+interface MovieProps extends TmdbMovieEntity {
+  basePath: string;
+  pathname: string;
+}
+
+const Movie = ({ basePath, pathname, ...movieProps }: MovieProps) => {
   return (
     <>
-      <Head>
-        <meta name="description" content={props.overview} />
-      </Head>
-      <MoviePreview title={props.title} overview={props.overview} />
-      <MovieCast credits={props.credits} />
+      <MetaTags
+        {...movieMetaTagsExtractProps(movieProps, { basePath, pathname })}
+      />
+      <MoviePreview title={movieProps.title} overview={movieProps.overview} />
+      <MovieCast credits={movieProps.credits} />
     </>
   );
 };

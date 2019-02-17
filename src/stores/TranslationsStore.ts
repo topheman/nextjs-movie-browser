@@ -30,6 +30,11 @@ class TranslationsStore implements TranslationsStoreInitialState {
       label: `${translation.english_name}`
     }));
   }
+  @computed get availableLanguagesCodes() {
+    return (this.rawData || [])
+      .map(translation => `${translation.iso_639_1}-${translation.iso_3166_1}`)
+      .sort();
+  }
   @action setTranslations(translations: (TmdbTranslationEntity)[]) {
     this.rawData = observable.array(translations);
   }

@@ -11,6 +11,7 @@ import {
   AppWithIdNextRootPageGetInitialProps
 } from "../@types";
 import { getPathName } from "../utils/url";
+import LinkHreflangTags from "./LinkHreflangTags";
 
 type IPrepareCallApi = <C extends any, T>(
   props: C,
@@ -169,6 +170,12 @@ const withCallingApi = <ApiEntity extends any>({
       console.log(`${PageWithId.displayName}.render`);
       return (
         <Layout>
+          <LinkHreflangTags
+            url={`${this.props.basePath}${getPathName(this.props.router)}`}
+            translationFullCodes={
+              this.props.translationsStore.availableLanguagesCodes
+            }
+          />
           {!this.state.data ? (
             <Error />
           ) : (

@@ -18,6 +18,17 @@ describe("src/stores/TranslationsStore", () => {
       }))
     );
   });
+  it("should epose available languages codes (sorted)", () => {
+    const store = new TranslationsStore();
+    store.setTranslations(movieFixture.translations.translations);
+    expect(store.availableLanguagesCodes).toEqual(
+      movieFixture.translations.translations
+        .map(
+          translation => `${translation.iso_639_1}-${translation.iso_3166_1}`
+        )
+        .sort()
+    );
+  });
   describe("retrieveDataWithFallback", () => {
     const defaultLanguageFullCode = "fr-FR";
     const translationLanguageFullCode = "es-ES";

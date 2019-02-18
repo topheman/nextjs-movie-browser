@@ -27,7 +27,8 @@ const MovieCast = ({
                   )}`}
                 >
                   <a>{person.name}</a>
-                </LinkWithLanguage>
+                </LinkWithLanguage>{" "}
+                <i>{person.character}</i>
               </li>
             ))}
           </ul>
@@ -46,7 +47,8 @@ const MovieCast = ({
                   )}`}
                 >
                   <a>{person.name}</a>
-                </LinkWithLanguage>
+                </LinkWithLanguage>{" "}
+                {person.job} <i>({person.department})</i>
               </li>
             ))}
           </ul>

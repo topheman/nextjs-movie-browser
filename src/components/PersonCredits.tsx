@@ -22,18 +22,26 @@ const PersonCredits = ({
           <h3>{t("person-label-movies")}</h3>
           <ul>
             {movie_credits.cast &&
-              movie_credits.cast.map(film => (
-                <li key={film.credit_id}>
-                  <LinkWithLanguage
-                    href={{ pathname: `/movie`, query: { id: film.id } }}
-                    as={`/movie/${film.id}-${normalizeString(
-                      film.original_title as string
-                    )}`}
-                  >
-                    <a>{film.title}</a>
-                  </LinkWithLanguage>
-                </li>
-              ))}
+              movie_credits.cast
+                .slice()
+                .sort((a, b) => (a.release_date > b.release_date ? 1 : -1))
+                .map(film => (
+                  <li key={film.credit_id}>
+                    <LinkWithLanguage
+                      href={{ pathname: `/movie`, query: { id: film.id } }}
+                      as={`/movie/${film.id}-${normalizeString(
+                        film.original_title as string
+                      )}`}
+                    >
+                      <a>
+                        {film.title}{" "}
+                        {film.release_date &&
+                          `(${new Date(film.release_date).getFullYear()})`}
+                      </a>
+                    </LinkWithLanguage>{" "}
+                    <i>{film.character}</i>
+                  </li>
+                ))}
           </ul>
         </>
       )}

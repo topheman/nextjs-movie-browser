@@ -14,8 +14,8 @@ const Movie = ({ basePath, pathname, ...movieProps }: MovieProps) => {
       <MetaTags
         {...movieMetaTagsExtractProps(movieProps, { basePath, pathname })}
       />
-      <MoviePreview title={movieProps.title} overview={movieProps.overview} />
-      <MovieCast credits={movieProps.credits} />
+      <MoviePreview {...movieProps} />
+      <MovieCast {...movieProps} />
     </>
   );
 };

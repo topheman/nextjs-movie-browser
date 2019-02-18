@@ -7,11 +7,13 @@ import { LinkWithLanguage } from "../services/i18n/LanguageManager";
 import { normalizeString } from "../utils/helpers";
 import ShowLoadingState from "./ShowLoadingState";
 
-const films = [
-  ["Fight Club", 550],
-  ["Pulp Fiction", 680],
-  ["Star Wars", 11],
-  ["La Cité de la peur", 15097]
+const resources = [
+  ["Fight Club", 550, "movie"],
+  ["Pulp Fiction", 680, "movie"],
+  ["Star Wars", 11, "movie"],
+  ["La Cité de la peur", 15097, "movie"],
+  ["Friends", 1668, "tv"],
+  ["Game of Thrones", 1399, "tv"]
 ];
 
 const defaultLanguages = [
@@ -43,11 +45,11 @@ const Header = ({ t }: { t: i18next.TranslationFunction }) => {
         </li>
       </ul>
       <ul>
-        {films.map(([title, id]) => (
+        {resources.map(([title, id, type]) => (
           <li key={id}>
             <LinkWithLanguage
-              href={{ pathname: `/movie`, query: { id } }}
-              as={`/movie/${id}-${normalizeString(title as string)}`}
+              href={{ pathname: `/${type}`, query: { id } }}
+              as={`/${type}/${id}-${normalizeString(title as string)}`}
             >
               <a>{title}</a>
             </LinkWithLanguage>

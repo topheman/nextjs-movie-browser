@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { TmdbMovieEntity, TmdbPersonEntity } from "../@types";
+import { TmdbMovieEntity, TmdbPersonEntity, TmdbTvEntity } from "../@types";
 import { makeImageTmdbUrl } from "../utils/tmdb";
 
 interface IUrlInfos {
@@ -59,6 +59,19 @@ export const personMetaTagsExtractProps = (
     title: (tmdbPersonEntity && tmdbPersonEntity.name) || undefined,
     description: (tmdbPersonEntity && tmdbPersonEntity.biography) || undefined,
     image: makeImageTmdbUrl(tmdbPersonEntity.profile_path, "w780")
+  };
+};
+
+export const tvMetaTagsExtractProps = (
+  tmdbTvEntity: TmdbTvEntity,
+  options: IUrlInfos
+): PropsMetaTags => {
+  return {
+    ...commonMetaTagsExtractProps(options),
+    type: "tv",
+    title: (tmdbTvEntity && tmdbTvEntity.name) || undefined,
+    description: (tmdbTvEntity && tmdbTvEntity.overview) || undefined,
+    image: makeImageTmdbUrl(tmdbTvEntity.poster_path, "w780")
   };
 };
 

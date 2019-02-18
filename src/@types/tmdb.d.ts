@@ -195,3 +195,108 @@ export interface TmdbPersonTvCrewEntity {
   genre_ids?: (number)[] | null;
   poster_path: string;
 }
+
+export interface TmdbTvEntity {
+  backdrop_path: string;
+  created_by?: (TmdbTvCreatedByEntity)[] | null;
+  episode_run_time?: (number)[] | null;
+  first_air_date: string;
+  genres?: (TmdbGenresEntity)[] | null;
+  homepage: string;
+  id: number;
+  in_production: boolean;
+  languages?: (string)[] | null;
+  last_air_date: string;
+  last_episode_to_air: TmdbTvLastEpisodeToAir;
+  name: string;
+  next_episode_to_air: TmdbTvNextEpisodeToAir;
+  networks?: (NetworksEntityOrProductionCompaniesEntity)[] | null;
+  number_of_episodes: number;
+  number_of_seasons: number;
+  origin_country?: (string)[] | null;
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies?:
+    | (TmdbNetworksEntityOrProductionCompaniesEntity)[]
+    | null;
+  seasons?: (TmdbTvSeasonsEntity)[] | null;
+  status: string;
+  type: string;
+  vote_average: number;
+  vote_count: number;
+  credits: TmdbTvCredits;
+  translations: TmdbTranslations;
+}
+export interface TmdbTvCreatedByEntity {
+  id: number;
+  credit_id: string;
+  name: string;
+  gender: number;
+  profile_path: string;
+}
+export interface TmdbTvLastEpisodeToAir {
+  air_date: string;
+  episode_number: number;
+  id: number;
+  name: string;
+  overview: string;
+  production_code: string;
+  season_number: number;
+  show_id: number;
+  still_path: string;
+  vote_average: number;
+  vote_count: number;
+}
+export interface TmdbTvNextEpisodeToAir {
+  air_date: string;
+  episode_number: number;
+  id: number;
+  name: string;
+  overview: string;
+  production_code: string;
+  season_number: number;
+  show_id: number;
+  still_path?: null;
+  vote_average: number;
+  vote_count: number;
+}
+export interface TmdbNetworksEntityOrProductionCompaniesEntity {
+  name: string;
+  id: number;
+  logo_path: string;
+  origin_country: string;
+}
+export interface TmdbTvSeasonsEntity {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+}
+export interface TmdbTvCredits {
+  cast?: (TmdbTvCastEntity)[] | null;
+  crew?: (TmdbTvCrewEntity)[] | null;
+}
+export interface TmdbTvCastEntity {
+  character: string;
+  credit_id: string;
+  id: number;
+  name: string;
+  gender: number;
+  profile_path: string;
+  order: number;
+}
+export interface TmdbTvCrewEntity {
+  credit_id: string;
+  department: string;
+  id: number;
+  name: string;
+  gender: number;
+  job: string;
+  profile_path?: string | null;
+}

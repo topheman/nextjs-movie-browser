@@ -88,6 +88,32 @@ app.prepare().then(() => {
       );
     }
   );
+  server.get(
+    "/tv/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
+    (req, res) => {
+      if (req.params.translationLanguageFullCode) {
+        const redirectUrl = `${req.originalUrl
+          .split("/")
+          .slice(0, -1)
+          .join("/")}?translationLanguageFullCode=${
+          req.params.translationLanguageFullCode
+        }`;
+        return res.redirect(301, redirectUrl);
+      }
+      return app.render(
+        req,
+        res,
+        "/tv",
+        Object.assign(
+          {
+            id: req.params.id,
+            translationLanguageFullCode: req.params.translationLanguageFullCode
+          },
+          req.query
+        )
+      );
+    }
+  );
   server.get("/*", (req, res) => handle(req, res));
   server.listen(port, err => {
     if (err) throw err;

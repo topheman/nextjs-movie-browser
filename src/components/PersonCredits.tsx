@@ -51,7 +51,16 @@ const PersonCredits = ({
           <ul>
             {tv_credits.cast &&
               tv_credits.cast.map(serie => (
-                <li key={serie.credit_id}>{serie.name}</li>
+                <li key={serie.credit_id}>
+                  <LinkWithLanguage
+                    href={{ pathname: `/tv`, query: { id: serie.id } }}
+                    as={`/movie/${serie.id}-${normalizeString(
+                      serie.original_name as string
+                    )}`}
+                  >
+                    <a>{serie.name}</a>
+                  </LinkWithLanguage>
+                </li>
               ))}
           </ul>
         </>

@@ -7,7 +7,6 @@ import TextContent from "./TextContent";
 type IProps = TmdbMovieEntity & { t: i18next.TranslationFunction };
 
 const MoviePreview = ({ t, ...movie }: IProps) => {
-  console.log(movie);
   return (
     <>
       <h2 dir="auto">

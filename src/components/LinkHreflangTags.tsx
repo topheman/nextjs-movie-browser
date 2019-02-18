@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-interface PropsMetaTags {
+interface PropsLinkHreflangTags {
   url: string;
   translationFullCodes: string[];
   children?: any;
@@ -10,7 +10,7 @@ const LinkHreflangTags = ({
   url,
   translationFullCodes,
   children
-}: PropsMetaTags) => {
+}: PropsLinkHreflangTags) => {
   return (
     <Head>
       <link

@@ -1,6 +1,7 @@
 import TranslationsStore from "../TranslationsStore";
 import { TmdbMovieEntity } from "../../@types";
 const movieFixture: TmdbMovieEntity = require("../../services/apis/__mocks__/tmdb/movie.fixtures.json");
+const languageMapping = require("../TranslationsStore/languageMapping.json");
 
 describe("src/stores/TranslationsStore", () => {
   it("should store translations", () => {
@@ -12,10 +13,16 @@ describe("src/stores/TranslationsStore", () => {
     const store = new TranslationsStore();
     store.setTranslations(movieFixture.translations.translations);
     expect(store.availableLanguages).toEqual(
-      movieFixture.translations.translations.map(translation => ({
-        code: `${translation.iso_639_1}-${translation.iso_3166_1}`,
-        label: `${translation.english_name}`
-      }))
+      movieFixture.translations.translations
+        .map(translation => ({
+          code: `${translation.iso_639_1}-${translation.iso_3166_1}`,
+          label: `${
+            translation.english_name.length > 2
+              ? translation.english_name
+              : (languageMapping as any)[translation.iso_639_1]
+          } (${translation.iso_639_1}-${translation.iso_3166_1})`
+        }))
+        .sort((a, b) => (a.label > b.label ? 1 : -1))
     );
   });
   it("should epose available languages codes (sorted)", () => {

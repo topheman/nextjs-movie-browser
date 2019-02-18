@@ -15,7 +15,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules",

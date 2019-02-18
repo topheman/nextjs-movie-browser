@@ -1,6 +1,7 @@
 import { observable, computed, action } from "mobx";
 
-import { TmdbTranslationEntity } from "../@types";
+import languageMapping from "./languageMapping.json";
+import { TmdbTranslationEntity } from "../../@types";
 
 export interface TranslationsStoreInitialState {
   rawData: (TmdbTranslationEntity)[] | null;
@@ -25,10 +26,17 @@ class TranslationsStore implements TranslationsStoreInitialState {
     this.rawData = rawData;
   }
   @computed get availableLanguages() {
-    return (this.rawData || []).map(translation => ({
-      code: `${translation.iso_639_1}-${translation.iso_3166_1}`,
-      label: `${translation.english_name}`
-    }));
+    return (this.rawData || [])
+      .map(translation => ({
+        code: `${translation.iso_639_1}-${translation.iso_3166_1}`,
+        // sometimes, `english_name` only contains an iso-639-1 code
+        label: `${
+          translation.english_name.length > 2
+            ? translation.english_name
+            : (languageMapping as any)[translation.iso_639_1]
+        } (${translation.iso_639_1}-${translation.iso_3166_1})`
+      }))
+      .sort((a, b) => (a.label > b.label ? 1 : -1));
   }
   @computed get availableLanguagesCodes() {
     return (this.rawData || [])

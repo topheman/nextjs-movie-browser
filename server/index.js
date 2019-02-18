@@ -38,8 +38,17 @@ app.prepare().then(() => {
   });
   server.get(
     "/movie/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
-    (req, res) =>
-      app.render(
+    (req, res) => {
+      if (req.params.translationLanguageFullCode) {
+        const redirectUrl = `${req.originalUrl
+          .split("/")
+          .slice(0, -1)
+          .join("/")}?translationLanguageFullCode=${
+          req.params.translationLanguageFullCode
+        }`;
+        return res.redirect(301, redirectUrl);
+      }
+      return app.render(
         req,
         res,
         "/movie",
@@ -50,12 +59,22 @@ app.prepare().then(() => {
           },
           req.query
         )
-      )
+      );
+    }
   );
   server.get(
     "/person/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
-    (req, res) =>
-      app.render(
+    (req, res) => {
+      if (req.params.translationLanguageFullCode) {
+        const redirectUrl = `${req.originalUrl
+          .split("/")
+          .slice(0, -1)
+          .join("/")}?translationLanguageFullCode=${
+          req.params.translationLanguageFullCode
+        }`;
+        return res.redirect(301, redirectUrl);
+      }
+      return app.render(
         req,
         res,
         "/person",
@@ -66,7 +85,8 @@ app.prepare().then(() => {
           },
           req.query
         )
-      )
+      );
+    }
   );
   server.get("/*", (req, res) => handle(req, res));
   server.listen(port, err => {

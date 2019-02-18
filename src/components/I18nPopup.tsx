@@ -34,42 +34,59 @@ const I18nPopup: React.ComponentType<II18nPopupProps> = ({
         switchDefaultLanguage,
         switchTranslationLanguage,
         resetTranslationLanguage
-      }) => (
-        <>
-          <button onClick={() => togglePopupOpen(!popupOpen)}>
-            {translationLanguageFullCode || defaultLanguageFullCode}
-          </button>
-          <div style={{ display: popupOpen ? "initial" : "none" }}>
-            {translationLanguages && translationLanguages.length > 0 && (
+      }) => {
+        /**
+         * `false` if no translation available corresponding to:
+         *   - `translationLanguageFullCode` if set
+         *   - or `defaultLanguageFullCode` in fallback
+         */
+        const languageOK = translationLanguageFullCode
+          ? translationLanguages.find(
+              language => language.code === translationLanguageFullCode
+            )
+          : translationLanguages.find(
+              language => language.code === defaultLanguageFullCode
+            );
+        return (
+          <>
+            <button
+              onClick={() => togglePopupOpen(!popupOpen)}
+              style={{ color: languageOK ? "black" : "darkorange" }}
+            >
+              {translationLanguageFullCode || defaultLanguageFullCode}
+            </button>
+            <div style={{ display: popupOpen ? "initial" : "none" }}>
+              {translationLanguages && translationLanguages.length > 0 && (
+                <SelectLanguage
+                  style={{ display: "block" }}
+                  label="Translation language"
+                  languagesList={[
+                    { code: "", label: "Choose your language" }
+                  ].concat(translationLanguages)}
+                  onLanguageChange={languageCode => {
+                    if (languageCode === "") {
+                      return resetTranslationLanguage();
+                    }
+                    return switchTranslationLanguage(languageCode);
+                  }}
+                  value={translationLanguageFullCode}
+                  data-testid="switch-translation-language"
+                />
+              )}
               <SelectLanguage
                 style={{ display: "block" }}
-                label="Translation language"
-                languagesList={[
-                  { code: "", label: "Choose your language" }
-                ].concat(translationLanguages)}
-                onLanguageChange={languageCode => {
-                  if (languageCode === "") {
-                    return resetTranslationLanguage();
-                  }
-                  return switchTranslationLanguage(languageCode);
-                }}
-                value={translationLanguageFullCode}
-                data-testid="switch-translation-language"
+                label="Default language"
+                languagesList={defaultLanguages}
+                onLanguageChange={languageCode =>
+                  switchDefaultLanguage(languageCode)
+                }
+                value={defaultLanguageFullCode}
+                data-testid="switch-default-language"
               />
-            )}
-            <SelectLanguage
-              style={{ display: "block" }}
-              label="Default language"
-              languagesList={defaultLanguages}
-              onLanguageChange={languageCode =>
-                switchDefaultLanguage(languageCode)
-              }
-              value={defaultLanguageFullCode}
-              data-testid="switch-default-language"
-            />
-          </div>
-        </>
-      )}
+            </div>
+          </>
+        );
+      }}
     </LanguageManagerConsumer>
   );
 };

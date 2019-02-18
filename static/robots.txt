@@ -7,40 +7,50 @@
 
 User-agent: googlebot
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: bingbot
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: slurp
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: duckduckbot
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: baiduspider
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: yandexbot
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: exabot
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: ia_archiver
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: sogou
 Allow: /$
+Allow: /about
 Disallow: /
 
 User-agent: sogou
 Allow: /$
+Allow: /about
 Disallow: /

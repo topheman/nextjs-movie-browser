@@ -75,6 +75,7 @@ const MetaTags = ({
 }: PropsMetaTags) => {
   return (
     <Head>
+      {url && <link rel="canonical" href={url} />}
       {type && <meta property="og:type" content={type} key="og-type" />}
       {title && <meta property="og:title" content={title} key="og-title" />}
       {url && <meta property="og:url" content={url} key="og-url" />}

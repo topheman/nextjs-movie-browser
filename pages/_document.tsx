@@ -9,12 +9,16 @@ import Document, {
 } from "next/document";
 
 import { getDefaultLanguageFromCookie } from "../src/services/i18n/utils";
+import { getBasePath } from "../src/utils/url";
+import DocumentLinkTags from "../src/components/DocumentLinkTags";
 
 export default class MyDocument extends Document<{
   defaultLanguageShortCode: string;
   defaultLanguageFullCode: string;
+  basePath: string;
 }> {
   static async getInitialProps(ctx: NextDocumentContext) {
+    console.log("MyDocument.getInitialProps");
     const initialProps = await Document.getInitialProps(ctx);
     const defaultLanguageShortCode = getDefaultLanguageFromCookie(
       ctx.req && ctx.req.headers.cookie
@@ -25,6 +29,7 @@ export default class MyDocument extends Document<{
     );
     return {
       ...initialProps,
+      basePath: getBasePath(ctx.req as any, undefined),
       defaultLanguageShortCode,
       defaultLanguageFullCode
     };
@@ -42,6 +47,7 @@ export default class MyDocument extends Document<{
         <Head>
           <style>{`/* custom! */`}</style>
         </Head>
+        <DocumentLinkTags />
         <body className="custom_class">
           <Main />
           <div id="modal" />

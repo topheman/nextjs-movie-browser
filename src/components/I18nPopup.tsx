@@ -40,13 +40,16 @@ const I18nPopup: React.ComponentType<II18nPopupProps> = ({
          *   - `translationLanguageFullCode` if set
          *   - or `defaultLanguageFullCode` in fallback
          */
-        const languageOK = translationLanguageFullCode
-          ? translationLanguages.find(
-              language => language.code === translationLanguageFullCode
-            )
-          : translationLanguages.find(
-              language => language.code === defaultLanguageFullCode
-            );
+        const languageOK =
+          translationLanguages.length > 0
+            ? translationLanguageFullCode
+              ? translationLanguages.find(
+                  language => language.code === translationLanguageFullCode
+                )
+              : translationLanguages.find(
+                  language => language.code === defaultLanguageFullCode
+                )
+            : true;
         return (
           <>
             <button

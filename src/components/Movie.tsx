@@ -1,7 +1,22 @@
 import MoviePreview from "./MoviePreview";
 import MovieCast from "./MovieCast";
-import MetaTags, { movieMetaTagsExtractProps } from "./MetaTags";
+import MetaTags, {
+  commonMetaTagsExtractProps,
+  PropsMetaTags,
+  makeImageTmdbUrl
+} from "./MetaTags";
 import { TmdbMovieEntity } from "../@types";
+
+const movieMetaTagsExtractProps = (
+  tmdbMovieEntity: TmdbMovieEntity
+): PropsMetaTags => {
+  return {
+    type: "movie",
+    title: (tmdbMovieEntity && tmdbMovieEntity.title) || undefined,
+    description: (tmdbMovieEntity && tmdbMovieEntity.overview) || undefined,
+    image: makeImageTmdbUrl(tmdbMovieEntity.backdrop_path, "w780")
+  };
+};
 
 interface MovieProps extends TmdbMovieEntity {
   basePath: string;
@@ -12,7 +27,8 @@ const Movie = ({ basePath, pathname, ...movieProps }: MovieProps) => {
   return (
     <>
       <MetaTags
-        {...movieMetaTagsExtractProps(movieProps, { basePath, pathname })}
+        {...commonMetaTagsExtractProps({ basePath, pathname })}
+        {...movieMetaTagsExtractProps(movieProps)}
       />
       <MoviePreview {...movieProps} />
       <MovieCast {...movieProps} />

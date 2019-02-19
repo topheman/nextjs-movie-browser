@@ -1,7 +1,6 @@
 import Head from "next/head";
 
-import { TmdbMovieEntity, TmdbPersonEntity, TmdbTvEntity } from "../@types";
-import { makeImageTmdbUrl } from "../utils/tmdb";
+export { makeImageTmdbUrl } from "../utils/tmdb";
 
 interface IUrlInfos {
   basePath?: string;
@@ -10,7 +9,7 @@ interface IUrlInfos {
   twitterHandle?: string;
 }
 
-interface PropsMetaTags {
+export interface PropsMetaTags {
   siteName?: string;
   twitterHandle?: string;
   twitterCard?: "summary" | "summary_large_image" | "app" | "player";
@@ -22,7 +21,7 @@ interface PropsMetaTags {
   children?: any;
 }
 
-const commonMetaTagsExtractProps = ({
+export const commonMetaTagsExtractProps = ({
   basePath,
   pathname,
   siteName = process.env.NEXTJS_APP_CLIENT_TITLE,
@@ -33,45 +32,6 @@ const commonMetaTagsExtractProps = ({
     siteName,
     twitterHandle,
     twitterCard: "summary"
-  };
-};
-
-export const movieMetaTagsExtractProps = (
-  tmdbMovieEntity: TmdbMovieEntity,
-  options: IUrlInfos
-): PropsMetaTags => {
-  return {
-    ...commonMetaTagsExtractProps(options),
-    type: "movie",
-    title: (tmdbMovieEntity && tmdbMovieEntity.title) || undefined,
-    description: (tmdbMovieEntity && tmdbMovieEntity.overview) || undefined,
-    image: makeImageTmdbUrl(tmdbMovieEntity.backdrop_path, "w780")
-  };
-};
-
-export const personMetaTagsExtractProps = (
-  tmdbPersonEntity: TmdbPersonEntity,
-  options: IUrlInfos
-): PropsMetaTags => {
-  return {
-    ...commonMetaTagsExtractProps(options),
-    type: "person",
-    title: (tmdbPersonEntity && tmdbPersonEntity.name) || undefined,
-    description: (tmdbPersonEntity && tmdbPersonEntity.biography) || undefined,
-    image: makeImageTmdbUrl(tmdbPersonEntity.profile_path, "w780")
-  };
-};
-
-export const tvMetaTagsExtractProps = (
-  tmdbTvEntity: TmdbTvEntity,
-  options: IUrlInfos
-): PropsMetaTags => {
-  return {
-    ...commonMetaTagsExtractProps(options),
-    type: "tv",
-    title: (tmdbTvEntity && tmdbTvEntity.name) || undefined,
-    description: (tmdbTvEntity && tmdbTvEntity.overview) || undefined,
-    image: makeImageTmdbUrl(tmdbTvEntity.poster_path, "w780")
   };
 };
 

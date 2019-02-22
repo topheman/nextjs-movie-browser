@@ -10,6 +10,33 @@ import {
 import decorateTmdbApi, { TmdbDecorateAPI } from "./decorateApis/tmdb";
 import { TARGET_API_TMDB_API } from "./constants";
 import { ApiManagerManager } from "../../libs/apis-manager/Manager";
+import { AxiosMockManagerPreprocessMock } from "../../libs/axios-mock-manager/adapter";
+let makeMockedClient;
+let mocks;
+let preprocessMock: AxiosMockManagerPreprocessMock;
+
+// only load mocked client and mocks if in mock mode
+if (process.env.MOCKS_ENABLED === "true") {
+  console.log("Loading mocks");
+  makeMockedClient = require("../../libs/axios-mock-manager/adapter")
+    .makeMockedClient;
+  mocks = require("./__mocks__/tmdb/e2e.simple.fixtures.json");
+  preprocessMock = mock => {
+    return {
+      ...mock,
+      match: mock.match.replace("$API_KEY", process.env
+        .NEXTJS_APP_CLIENT_TMDB_API_KEY as string),
+      req: {
+        ...mock.req,
+        params: {
+          ...mock.req.params,
+          api_key: process.env.NEXTJS_APP_CLIENT_TMDB_API_KEY
+        }
+      }
+    };
+  };
+  console.log(mocks);
+}
 
 const config: ApiManagerConfig = {
   [TARGET_API_TMDB_API]: {
@@ -19,10 +46,10 @@ const config: ApiManagerConfig = {
     },
     managerConfig: {
       decorateApi: decorateTmdbApi,
-      // TODO add mock support
-      mocks: undefined,
-      makeMockedClient: undefined,
-      preprocessMocking: undefined
+      mocks,
+      makeMockedClient,
+      // @ts-ignore - 'preprocessMock' is used before being assigned - but it's not ...
+      preprocessMock: preprocessMock
     }
   }
 };

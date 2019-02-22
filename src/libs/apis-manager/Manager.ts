@@ -8,6 +8,8 @@ import invariant from "invariant";
 import { makeClient } from "./http-client";
 import { AxiosInstance, AxiosRequestConfig } from "axios";
 
+import { AxiosMockManagerPreprocessMock } from "../axios-mock-manager/adapter";
+
 export interface ApiManagerOptions {
   managerConfig: {
     decorateApi: ({
@@ -17,10 +19,9 @@ export interface ApiManagerOptions {
       client: AxiosInstance;
       key: string;
     }) => any;
-    // TODO manage mock options
-    mocks?: any;
-    makeMockedClient?: any;
-    preprocessMocking?: any;
+    mocks?: [];
+    makeMockedClient: any;
+    preprocessMock: AxiosMockManagerPreprocessMock;
   };
   httpClientBaseConfig?: AxiosRequestConfig;
 }
@@ -33,11 +34,10 @@ export type ApiManagerManager = Manager & { [key: string]: any };
  * Use apiManager.configure(config) with the same params as this constructor.
  *
  * @param {Object} [options.managerConfig]
- * @param {String} [options.managerConfig.key]
  * @param {Function} [options.managerConfig.decorateApi] add custom methods: ({client, key}) => { ...apis}
  * @param {Array} [options.managerConfig.mocks] Only passed if mock mode is on - The mocks to be used
  * @param {Function} [options.managerConfig.makeMockedClient] Only passed if mock mode is on - The mockClient Factory
- * @param {Function} [options.managerConfig.preprocessMocking] Only passed if mock mode is on - allow you to rewrite the response per-request ([status, response, headers], config) -> [status, response, headers]
+ * @param {String} key Identify WHich api you're on
  *
  * @param {Object} [options.httpClientBaseConfig] Config you would pass to your http client (axios here)
  */
@@ -52,7 +52,7 @@ export default class Manager {
       decorateApi, // ({client, key}) => { ...apis}
       mocks,
       makeMockedClient,
-      preprocessMocking
+      preprocessMock
     } = managerConfig;
     invariant(
       typeof key !== "undefined",
@@ -60,7 +60,7 @@ export default class Manager {
     );
     const axiosConfig: AxiosRequestConfig = { ...httpClientBaseConfig }; // don't mutate arguments
     this.key = key;
-    if (mocks) {
+    if (mocks && makeMockedClient) {
       console.warn(
         `[Api][Manager](${
           this.key
@@ -71,14 +71,10 @@ export default class Manager {
           this.key
         }) Unmocked requests will pass through and will be logged.`
       );
-      this.client = makeMockedClient(
-        axiosConfig,
-        mocks,
-        {
-          preprocessMocking
-        },
-        this.key
-      );
+      this.client = makeMockedClient(() => makeClient(axiosConfig), mocks, {
+        preprocessMock,
+        key: this.key
+      });
     } else {
       this.client = makeClient(axiosConfig);
     }

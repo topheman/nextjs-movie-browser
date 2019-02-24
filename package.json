@@ -43,6 +43,7 @@
     "cookie-parser": "^1.4.3",
     "dotenv": "^6.2.0",
     "dotenv-expand": "^4.2.0",
+    "downshift": "^3.2.4",
     "express": "^4.16.4",
     "hoist-non-react-statics": "^3.3.0",
     "invariant": "^2.2.4",

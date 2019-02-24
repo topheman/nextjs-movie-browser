@@ -1,8 +1,9 @@
-import { AxiosInstance } from "axios";
+import { AxiosInstance, CancelToken } from "axios";
 import {
   TmdbMovieEntity,
   TmdbPersonEntity,
-  TmdbTvEntity
+  TmdbTvEntity,
+  TmdbSearchResults
 } from "../../../@types";
 import {
   AxiosMockManagerSetupRecorder,
@@ -31,6 +32,14 @@ export interface TmdbDecorateAPI {
     id: number | string,
     { language, append }: { language: string; append?: string[] }
   ) => Promise<TmdbTvEntity>;
+  searchMulti: (
+    queryValue: string,
+    {
+      language,
+      page,
+      cancelToken
+    }: { language: string; page?: number; cancelToken?: CancelToken }
+  ) => Promise<TmdbSearchResults>;
 }
 
 const decorateApi = ({
@@ -102,6 +111,19 @@ const decorateApi = ({
             language: language || "en",
             append_to_response: append.join(",")
           }
+        })
+        .then(({ data }) => data);
+    },
+    searchMulti: (queryValue, { language, page = 1, cancelToken }) => {
+      const query = "/search/multi";
+      return client
+        .get(query, {
+          params: {
+            query: queryValue,
+            language: language || "en",
+            page
+          },
+          cancelToken
         })
         .then(({ data }) => data);
     }

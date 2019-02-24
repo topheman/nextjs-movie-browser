@@ -300,3 +300,51 @@ export interface TmdbTvCrewEntity {
   job: string;
   profile_path?: string | null;
 }
+
+export type TmdbSearchResultsList = (TmdbSearchResultsEntity)[];
+export interface TmdbSearchResults {
+  page: number;
+  total_results: number;
+  total_pages: number;
+  results: TmdbSearchResultsList;
+}
+export interface TmdbSearchResultsEntity {
+  original_name?: string | null;
+  id: number;
+  media_type: "movie" | "person" | "tv";
+  name?: string | null;
+  vote_count?: number | null;
+  vote_average?: number | null;
+  poster_path?: string | null;
+  first_air_date?: string | null;
+  popularity: number;
+  genre_ids?: (number | null)[] | null;
+  original_language?: string | null;
+  backdrop_path?: string | null;
+  overview?: string | null;
+  origin_country?: (string)[] | null;
+  video?: boolean | null;
+  title?: string | null;
+  original_title?: string | null;
+  adult?: boolean | null;
+  release_date?: string | null;
+  profile_path?: string | null;
+  known_for?: (TmdbSearchKnownForEntity)[] | null;
+}
+export interface TmdbSearchKnownForEntity {
+  vote_average: number;
+  vote_count: number;
+  id: number;
+  video: boolean;
+  media_type: "movie" | "person" | "tv";
+  title: string;
+  popularity: number;
+  poster_path: string;
+  original_language: string;
+  original_title: string;
+  genre_ids?: (number)[] | null;
+  backdrop_path: string;
+  adult: boolean;
+  overview: string;
+  release_date: string;
+}

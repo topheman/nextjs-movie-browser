@@ -26,3 +26,28 @@ export function normalizeString(string: string) {
     .replace(/[^\w\s]/gi, "")
     .replace(/ /g, "-");
 }
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+// based on https://github.com/topheman/npm-registry-browser/blob/master/src/utils/helpers.js
+export function debounce(func: any, wait: number, immediate?: boolean) {
+  let timeout: number | null;
+  return function debounced(...args: any[]) {
+    // @ts-ignore
+    const context = this as any;
+    const later = function later() {
+      timeout = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    };
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout as number);
+    timeout = setTimeout(later, wait) as any;
+    if (callNow) {
+      func.apply(context, args);
+    }
+  };
+}

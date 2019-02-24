@@ -146,3 +146,26 @@ jest.mock("react-i18next", () => ({
 Note: If you use shallow rendering (like Enzyme), you don't need everything I explained above. Since you will be rendering only ONE component deep, you can settle with exporting undecorated version of your components (without `withNamespaces`) and inject a stub of `t` prop - [read more](https://react.i18next.com/misc/testing).
 
 Since I'm using [react-testing-library](https://github.com/kentcdodds/react-testing-library), I'm rendering a whole tree in jsdom, which is why I had to mock the context to pass the `i18n` instance accross the whole tree.
+
+## Http Mocking
+
+When you test a code base that contains calls to an external api server, you have to make a choice in your [test strategy](https://docs.cypress.io/guides/guides/network-requests.html#Testing-Strategies).
+
+### Testing strategies
+
+#### Without mocks
+
+- You're making real api calls, so you're also testing the server
+  - 👍 Guaranteed to work in production, once tests pass
+  - 👎 Much slower, false negative (network failures ...)
+- You don't need to create/record any fixtures nor setup a mocking system
+
+#### With mocks
+
+- You're not making api calls, so
+  - 👍 Very fast, determinist (response won't change unless you change the mock)
+  - 👎 Result may differ in production if mocks aren't up to date
+
+### Solution
+
+I wrote a library [axios-mock-manager](./src/libs/axios-mock-manager) to solve this problem.

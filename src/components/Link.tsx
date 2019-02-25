@@ -27,8 +27,14 @@ interface IResultMakeLinkProps {
   as: string;
 }
 
-const makeLinkProps = (
-  tmdbEntity?: TmdbEntityMinimum
+/**
+ *
+ * @param tmdbEntity
+ * @param translationLanguageFullCode Use it when calling programmatically from router
+ */
+export const makeLinkProps = (
+  tmdbEntity?: TmdbEntityMinimum,
+  translationLanguageFullCode?: string
 ): IResultMakeLinkProps | any => {
   let props;
   if (tmdbEntity) {
@@ -46,6 +52,11 @@ const makeLinkProps = (
           ""
       )}`
     };
+    if (translationLanguageFullCode) {
+      (props.href
+        .query as any).translationLanguageFullCode = translationLanguageFullCode;
+      props.as += `?translationLanguageFullCode=${translationLanguageFullCode}`;
+    }
     return props;
   }
   return {};

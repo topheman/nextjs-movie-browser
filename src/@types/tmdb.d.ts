@@ -309,27 +309,27 @@ export interface TmdbSearchResults {
   results: TmdbSearchResultsList;
 }
 export interface TmdbSearchResultsEntity {
-  original_name?: string | null;
+  original_name?: string;
   id: number;
   media_type: "movie" | "person" | "tv";
-  name?: string | null;
-  vote_count?: number | null;
-  vote_average?: number | null;
-  poster_path?: string | null;
-  first_air_date?: string | null;
+  name?: string;
+  vote_count?: number;
+  vote_average?: number;
+  poster_path?: string;
+  first_air_date?: string;
   popularity: number;
-  genre_ids?: (number | null)[] | null;
-  original_language?: string | null;
-  backdrop_path?: string | null;
-  overview?: string | null;
-  origin_country?: (string)[] | null;
-  video?: boolean | null;
-  title?: string | null;
-  original_title?: string | null;
-  adult?: boolean | null;
-  release_date?: string | null;
-  profile_path?: string | null;
-  known_for?: (TmdbSearchKnownForEntity)[] | null;
+  genre_ids?: (number | null)[];
+  original_language?: string;
+  backdrop_path?: string;
+  overview?: string;
+  origin_country?: (string)[];
+  video?: boolean;
+  title?: string;
+  original_title?: string;
+  adult?: boolean;
+  release_date?: string;
+  profile_path?: string;
+  known_for?: (TmdbSearchKnownForEntity)[];
 }
 export interface TmdbSearchKnownForEntity {
   vote_average: number;

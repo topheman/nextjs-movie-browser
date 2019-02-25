@@ -1,6 +1,6 @@
 import { useState } from "react";
 import i18next from "i18next";
-import { withRouter, SingletonRouter } from "next/router";
+import Router from "next/router";
 
 import { apiTmdb } from "../services/apis";
 import { withNamespaces } from "../../i18n";
@@ -8,7 +8,7 @@ import I18nPopup from "./I18nPopup";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import ShowLoadingState from "./ShowLoadingState";
 import Search from "./Search";
-import Link, { makeSlug } from "./Link";
+import Link, { makeSlug, makeLinkProps } from "./Link";
 
 const resources = [
   ["Fight Club", 550, "movie"],
@@ -24,13 +24,7 @@ const defaultLanguages = [
   { code: "fr-FR", label: "French" }
 ];
 
-const Header = ({
-  t,
-  router
-}: {
-  t: i18next.TranslationFunction;
-  router: SingletonRouter;
-}) => {
+const Header = ({ t }: { t: i18next.TranslationFunction }) => {
   // this state is not in I18nPopup because components connected to mobx can't use hooks for the moment
   const [languageChoiceOpen, toggleLanguageChoiceOpen] = useState(false);
   return (
@@ -49,12 +43,12 @@ const Header = ({
                 })
               }
               goToResource={searchResult => {
-                // make utils to make urls / paths ... from objects
-                console.log(
-                  "TODO Implement - go to resource",
+                const { href, as } = makeLinkProps(
                   searchResult,
-                  router
+                  translationLanguageFullCode
                 );
+                console.log("goToResource", href, as);
+                Router.push(href, as);
               }}
             />
           );
@@ -96,4 +90,4 @@ const Header = ({
   );
 };
 
-export default withNamespaces("common")(withRouter(Header));
+export default withNamespaces("common")(Header);

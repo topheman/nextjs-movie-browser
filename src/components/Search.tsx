@@ -83,7 +83,6 @@ class Search extends Component<SearchProps, SearchState> {
               {...getInputProps({
                 onKeyDown: (event: any) => {
                   if (event.key === "Enter" && highlightedIndex !== null) {
-                    // TODO
                     this.props.goToResource(results[highlightedIndex]);
                   }
                 },

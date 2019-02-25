@@ -5,13 +5,10 @@ import { withRouter, SingletonRouter } from "next/router";
 import { apiTmdb } from "../services/apis";
 import { withNamespaces } from "../../i18n";
 import I18nPopup from "./I18nPopup";
-import {
-  LinkWithLanguage,
-  LanguageManagerConsumer
-} from "../services/i18n/LanguageManager";
-import { normalizeString } from "../utils/helpers";
+import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import ShowLoadingState from "./ShowLoadingState";
 import Search from "./Search";
+import Link, { makeSlug } from "./Link";
 
 const resources = [
   ["Fight Club", 550, "movie"],
@@ -70,25 +67,25 @@ const Header = ({
       />
       <ul>
         <li>
-          <LinkWithLanguage href="/">
+          <Link href="/">
             <a>{t("common-label-home")}</a>
-          </LinkWithLanguage>
+          </Link>
         </li>
         <li>
-          <LinkWithLanguage href="/about">
+          <Link href="/about">
             <a>{t("common-label-about")}</a>
-          </LinkWithLanguage>
+          </Link>
         </li>
       </ul>
       <ul>
         {resources.map(([title, id, type]) => (
           <li key={id}>
-            <LinkWithLanguage
+            <Link
               href={{ pathname: `/${type}`, query: { id } }}
-              as={`/${type}/${id}-${normalizeString(title as string)}`}
+              as={`/${type}/${id}-${makeSlug(title as string)}`}
             >
               <a>{title}</a>
-            </LinkWithLanguage>
+            </Link>
           </li>
         ))}
       </ul>

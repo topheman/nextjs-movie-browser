@@ -2,8 +2,7 @@ import i18next from "i18next";
 
 import { withNamespaces } from "../../i18n";
 import { TmdbPersonMovieCredits, TmdbPersonTvCredits } from "../@types";
-import { LinkWithLanguage } from "../services/i18n/LanguageManager";
-import { normalizeString } from "../utils/helpers";
+import Link from "./Link";
 
 const PersonCredits = ({
   t,
@@ -27,18 +26,13 @@ const PersonCredits = ({
                 .sort((a, b) => (a.release_date > b.release_date ? 1 : -1))
                 .map(film => (
                   <li key={film.credit_id}>
-                    <LinkWithLanguage
-                      href={{ pathname: `/movie`, query: { id: film.id } }}
-                      as={`/movie/${film.id}-${normalizeString(
-                        film.original_title as string
-                      )}`}
-                    >
+                    <Link tmdbEntity={{ media_type: "movie", ...film }}>
                       <a>
                         {film.title}{" "}
                         {film.release_date &&
                           `(${new Date(film.release_date).getFullYear()})`}
                       </a>
-                    </LinkWithLanguage>{" "}
+                    </Link>{" "}
                     <i>{film.character}</i>
                   </li>
                 ))}
@@ -52,14 +46,9 @@ const PersonCredits = ({
             {tv_credits.cast &&
               tv_credits.cast.map(serie => (
                 <li key={serie.credit_id}>
-                  <LinkWithLanguage
-                    href={{ pathname: `/tv`, query: { id: serie.id } }}
-                    as={`/movie/${serie.id}-${normalizeString(
-                      serie.original_name as string
-                    )}`}
-                  >
+                  <Link tmdbEntity={{ media_type: "tv", ...serie }}>
                     <a>{serie.name}</a>
-                  </LinkWithLanguage>
+                  </Link>
                 </li>
               ))}
           </ul>

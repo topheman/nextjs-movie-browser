@@ -2,8 +2,7 @@ import i18next from "i18next";
 
 import { withNamespaces } from "../../i18n";
 import { TmdbCredits } from "../@types";
-import { LinkWithLanguage } from "../services/i18n/LanguageManager";
-import { normalizeString } from "../utils/helpers";
+import Link from "./Link";
 
 const MovieCast = ({
   t,
@@ -20,14 +19,9 @@ const MovieCast = ({
           <ul>
             {credits.cast.map(person => (
               <li key={person.credit_id}>
-                <LinkWithLanguage
-                  href={{ pathname: `/person`, query: { id: person.id } }}
-                  as={`/person/${person.id}-${normalizeString(
-                    person.name as string
-                  )}`}
-                >
+                <Link tmdbEntity={{ media_type: "person", ...person }}>
                   <a>{person.name}</a>
-                </LinkWithLanguage>{" "}
+                </Link>{" "}
                 <i>{person.character}</i>
               </li>
             ))}
@@ -40,14 +34,9 @@ const MovieCast = ({
           <ul>
             {credits.crew.map(person => (
               <li key={person.credit_id}>
-                <LinkWithLanguage
-                  href={{ pathname: `/person`, query: { id: person.id } }}
-                  as={`/person/${person.id}-${normalizeString(
-                    person.name as string
-                  )}`}
-                >
+                <Link tmdbEntity={{ media_type: "person", ...person }}>
                   <a>{person.name}</a>
-                </LinkWithLanguage>{" "}
+                </Link>{" "}
                 {person.job} <i>({person.department})</i>
               </li>
             ))}

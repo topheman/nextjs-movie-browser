@@ -67,7 +67,7 @@ class Search extends Component<SearchProps, SearchState> {
   render() {
     const { loading, error, results } = this.state;
     return (
-      <Downshift itemToString={() => ""}>
+      <Downshift itemToString={() => ""} id="resources-search">
         {({
           getLabelProps,
           getInputProps,

@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import Header from "./Header";
+import Footer from "./Footer";
 
 export default (props: any) => (
   <>
@@ -9,5 +10,6 @@ export default (props: any) => (
     </Head>
     <Header />
     <main>{props.children}</main>
+    <Footer fromFullYear={2019} />
   </>
 );

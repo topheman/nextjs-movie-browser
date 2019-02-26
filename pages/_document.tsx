@@ -43,17 +43,24 @@ export default class MyDocument extends Document<{
    */
   render() {
     return (
-      <html lang={this.props.defaultLanguageShortCode}>
-        <Head>
-          <style>{`/* custom! */`}</style>
-        </Head>
-        <DocumentLinkTags />
-        <body className="custom_class">
-          <Main />
-          <div id="modal" />
-          <NextScript />
-        </body>
-      </html>
+      <>
+        <html lang={this.props.defaultLanguageShortCode}>
+          <Head>
+            <style>{`/* custom! */`}</style>
+          </Head>
+          <DocumentLinkTags />
+          <body className="custom_class">
+            <Main />
+            <div id="modal" />
+            <NextScript />
+          </body>
+        </html>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `/*${process.env.NEXTJS_APP_CLIENT_BANNER_HTML}*/`
+          }}
+        />
+      </>
     );
   }
 }

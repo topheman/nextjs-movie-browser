@@ -27,7 +27,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
         ? toFullYear
         : `${fromFullYear}-${toFullYear}`}{" "}
       <a href="http://labs.topheman.com/">labs.topheman.com</a> - Christophe
-      Rosset
+      Rosset - v{process.env.NEXTJS_APP_CLIENT_METADATAS_VERSION}
     </p>
     <p>
       This product uses the{" "}

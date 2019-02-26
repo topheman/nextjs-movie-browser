@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import i18next from "i18next";
 import Router from "next/router";
+import classNames from "classnames";
 
 import { apiTmdb } from "../services/apis";
 import { withNamespaces } from "../../i18n";
@@ -9,6 +10,7 @@ import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import ShowLoadingState from "./ShowLoadingState";
 import Search from "./Search";
 import Link, { makeSlug, makeLinkProps } from "./Link";
+import { filterHtmlProps } from "../utils/helpers";
 
 const resources = [
   ["Fight Club", 550, "movie"],
@@ -24,11 +26,14 @@ const defaultLanguages = [
   { code: "fr-FR", label: "French" }
 ];
 
-const Header = ({ t }: { t: i18next.TranslationFunction }) => {
+const Header: React.FunctionComponent<{
+  t: i18next.TranslationFunction;
+  className?: string;
+}> = ({ t, className, ...remainingProps }) => {
   // this state is not in I18nPopup because components connected to mobx can't use hooks for the moment
   const [languageChoiceOpen, toggleLanguageChoiceOpen] = useState(false);
   return (
-    <>
+    <div className={classNames(className)} {...filterHtmlProps(remainingProps)}>
       <h1>{process.env.NEXTJS_APP_CLIENT_TITLE}</h1>
       <LanguageManagerConsumer>
         {({ defaultLanguageFullCode, translationLanguageFullCode }) => {
@@ -86,7 +91,7 @@ const Header = ({ t }: { t: i18next.TranslationFunction }) => {
       <ShowLoadingState>
         {({ loading }) => <div>{loading ? "Loading ..." : "Loaded"}</div>}
       </ShowLoadingState>
-    </>
+    </div>
   );
 };
 

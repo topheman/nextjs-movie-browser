@@ -28,6 +28,8 @@ export {
   fireEvent
 } from "react-testing-library";
 
+type CompType = (props: any) => JSX.Element;
+
 /**
  * If your component is wrapped in `withNamespaces` and uses the `t` prop,
  * we need to mock it - see `src/services/i18n/NamespaceMock`
@@ -45,7 +47,7 @@ jest.mock("react-i18next", () => ({
  * @param renderOptions 
  */
 export const renderI18nNamespacesWrappedComponent = (
-  Comp: React.Component,
+  Comp: React.Component | CompType,
   renderOptions = {},
   { i18n = i18nInstance, defaultNS = "common", initialLanguage = "en" } = {}
 ) => {

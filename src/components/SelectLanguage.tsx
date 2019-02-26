@@ -1,4 +1,5 @@
 import { LanguageList } from "../@types";
+import { filterHtmlProps } from "../utils/helpers";
 
 const SelectLanguage: React.SFC<
   {
@@ -17,7 +18,7 @@ const SelectLanguage: React.SFC<
   ...remainingProps
 }) => {
   return (
-    <label {...remainingProps}>
+    <label {...filterHtmlProps(remainingProps)}>
       <span>{label}</span>
       <select
         data-testid={dataTestid}

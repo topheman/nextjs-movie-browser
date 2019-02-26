@@ -51,3 +51,27 @@ export function debounce(func: any, wait: number, immediate?: boolean) {
     }
   };
 }
+
+export function filterHtmlProps(props: any) {
+  const disallow = [
+    "i18n",
+    "i18nOptions",
+    "defaultNS",
+    "reportNS",
+    "tReady",
+    "innerRef",
+    "translationLanguageFullCode",
+    "defaultLanguageShortCode",
+    "defaultLanguageFullCode",
+    "switchDefaultLanguage",
+    "switchTranslationLanguage",
+    "resetTranslationLanguage"
+  ];
+  const filteredProps = {};
+  Object.entries(props).forEach(([key, value]) => {
+    if (!disallow.includes(key)) {
+      (filteredProps as any)[key] = value;
+    }
+  });
+  return filteredProps;
+}

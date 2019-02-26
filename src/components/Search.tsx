@@ -3,6 +3,7 @@
 import { Component } from "react";
 import Downshift from "downshift";
 import axios, { CancelToken, Canceler } from "axios";
+import classNames from "classnames";
 
 import { debounce } from "../utils/helpers";
 import {
@@ -10,6 +11,7 @@ import {
   TmdbSearchResultsEntity,
   TmdbSearchResults
 } from "../@types";
+import { filterHtmlProps } from "../utils/helpers";
 
 const DEBOUNCE_MS = 300;
 
@@ -19,6 +21,7 @@ interface SearchProps {
     { cancelToken }: { cancelToken?: CancelToken }
   ) => Promise<TmdbSearchResults>;
   goToResource: (searchResult: TmdbSearchResultsEntity) => void;
+  className?: string;
 }
 
 interface SearchState {
@@ -65,6 +68,12 @@ class Search extends Component<SearchProps, SearchState> {
     this.debouncedSearch(value);
   };
   render() {
+    const {
+      goToResource,
+      searchResource: _,
+      className,
+      ...remainingProps
+    } = this.props;
     const { loading, error, results } = this.state;
     return (
       <Downshift itemToString={() => ""} id="resources-search">
@@ -77,13 +86,16 @@ class Search extends Component<SearchProps, SearchState> {
           highlightedIndex,
           clearSelection
         }) => (
-          <div>
+          <div
+            className={classNames(className)}
+            {...filterHtmlProps(remainingProps)}
+          >
             <label {...getLabelProps()}>Search</label>
             <input
               {...getInputProps({
                 onKeyDown: (event: any) => {
                   if (event.key === "Enter" && highlightedIndex !== null) {
-                    this.props.goToResource(results[highlightedIndex]);
+                    goToResource(results[highlightedIndex]);
                   }
                 },
                 onChange: (event: any) => {

@@ -10,7 +10,7 @@ const MoviePreview = ({ t, ...movie }: IProps) => {
   return (
     <>
       <h2 dir="auto">
-        {movie.title}{" "}
+        {movie.title || (movie as any).name}{" "}
         {movie.release_date &&
           `(${new Date(movie.release_date).getFullYear()})`}
       </h2>

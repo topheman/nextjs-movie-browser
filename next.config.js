@@ -3,6 +3,12 @@ const webpack = require("webpack");
 
 const { loadConfig } = require("./scripts/config/next-env");
 
+// to avoid EnvironmentPlugin warning, assign "false" when undefined
+process.env.RECORD_MOCKS =
+  process.env.RECORD_MOCKS === "true" ? process.env.RECORD_MOCKS : "false";
+process.env.MOCKS_ENABLED =
+  process.env.MOCKS_ENABLED === "true" ? process.env.MOCKS_ENABLED : "false";
+
 const { getBanner, getInfos } = require("./common");
 const moreInfos = process.env.HEROKU_RELEASE_CREATED_AT
   ? [`Released on server at ${process.env.HEROKU_RELEASE_CREATED_AT}`]

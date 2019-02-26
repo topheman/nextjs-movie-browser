@@ -58,6 +58,10 @@ class MyApp extends App {
     pageProps: any;
   }) {
     super(props);
+    console.log("MyApp.constructor", {
+      RECORD_MOCKS: process.env.RECORD_MOCKS,
+      MOCKS_ENABLED: process.env.MOCKS_ENABLED
+    });
     this.mobxStore = server
       ? props.pageProps.initialMobxState // creates store server-side based on the mobx store returned by MyApp.getInitialProps
       : createStore(props.pageProps.initialMobxState); // creates store client-side based on serialized store with hydrated data

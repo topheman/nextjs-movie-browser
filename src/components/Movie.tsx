@@ -30,8 +30,8 @@ const Movie = ({ basePath, pathname, ...movieProps }: MovieProps) => {
         {...commonMetaTagsExtractProps({ basePath, pathname })}
         {...movieMetaTagsExtractProps(movieProps)}
       />
-      <MoviePreview {...movieProps} />
-      <MovieCast {...movieProps} />
+      <MoviePreview media_type="movie" {...movieProps} />
+      <MovieCast mode="preview" media_type="movie" {...movieProps} />
     </>
   );
 };

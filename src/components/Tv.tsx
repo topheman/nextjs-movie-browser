@@ -31,7 +31,7 @@ const Tv = ({ basePath, pathname, ...tvProps }: TvProps) => {
         {...tvMetaTagsExtractProps(tvProps)}
       />
       <MoviePreview {...tvProps} />
-      <MovieCast {...tvProps} />
+      <MovieCast mode="preview" media_type="tv" {...tvProps} />
     </>
   );
 };

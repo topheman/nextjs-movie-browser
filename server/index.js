@@ -37,8 +37,8 @@ app.prepare().then(() => {
     return res.status(200).sendFile("robots.txt", options);
   });
   server.get(
-    "/movie/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
-    (req, res) => {
+    "/movie/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)(/:subcategory?)",
+    (req, res, next) => {
       if (req.params.translationLanguageFullCode) {
         const redirectUrl = `${req.originalUrl
           .split("/")
@@ -47,6 +47,27 @@ app.prepare().then(() => {
           req.params.translationLanguageFullCode
         }`;
         return res.redirect(301, redirectUrl);
+      }
+      const subcategory =
+        req.params.subcategory || req.query.subcategory || undefined;
+      if (subcategory) {
+        if (!["cast"].includes(subcategory)) {
+          return next();
+        }
+        return app.render(
+          req,
+          res,
+          "/movie-cast",
+          Object.assign(
+            {
+              id: req.params.id,
+              translationLanguageFullCode:
+                req.params.translationLanguageFullCode,
+              subcategory
+            },
+            req.query
+          )
+        );
       }
       return app.render(
         req,
@@ -89,8 +110,8 @@ app.prepare().then(() => {
     }
   );
   server.get(
-    "/tv/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
-    (req, res) => {
+    "/tv/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)(/:subcategory?)",
+    (req, res, next) => {
       if (req.params.translationLanguageFullCode) {
         const redirectUrl = `${req.originalUrl
           .split("/")
@@ -99,6 +120,27 @@ app.prepare().then(() => {
           req.params.translationLanguageFullCode
         }`;
         return res.redirect(301, redirectUrl);
+      }
+      const subcategory =
+        req.params.subcategory || req.query.subcategory || undefined;
+      if (subcategory) {
+        if (!["cast"].includes(subcategory)) {
+          return next();
+        }
+        return app.render(
+          req,
+          res,
+          "/tv-cast",
+          Object.assign(
+            {
+              id: req.params.id,
+              translationLanguageFullCode:
+                req.params.translationLanguageFullCode,
+              subcategory
+            },
+            req.query
+          )
+        );
       }
       return app.render(
         req,

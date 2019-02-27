@@ -3,7 +3,9 @@ import { LinkProps } from "next/link";
 import { normalizeString } from "../utils/helpers";
 import { LinkWithLanguage } from "../services/i18n/LanguageManager";
 
-interface TmdbEntityMinimum {
+type TypeSubcategory = "cast" | undefined;
+
+export interface TmdbEntityMinimum {
   id: number;
   media_type: "movie" | "person" | "tv";
   original_name?: string;
@@ -13,6 +15,7 @@ interface TmdbEntityMinimum {
 
 interface AppLinkProps extends LinkProps {
   tmdbEntity?: TmdbEntityMinimum;
+  subcategory?: TypeSubcategory;
 }
 
 export const makeSlug = normalizeString;
@@ -34,7 +37,8 @@ interface IResultMakeLinkProps {
  */
 export const makeLinkProps = (
   tmdbEntity?: TmdbEntityMinimum,
-  translationLanguageFullCode?: string
+  translationLanguageFullCode?: string | null,
+  subcategory?: TypeSubcategory
 ): IResultMakeLinkProps | any => {
   let props;
   if (tmdbEntity) {
@@ -52,6 +56,11 @@ export const makeLinkProps = (
           ""
       )}`
     };
+    if (subcategory) {
+      props.href.pathname += `-${subcategory}`; // front-side, subcategory pages are named like `rootcategory-subcategory.tsx`
+      (props.href.query as any).subcategory = subcategory;
+      props.as += `/${subcategory}`;
+    }
     if (translationLanguageFullCode) {
       (props.href
         .query as any).translationLanguageFullCode = translationLanguageFullCode;
@@ -62,9 +71,17 @@ export const makeLinkProps = (
   return {};
 };
 
-const Link = ({ tmdbEntity, children, ...props }: AppLinkProps) => {
+const Link = ({
+  tmdbEntity,
+  subcategory,
+  children,
+  ...props
+}: AppLinkProps) => {
   return (
-    <LinkWithLanguage {...makeLinkProps(tmdbEntity)} {...props}>
+    <LinkWithLanguage
+      {...makeLinkProps(tmdbEntity, null, subcategory)}
+      {...props}
+    >
       {children}
     </LinkWithLanguage>
   );

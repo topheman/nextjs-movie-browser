@@ -37,7 +37,7 @@ app.prepare().then(() => {
     return res.status(200).sendFile("robots.txt", options);
   });
   server.get(
-    "/movie/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
+    "/movie/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
     (req, res) => {
       if (req.params.translationLanguageFullCode) {
         const redirectUrl = `${req.originalUrl
@@ -63,7 +63,7 @@ app.prepare().then(() => {
     }
   );
   server.get(
-    "/person/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
+    "/person/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
     (req, res) => {
       if (req.params.translationLanguageFullCode) {
         const redirectUrl = `${req.originalUrl
@@ -89,7 +89,7 @@ app.prepare().then(() => {
     }
   );
   server.get(
-    "/tv/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode?)",
+    "/tv/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
     (req, res) => {
       if (req.params.translationLanguageFullCode) {
         const redirectUrl = `${req.originalUrl

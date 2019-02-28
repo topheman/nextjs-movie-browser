@@ -37,7 +37,7 @@ app.prepare().then(() => {
     return res.status(200).sendFile("robots.txt", options);
   });
   server.get(
-    "/movie/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)(/:subcategory?)",
+    "/movie/:id(\\d+)((-:slug)?)(/:subcategory(cast)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
     (req, res, next) => {
       if (req.params.translationLanguageFullCode) {
         const redirectUrl = `${req.originalUrl
@@ -50,29 +50,10 @@ app.prepare().then(() => {
       }
       const subcategory =
         req.params.subcategory || req.query.subcategory || undefined;
-      if (subcategory) {
-        if (!["cast"].includes(subcategory)) {
-          return next();
-        }
-        return app.render(
-          req,
-          res,
-          "/movie-cast",
-          Object.assign(
-            {
-              id: req.params.id,
-              translationLanguageFullCode:
-                req.params.translationLanguageFullCode,
-              subcategory
-            },
-            req.query
-          )
-        );
-      }
       return app.render(
         req,
         res,
-        "/movie",
+        "/movie" + (subcategory ? `-${subcategory}` : ""), // `/movie` or `/movie-cast`
         Object.assign(
           {
             id: req.params.id,
@@ -110,7 +91,7 @@ app.prepare().then(() => {
     }
   );
   server.get(
-    "/tv/:id(\\d+)((-:slug)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)(/:subcategory?)",
+    "/tv/:id(\\d+)((-:slug)?)(/:subcategory(cast)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
     (req, res, next) => {
       if (req.params.translationLanguageFullCode) {
         const redirectUrl = `${req.originalUrl
@@ -123,29 +104,10 @@ app.prepare().then(() => {
       }
       const subcategory =
         req.params.subcategory || req.query.subcategory || undefined;
-      if (subcategory) {
-        if (!["cast"].includes(subcategory)) {
-          return next();
-        }
-        return app.render(
-          req,
-          res,
-          "/tv-cast",
-          Object.assign(
-            {
-              id: req.params.id,
-              translationLanguageFullCode:
-                req.params.translationLanguageFullCode,
-              subcategory
-            },
-            req.query
-          )
-        );
-      }
       return app.render(
         req,
         res,
-        "/tv",
+        "/tv" + (subcategory ? `-${subcategory}` : ""), // `/tv` or `/tv-cast`
         Object.assign(
           {
             id: req.params.id,

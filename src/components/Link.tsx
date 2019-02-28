@@ -58,7 +58,6 @@ export const makeLinkProps = (
     };
     if (subcategory) {
       props.href.pathname += `-${subcategory}`; // front-side, subcategory pages are named like `rootcategory-subcategory.tsx`
-      (props.href.query as any).subcategory = subcategory;
       props.as += `/${subcategory}`;
     }
     if (translationLanguageFullCode) {

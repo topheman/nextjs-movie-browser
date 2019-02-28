@@ -1,23 +1,38 @@
+import React from "react";
 import i18next from "i18next";
 
 import { withNamespaces } from "../../i18n";
-import { TmdbCredits } from "../@types";
-import Link, { TmdbEntityMinimum } from "./Link";
+import {
+  TmdbCredits,
+  TmdbMovieEntity,
+  TmdbTvEntity,
+  ComponentWithData
+} from "../@types";
+import Link from "./Link";
 
-type IProps = TmdbEntityMinimum & {
+interface IProps extends ComponentWithData<TmdbMovieEntity & TmdbTvEntity> {
   t: i18next.TranslationFunction;
   mode: "preview" | "full";
+  media_type: "movie" | "tv";
   credits: TmdbCredits;
-};
+}
 
-const MovieCast = ({ t, mode, credits, ...tmdbEntity }: IProps) => {
+/**
+ * Casting list for Movie and Tv
+ */
+const MovieCast: React.FunctionComponent<IProps> = ({
+  t,
+  mode,
+  media_type,
+  data
+}) => {
   return (
     <>
-      {credits.cast && credits.cast.length > 0 && (
+      {data.credits.cast && data.credits.cast.length > 0 && (
         <>
           <h3>{t("movie-label-cast")}</h3>
           <ul>
-            {credits.cast
+            {data.credits.cast
               .filter((_, index) => {
                 if (mode === "full" || (mode === "preview" && index < 5)) {
                   return true;
@@ -35,11 +50,11 @@ const MovieCast = ({ t, mode, credits, ...tmdbEntity }: IProps) => {
           </ul>
         </>
       )}
-      {credits.crew && credits.crew.length > 0 && (
+      {data.credits.crew && data.credits.crew.length > 0 && (
         <>
           <h3>{t("movie-label-crew")}</h3>
           <ul>
-            {credits.crew
+            {data.credits.crew
               .filter((_, index) => {
                 if (mode === "full" || (mode === "preview" && index < 5)) {
                   return true;
@@ -58,7 +73,7 @@ const MovieCast = ({ t, mode, credits, ...tmdbEntity }: IProps) => {
         </>
       )}
       {mode === "preview" && (
-        <Link tmdbEntity={tmdbEntity} subcategory="cast">
+        <Link tmdbEntity={{ media_type, ...data }} subcategory="cast">
           <a>{t("movie-label-full-casting")}</a>
         </Link>
       )}

@@ -1,3 +1,4 @@
+import React from "react";
 import { inject, observer } from "mobx-react";
 import classNames from "classnames";
 
@@ -22,7 +23,7 @@ interface II18nPopupProps {
  * See https://developers.themoviedb.org/3/getting-started/languages
  */
 
-const I18nPopup: React.ComponentType<II18nPopupProps> = ({
+const I18nPopup: React.FunctionComponent<II18nPopupProps> = ({
   defaultLanguages,
   translationsStore,
   popupOpen,

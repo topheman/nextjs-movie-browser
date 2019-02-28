@@ -64,3 +64,12 @@ export class CustomNextApp<P = {}> extends React.Component<
   mobxStore: MyMobxStore;
   static getInitialProps(context: NextAppContext): Promise<DefaultAppIProps>;
 }
+
+export interface ComponentWithData<T extends any> {
+  data: T;
+}
+
+export interface PageRootComponent<T extends any> extends ComponentWithData<T> {
+  basePath: string;
+  pathname: string;
+}

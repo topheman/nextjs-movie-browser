@@ -180,7 +180,7 @@ const withCallingApi = <ApiEntity extends any>({
             <Error />
           ) : (
             <Comp
-              {...this.state.data}
+              data={this.state.data}
               basePath={this.props.basePath}
               pathname={getPathName(this.props.router)}
             />

@@ -1,3 +1,4 @@
+import React from "react";
 import MoviePreview from "./MoviePreview";
 import MovieCast from "./MovieCast";
 import MetaTags, {
@@ -5,7 +6,7 @@ import MetaTags, {
   PropsMetaTags,
   makeImageTmdbUrl
 } from "./MetaTags";
-import { TmdbTvEntity } from "../@types";
+import { TmdbTvEntity, PageRootComponent } from "../@types";
 
 export const tvMetaTagsExtractProps = (
   tmdbTvEntity: TmdbTvEntity
@@ -18,20 +19,19 @@ export const tvMetaTagsExtractProps = (
   };
 };
 
-interface TvProps extends TmdbTvEntity {
-  basePath: string;
-  pathname: string;
-}
-
-const Tv = ({ basePath, pathname, ...tvProps }: TvProps) => {
+const Tv: React.FunctionComponent<PageRootComponent<TmdbTvEntity>> = ({
+  basePath,
+  pathname,
+  data: tmdbTvEntity
+}) => {
   return (
     <>
       <MetaTags
         {...commonMetaTagsExtractProps({ basePath, pathname })}
-        {...tvMetaTagsExtractProps(tvProps)}
+        {...tvMetaTagsExtractProps(tmdbTvEntity)}
       />
-      <MoviePreview {...tvProps} />
-      <MovieCast mode="preview" media_type="tv" {...tvProps} />
+      <MoviePreview media_type="tv" data={tmdbTvEntity} />
+      <MovieCast mode="preview" media_type="tv" data={tmdbTvEntity} />
     </>
   );
 };

@@ -1,3 +1,4 @@
+import React from "react";
 import PersonPreview from "./PersonPreview";
 import PersonCredits from "./PersonCredits";
 import MetaTags, {
@@ -5,7 +6,7 @@ import MetaTags, {
   PropsMetaTags,
   makeImageTmdbUrl
 } from "./MetaTags";
-import { TmdbPersonEntity } from "../@types";
+import { TmdbPersonEntity, PageRootComponent } from "../@types";
 
 const personMetaTagsExtractProps = (
   tmdbPersonEntity: TmdbPersonEntity
@@ -18,20 +19,19 @@ const personMetaTagsExtractProps = (
   };
 };
 
-interface PersonProps extends TmdbPersonEntity {
-  basePath: string;
-  pathname: string;
-}
-
-const Person = ({ basePath, pathname, ...personProps }: PersonProps) => {
+const Person: React.FunctionComponent<PageRootComponent<TmdbPersonEntity>> = ({
+  basePath,
+  pathname,
+  data: tmdbPersonEntity
+}) => {
   return (
     <>
       <MetaTags
         {...commonMetaTagsExtractProps({ basePath, pathname })}
-        {...personMetaTagsExtractProps(personProps)}
+        {...personMetaTagsExtractProps(tmdbPersonEntity)}
       />
-      <PersonPreview {...personProps} />
-      <PersonCredits {...personProps} />
+      <PersonPreview data={tmdbPersonEntity} />
+      <PersonCredits data={tmdbPersonEntity} />
     </>
   );
 };

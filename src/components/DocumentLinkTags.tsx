@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 
 interface PropsDocumentLinkTags {
@@ -6,11 +7,11 @@ interface PropsDocumentLinkTags {
   children?: any;
 }
 
-const DocumentLinkTags = ({
+const DocumentLinkTags: React.FunctionComponent<PropsDocumentLinkTags> = ({
   tmdbApi = process.env.NEXTJS_APP_CLIENT_TMDB_API,
   tmdbImageCdn = process.env.NEXTJS_APP_CLIENT_TMDB_IMAGE_CDN,
   children
-}: PropsDocumentLinkTags) => {
+}) => {
   return (
     <Head>
       {tmdbApi && (

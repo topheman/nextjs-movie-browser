@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 
 interface PropsLinkHreflangTags {
@@ -6,11 +7,11 @@ interface PropsLinkHreflangTags {
   children?: any;
 }
 
-const LinkHreflangTags = ({
+const LinkHreflangTags: React.FunctionComponent<PropsLinkHreflangTags> = ({
   url,
   translationFullCodes,
   children
-}: PropsLinkHreflangTags) => {
+}) => {
   return (
     <Head>
       <link

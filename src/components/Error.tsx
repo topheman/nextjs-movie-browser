@@ -1,4 +1,8 @@
-const Error = ({ statusCode }: { statusCode?: string | number }) => {
+import React from "react";
+
+const Error: React.FunctionComponent<{ statusCode?: string | number }> = ({
+  statusCode
+}) => {
   return (
     <p>
       {statusCode

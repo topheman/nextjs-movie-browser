@@ -1,7 +1,9 @@
+import React from "react";
+
 import { LanguageList } from "../@types";
 import { filterHtmlProps } from "../utils/helpers";
 
-const SelectLanguage: React.SFC<
+const SelectLanguage: React.FunctionComponent<
   {
     languagesList: LanguageList;
     label: React.ReactNode;

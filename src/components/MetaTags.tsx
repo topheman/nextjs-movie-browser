@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 
 export { makeImageTmdbUrl } from "../utils/tmdb";
@@ -35,7 +36,7 @@ export const commonMetaTagsExtractProps = ({
   };
 };
 
-const MetaTags = ({
+const MetaTags: React.FunctionComponent<PropsMetaTags> = ({
   children,
   siteName,
   twitterHandle,
@@ -45,7 +46,7 @@ const MetaTags = ({
   type,
   title,
   description
-}: PropsMetaTags) => {
+}) => {
   return (
     <Head>
       {url && <link rel="canonical" href={url} />}

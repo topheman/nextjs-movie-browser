@@ -1,3 +1,4 @@
+import React from "react";
 import { LinkProps } from "next/link";
 
 import { normalizeString } from "../utils/helpers";
@@ -70,12 +71,12 @@ export const makeLinkProps = (
   return {};
 };
 
-const Link = ({
+const Link: React.FunctionComponent<AppLinkProps> = ({
   tmdbEntity,
   subcategory,
   children,
   ...props
-}: AppLinkProps) => {
+}) => {
   return (
     <LinkWithLanguage
       {...makeLinkProps(tmdbEntity, null, subcategory)}

@@ -1,26 +1,29 @@
+import React from "react";
+
 import MoviePreview from "./MoviePreview";
 import MovieCast from "./MovieCast";
-import { TmdbMovieEntity } from "../@types";
+import { TmdbMovieEntity, TmdbTvEntity, PageRootComponent } from "../@types";
 
 // TODO add metatags
-// TODO refactor with others pages
 
-interface MovieProps extends TmdbMovieEntity {
+interface CastProps extends PageRootComponent<TmdbMovieEntity & TmdbTvEntity> {
   basePath: string;
   pathname: string;
   media_type: "movie" | "tv";
 }
 
-const Cast = ({
-  basePath: _,
-  pathname: __,
+const Cast: React.FunctionComponent<CastProps> = ({
+  // @ts-ignore
+  basePath,
+  // @ts-ignore
+  pathname,
   media_type,
-  ...movieProps
-}: MovieProps) => {
+  data: tmdbEntity
+}) => {
   return (
     <>
-      <MoviePreview media_type={media_type} mode="preview" {...movieProps} />
-      <MovieCast media_type={media_type} {...movieProps} />
+      <MoviePreview media_type={media_type} mode="preview" data={tmdbEntity} />
+      <MovieCast media_type={media_type} data={tmdbEntity} />
     </>
   );
 };

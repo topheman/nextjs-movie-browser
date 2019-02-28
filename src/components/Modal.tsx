@@ -1,6 +1,11 @@
+import React from "react";
+
 import Portal from "./Portal";
 
-let Modal = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
+let Modal: React.FunctionComponent<{ isOpen: boolean; close: () => void }> = ({
+  isOpen,
+  close
+}) => {
   if (isOpen) {
     return (
       <Portal selector="#modal">

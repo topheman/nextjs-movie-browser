@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const next = require("next");
 const nextI18NextMiddleware = require("next-i18next/middleware");

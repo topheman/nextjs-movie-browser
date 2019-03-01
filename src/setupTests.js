@@ -1,3 +1,5 @@
+"use strict";
+
 const { loadConfig } = require("../scripts/config/next-env");
 const { withNamespacesMock } = require("./services/i18n/NamespaceMock");
 

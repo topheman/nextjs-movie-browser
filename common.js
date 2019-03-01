@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies,no-underscore-dangle */
+"use strict";
 
 /**
  * Inspired by https://github.com/topheman/webpack-babel-starter

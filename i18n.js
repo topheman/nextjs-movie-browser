@@ -1,3 +1,5 @@
+"use strict";
+
 const NextI18Next = require("next-i18next");
 
 const DEFAULT_LANGUAGE_FULL_CODE = "en-US";

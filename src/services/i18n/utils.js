@@ -1,3 +1,5 @@
+"use strict";
+
 const COOKIE_DEFAULT_LANGUAGE_SHORT_CODE = "i18nDefaultLanguageShortCode";
 const COOKIE_DEFAULT_LANGUAGE_FULL_CODE = "i18nDefaultLanguageFullCode";
 

@@ -2,9 +2,31 @@ import React from "react";
 
 import MoviePreview from "./MoviePreview";
 import MovieCast from "./MovieCast";
+import MetaTags, {
+  commonMetaTagsExtractProps,
+  PropsMetaTags,
+  makeImageTmdbUrl
+} from "./MetaTags";
 import { TmdbMovieEntity, TmdbTvEntity, PageRootComponent } from "../@types";
 
-// TODO add metatags
+const movieOrTvMetaTagsExtractProps = (
+  tmdbEntity: TmdbMovieEntity & TmdbTvEntity,
+  media_type: "movie" | "tv"
+): PropsMetaTags => {
+  return {
+    type: media_type,
+    title:
+      (tmdbEntity && (tmdbEntity as TmdbMovieEntity).title) ||
+      (tmdbEntity && (tmdbEntity as TmdbTvEntity).name) ||
+      undefined,
+    description: (tmdbEntity && tmdbEntity.overview) || undefined,
+    image: makeImageTmdbUrl(
+      (tmdbEntity as TmdbMovieEntity).backdrop_path ||
+        (tmdbEntity as TmdbTvEntity).poster_path,
+      "w780"
+    )
+  };
+};
 
 interface CastProps extends PageRootComponent<TmdbMovieEntity & TmdbTvEntity> {
   basePath: string;
@@ -13,15 +35,17 @@ interface CastProps extends PageRootComponent<TmdbMovieEntity & TmdbTvEntity> {
 }
 
 const Cast: React.FunctionComponent<CastProps> = ({
-  // @ts-ignore
   basePath,
-  // @ts-ignore
   pathname,
   media_type,
   data: tmdbEntity
 }) => {
   return (
     <>
+      <MetaTags
+        {...commonMetaTagsExtractProps({ basePath, pathname })}
+        {...movieOrTvMetaTagsExtractProps(tmdbEntity, media_type)}
+      />
       <MoviePreview media_type={media_type} mode="preview" data={tmdbEntity} />
       <MovieCast media_type={media_type} data={tmdbEntity} />
     </>

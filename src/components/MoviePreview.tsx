@@ -36,7 +36,7 @@ const MoviePreview: React.FunctionComponent<IProps> = ({
       {mode === "full" && (
         <>
           <h3>{t("movie-label-synopsis")}</h3>
-          <TextContent dir="auto">{data.overview}</TextContent>
+          <TextContent>{data.overview}</TextContent>
         </>
       )}
     </>

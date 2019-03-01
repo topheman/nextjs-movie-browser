@@ -17,7 +17,7 @@ const PersonPreview: React.FunctionComponent<IProps> = ({
     <>
       <h2 dir="auto">{data.name}</h2>
       <h3>{t("person-label-biography")}</h3>
-      <TextContent dir="auto">{data.biography}</TextContent>
+      <TextContent>{data.biography}</TextContent>
     </>
   );
 };

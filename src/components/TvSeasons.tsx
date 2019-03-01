@@ -17,7 +17,7 @@ const TvSeasons: React.FunctionComponent<IProps> = ({ t, data }) => {
           {data.seasons.map(season => (
             <li key={season.id}>
               <h3>
-                {season.name}{" "}
+                <span dir="auto">{season.name}</span>{" "}
                 <span style={{ fontSize: "0.8em" }}>
                   {new Date(season.air_date).getFullYear()}
                 </span>

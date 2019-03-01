@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`src/components/TextContent should render MULTIPLE <p> from a string containing carriage return 1`] = `"<p dir=\\"auto\\" style=\\"text-align: initial;\\">Lorem ipsum</p><p dir=\\"auto\\" style=\\"text-align: initial;\\">dolor sit amet</p><p dir=\\"auto\\" style=\\"text-align: initial;\\">consectetur adipiscing elit</p>"`;
+
+exports[`src/components/TextContent should render ONE <p> from a string 1`] = `"<p dir=\\"auto\\" style=\\"text-align: initial;\\">Lorem ipsum</p>"`;
+
+exports[`src/components/TextContent should render ONE empty <p> from an empty string 1`] = `"<p dir=\\"auto\\" style=\\"text-align: initial;\\"></p>"`;
+
+exports[`src/components/TextContent should spread props on each paragraph 1`] = `"<p dir=\\"auto\\" style=\\"text-align: initial; font-weight: bold;\\">Lorem ipsum</p><p dir=\\"auto\\" style=\\"text-align: initial; font-weight: bold;\\">dolor sit amet</p><p dir=\\"auto\\" style=\\"text-align: initial; font-weight: bold;\\">consectetur adipiscing elit</p>"`;

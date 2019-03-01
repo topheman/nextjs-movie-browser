@@ -2,19 +2,13 @@ import React from "react";
 import i18next from "i18next";
 
 import { withNamespaces } from "../../i18n";
-import {
-  TmdbCredits,
-  TmdbMovieEntity,
-  TmdbTvEntity,
-  ComponentWithData
-} from "../@types";
+import { TmdbMovieEntity, TmdbTvEntity, ComponentWithData } from "../@types";
 import Link from "./Link";
 
 interface IProps extends ComponentWithData<TmdbMovieEntity & TmdbTvEntity> {
   t: i18next.TranslationFunction;
   mode: "preview" | "full";
   media_type: "movie" | "tv";
-  credits: TmdbCredits;
 }
 
 /**

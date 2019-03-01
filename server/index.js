@@ -93,7 +93,7 @@ app.prepare().then(() => {
     }
   );
   server.get(
-    "/tv/:id(\\d+)((-:slug)?)(/:subcategory(cast)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
+    "/tv/:id(\\d+)((-:slug)?)(/:subcategory(cast|seasons)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
     (req, res, next) => {
       if (req.params.translationLanguageFullCode) {
         const redirectUrl = `${req.originalUrl

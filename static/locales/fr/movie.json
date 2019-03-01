@@ -2,5 +2,10 @@
   "movie-label-synopsis": "Résumé",
   "movie-label-cast": "Equipe artistique",
   "movie-label-crew": "Equipe technique",
-  "movie-label-full-casting": "Voir toute l'équipe"
+  "movie-label-full-casting": "Voir toute l'équipe",
+  "movie-label-current-season": "Saison actuelle",
+  "movie-label-season": "Saison {{number}}",
+  "movie-label-all-seasons": "Toutes les saisons",
+  "movie-label-episode-count": "{{count}} épisode",
+  "movie-label-episode-count_plural": "{{count}} épisodes"
 }

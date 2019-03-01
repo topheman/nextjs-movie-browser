@@ -2,5 +2,10 @@
   "movie-label-synopsis": "Synopsis",
   "movie-label-cast": "Cast",
   "movie-label-crew": "Crew",
-  "movie-label-full-casting": "See full casting"
+  "movie-label-full-casting": "See full casting",
+  "movie-label-current-season": "Current season",
+  "movie-label-season": "Season {{number}}",
+  "movie-label-all-seasons": "All seasons",
+  "movie-label-episode-count": "{{count}} episode",
+  "movie-label-episode-count_plural": "{{count}} episodes"
 }

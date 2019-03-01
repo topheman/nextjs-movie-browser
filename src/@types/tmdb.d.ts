@@ -207,9 +207,9 @@ export interface TmdbTvEntity {
   in_production: boolean;
   languages?: (string)[] | null;
   last_air_date: string;
-  last_episode_to_air: TmdbTvLastEpisodeToAir;
+  last_episode_to_air: TmdbTvEpisode;
   name: string;
-  next_episode_to_air: TmdbTvNextEpisodeToAir;
+  next_episode_to_air: TmdbTvEpisode;
   networks?: (NetworksEntityOrProductionCompaniesEntity)[] | null;
   number_of_episodes: number;
   number_of_seasons: number;
@@ -237,7 +237,7 @@ export interface TmdbTvCreatedByEntity {
   gender: number;
   profile_path: string;
 }
-export interface TmdbTvLastEpisodeToAir {
+export interface TmdbTvEpisode {
   air_date: string;
   episode_number: number;
   id: number;
@@ -247,19 +247,6 @@ export interface TmdbTvLastEpisodeToAir {
   season_number: number;
   show_id: number;
   still_path: string;
-  vote_average: number;
-  vote_count: number;
-}
-export interface TmdbTvNextEpisodeToAir {
-  air_date: string;
-  episode_number: number;
-  id: number;
-  name: string;
-  overview: string;
-  production_code: string;
-  season_number: number;
-  show_id: number;
-  still_path?: null;
   vote_average: number;
   vote_count: number;
 }

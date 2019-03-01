@@ -1,8 +1,7 @@
 import React from "react";
 
 import MoviePreview from "./MoviePreview";
-import MovieCast from "./MovieCast";
-import CurrentSeason from "./CurrentSeason";
+import TvSeasons from "./TvSeasons";
 import MetaTags, {
   commonMetaTagsExtractProps,
   PropsMetaTags,
@@ -10,9 +9,7 @@ import MetaTags, {
 } from "./MetaTags";
 import { TmdbTvEntity, PageRootComponent } from "../@types";
 
-export const tvMetaTagsExtractProps = (
-  tmdbTvEntity: TmdbTvEntity
-): PropsMetaTags => {
+const tvMetaTagsExtractProps = (tmdbTvEntity: TmdbTvEntity): PropsMetaTags => {
   return {
     type: "tv",
     title: (tmdbTvEntity && tmdbTvEntity.name) || undefined,
@@ -21,7 +18,7 @@ export const tvMetaTagsExtractProps = (
   };
 };
 
-const Tv: React.FunctionComponent<PageRootComponent<TmdbTvEntity>> = ({
+const Seasons: React.FunctionComponent<PageRootComponent<TmdbTvEntity>> = ({
   basePath,
   pathname,
   data: tmdbTvEntity
@@ -32,11 +29,10 @@ const Tv: React.FunctionComponent<PageRootComponent<TmdbTvEntity>> = ({
         {...commonMetaTagsExtractProps({ basePath, pathname })}
         {...tvMetaTagsExtractProps(tmdbTvEntity)}
       />
-      <MoviePreview media_type="tv" data={tmdbTvEntity} />
-      <MovieCast mode="preview" media_type="tv" data={tmdbTvEntity} />
-      <CurrentSeason data={tmdbTvEntity} />
+      <MoviePreview media_type="tv" mode="preview" data={tmdbTvEntity} />
+      <TvSeasons data={tmdbTvEntity} />
     </>
   );
 };
 
-export default Tv;
+export default Seasons;

@@ -4,7 +4,7 @@ import { LinkProps } from "next/link";
 import { normalizeString } from "../utils/helpers";
 import { LinkWithLanguage } from "../services/i18n/LanguageManager";
 
-type TypeSubcategory = "cast" | undefined;
+type TypeSubcategory = "cast" | "seasons" | undefined;
 
 export interface TmdbEntityMinimum {
   id: number;

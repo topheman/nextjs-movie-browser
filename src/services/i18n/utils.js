@@ -3,10 +3,6 @@
 const COOKIE_DEFAULT_LANGUAGE_SHORT_CODE = "i18nDefaultLanguageShortCode";
 const COOKIE_DEFAULT_LANGUAGE_FULL_CODE = "i18nDefaultLanguageFullCode";
 
-/**
- *
- * @type (cookie?: string, full?: boolean) => string | null
- */
 const getDefaultLanguageFromCookie = (cookie, full = false) => {
   if (cookie) {
     const pattern = new RegExp(
@@ -24,10 +20,6 @@ const getDefaultLanguageFromCookie = (cookie, full = false) => {
   return null;
 };
 
-/**
- *
- * @type (languageCode: string, full?: boolean) => void
- */
 const setDefaultLanguageFromCookie = (languageCode, full = false) => {
   if (typeof window === "undefined") {
     throw new Error("This method is ment to be used only client side");
@@ -39,10 +31,6 @@ const setDefaultLanguageFromCookie = (languageCode, full = false) => {
   }=${languageCode}; path=/`;
 };
 
-/**
- *
- * @type ({defaultLanguageShortCode: string, defaultLanguageFullCode: string}) => any
- */
 const languageManagerMiddleware = ({
   defaultLanguageShortCode,
   defaultLanguageFullCode

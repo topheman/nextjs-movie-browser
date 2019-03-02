@@ -126,14 +126,5 @@ app.prepare().then(() => {
     console.log(
       `> Ready on http://localhost:${port} - mode: ${process.env.NODE_ENV}`
     );
-    console.log(
-      `>   - NEXTJS_APP_CLIENT_BASE_PATH${
-        process.env.NEXTJS_APP_CLIENT_BASE_PATH
-          ? `=${process.env.NEXTJS_APP_CLIENT_BASE_PATH}`
-          : " not set, will use hostname"
-      }`
-    );
-    console.log(`>   - RECORD_MOCKS=${process.env.RECORD_MOCKS}`);
-    console.log(`>   - MOCKS_ENABLED=${process.env.MOCKS_ENABLED}`);
   });
 });

@@ -58,9 +58,11 @@ class MyApp extends App {
     pageProps: any;
   }) {
     super(props);
+    // logging the following env vars (generated at build time, then re-used at runtime whatever client or server side)
     console.log("MyApp.constructor", {
       RECORD_MOCKS: process.env.RECORD_MOCKS,
-      MOCKS_ENABLED: process.env.MOCKS_ENABLED
+      MOCKS_ENABLED: process.env.MOCKS_ENABLED,
+      NEXTJS_APP_CLIENT_BASE_PATH: process.env.NEXTJS_APP_CLIENT_BASE_PATH
     });
     this.mobxStore = server
       ? props.pageProps.initialMobxState // creates store server-side based on the mobx store returned by MyApp.getInitialProps

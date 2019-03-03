@@ -69,7 +69,9 @@ export const makeMockedClient: AxiosMockManagerMakeMockedClient = (
           `[Mock][mocking](${key}) ${preprocessedMocked.url}?${JSON.stringify(
             preprocessedMocked.req.params
           )}|${JSON.stringify(preprocessedMocked.req.headers)}`,
-          result
+          typeof window !== "undefined"
+            ? result
+            : "[OBFUSCATED RESPONSED (on server)]" // avoid poluting logs server-side
         );
         return result;
       });

@@ -64,7 +64,7 @@ export default class Manager {
       console.warn(
         `[Api][Manager](${
           this.key
-        }) Mocking API. Requests will be intercepted and served. The files containing the mocks are in src/services/mocks. To generate those files, run: npm run record-http-mocks.`
+        }) Mocking API. Requests will be intercepted and served. The files containing the mocks are in src/services/apis/mocks. To generate those files, run: RECORD_MOCKS=true npm run dev (then open the devtools console).`
       );
       console.warn(
         `[Api][Manager](${

@@ -11,6 +11,7 @@ import decorateTmdbApi, { TmdbDecorateAPI } from "./decorateApis/tmdb";
 import { TARGET_API_TMDB_API } from "./constants";
 import { ApiManagerManager } from "../../libs/apis-manager/Manager";
 import { AxiosMockManagerPreprocessMock } from "../../libs/axios-mock-manager/adapter";
+import { AxiosMockManagerMockData } from "../../libs/axios-mock-manager";
 let makeMockedClient;
 let mocks;
 let preprocessMock: AxiosMockManagerPreprocessMock;
@@ -35,7 +36,11 @@ if (process.env.MOCKS_ENABLED === "true") {
       }
     };
   };
-  console.log(mocks);
+  console.log(
+    typeof window !== "undefined"
+      ? mocks
+      : mocks.map((mock: AxiosMockManagerMockData) => mock.match) // avoid poluting logs server-side
+  );
 }
 
 const config: ApiManagerConfig = {

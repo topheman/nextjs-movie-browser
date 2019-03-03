@@ -5,6 +5,7 @@ const next = require("next");
 const nextI18NextMiddleware = require("next-i18next/middleware");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const url = require("url");
 
 const { loadConfig } = require("../scripts/config/next-env");
 const nextI18next = require("../i18n");
@@ -29,15 +30,6 @@ app.prepare().then(() => {
     })
   );
   nextI18NextMiddleware(nextI18next, app, server);
-  server.get("/robots.txt", (req, res) => {
-    const options = {
-      root: path.resolve(__dirname, "..", "static/"),
-      headers: {
-        "Content-Type": "text/plain;charset=UTF-8"
-      }
-    };
-    return res.status(200).sendFile("robots.txt", options);
-  });
   server.get(
     "/movie/:id(\\d+)((-:slug)?)(/:subcategory(cast)?)(/:translationLanguageFullCode([a-z]{2}-[A-Z]{2})?)",
     (req, res, next) => {
@@ -120,7 +112,21 @@ app.prepare().then(() => {
       );
     }
   );
-  server.get("/*", (req, res) => handle(req, res));
+  server.get("/*", (req, res) => {
+    const parsedUrl = url.parse(req.url, true);
+    const rootStaticFiles = ["/robots.txt"];
+    if (rootStaticFiles.indexOf(parsedUrl.pathname) > -1) {
+      const localPath = path.join(
+        __dirname,
+        "..",
+        "static",
+        parsedUrl.pathname
+      );
+      app.serveStatic(req, res, localPath);
+    } else {
+      handle(req, res, parsedUrl);
+    }
+  });
   server.listen(port, err => {
     if (err) throw err;
     console.log(

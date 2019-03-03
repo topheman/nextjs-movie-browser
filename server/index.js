@@ -114,7 +114,7 @@ app.prepare().then(() => {
   );
   server.get("/*", (req, res) => {
     const parsedUrl = url.parse(req.url, true);
-    const rootStaticFiles = ["/robots.txt"];
+    const rootStaticFiles = ["/robots.txt", "/favicon.ico"];
     if (rootStaticFiles.indexOf(parsedUrl.pathname) > -1) {
       const localPath = path.join(
         __dirname,

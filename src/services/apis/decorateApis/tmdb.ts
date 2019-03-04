@@ -3,7 +3,8 @@ import {
   TmdbMovieEntity,
   TmdbPersonEntity,
   TmdbTvEntity,
-  TmdbSearchResults
+  TmdbSearchResults,
+  TmdbTrendingResults
 } from "../../../@types";
 import {
   AxiosMockManagerSetupRecorder,
@@ -40,6 +41,11 @@ export interface TmdbDecorateAPI {
       cancelToken
     }: { language: string; page?: number; cancelToken?: CancelToken }
   ) => Promise<TmdbSearchResults>;
+  trending: (
+    media_type: "tv" | "movie" | "person" | "all",
+    time_window: "day" | "week",
+    { language, append }: { language: string; append?: string[] }
+  ) => Promise<TmdbTrendingResults>;
 }
 
 const decorateApi = ({
@@ -124,6 +130,16 @@ const decorateApi = ({
             page
           },
           cancelToken
+        })
+        .then(({ data }) => data);
+    },
+    trending: (media_type, time_window, { language }) => {
+      const query = `/trending/${media_type}/${time_window}`;
+      return client
+        .get(query, {
+          params: {
+            language: language || "en"
+          }
         })
         .then(({ data }) => data);
     }

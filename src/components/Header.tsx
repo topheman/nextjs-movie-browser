@@ -9,17 +9,8 @@ import I18nPopup from "./I18nPopup";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import ShowLoadingState from "./ShowLoadingState";
 import Search from "./Search";
-import Link, { makeSlug, makeLinkProps } from "./Link";
+import Link, { makeLinkProps } from "./Link";
 import { filterHtmlProps } from "../utils/helpers";
-
-const resources = [
-  ["Fight Club", 550, "movie"],
-  ["Pulp Fiction", 680, "movie"],
-  ["Star Wars", 11, "movie"],
-  ["La Cité de la peur", 15097, "movie"],
-  ["Friends", 1668, "tv"],
-  ["Game of Thrones", 1399, "tv"]
-];
 
 const defaultLanguages = [
   { code: "en-US", label: "English" },
@@ -75,18 +66,6 @@ const Header: React.FunctionComponent<{
             <a>{t("common-label-about")}</a>
           </Link>
         </li>
-      </ul>
-      <ul>
-        {resources.map(([title, id, type]) => (
-          <li key={id}>
-            <Link
-              href={{ pathname: `/${type}`, query: { id } }}
-              as={`/${type}/${id}-${makeSlug(title as string)}`}
-            >
-              <a>{title}</a>
-            </Link>
-          </li>
-        ))}
       </ul>
       <ShowLoadingState>
         {({ loading }) => <div>{loading ? "Loading ..." : "Loaded"}</div>}

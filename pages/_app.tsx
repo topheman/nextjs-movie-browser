@@ -16,7 +16,12 @@ import Router, { RouterProps } from "next/router";
 import { NextComponentType } from "next";
 
 import { init as initApiClient } from "../src/services/apis";
-import { appWithTranslation, i18n } from "../i18n";
+import {
+  appWithTranslation,
+  i18n,
+  DEFAULT_LANGUAGE_FULL_CODE,
+  DEFAULT_LANGUAGE_SHORT_CODE
+} from "../i18n";
 import {
   LanguageManagerProvider,
   LanguageManagerConsumer
@@ -85,7 +90,7 @@ class MyApp extends App {
           (typeof "window" !== "undefined" &&
             typeof document !== "undefined" &&
             document.cookie)
-      ) || i18n.options.defaultLanguage;
+      ) || DEFAULT_LANGUAGE_SHORT_CODE;
 
     const defaultLanguageFullCode =
       getDefaultLanguageFromCookie(
@@ -94,7 +99,7 @@ class MyApp extends App {
             typeof document !== "undefined" &&
             document.cookie),
         true
-      ) || i18n.options.defaultLanguage;
+      ) || DEFAULT_LANGUAGE_FULL_CODE;
 
     // create a store with the initial state
     const mobxStore = createStore();

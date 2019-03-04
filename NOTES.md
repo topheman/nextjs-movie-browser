@@ -12,6 +12,7 @@
     - [Override language codes with variations](#override-language-codes-with-variations)
   - [i18n - Implementation](#i18n---implementation)
   - [i18n - Unit tests](#i18n---unit-tests)
+- [Heroku](#heroku)
 
 ## TypeScript support
 
@@ -169,3 +170,27 @@ When you test a code base that contains calls to an external api server, you hav
 ### Solution
 
 I wrote a library [axios-mock-manager](./src/libs/axios-mock-manager) to solve this problem.
+
+## Heroku
+
+### Trigger build on deploy
+
+In ordre to trigger the build of your Next app on each deploy, add the following:
+
+```json
+{
+  "scripts": {
+    "heroku-postbuild": "next build"
+  }
+}
+```
+
+Sources:
+
+- [Heroku docs](https://devcenter.heroku.com/articles/nodejs-support#heroku-specific-build-steps)
+- [mars/heroku-nextjs](https://github.com/mars/heroku-nextjs)
+
+### Heroku Environment variables
+
+- `heroku config:set NPM_CONFIG_PRODUCTION=false`: Make sure to also download dev dependencies (like babel, typescript ...) or hoist them in your regular dependencies.
+- `heroku config:set NEXTJS_APP_CLIENT_TMDB_API_KEY=your-api-key`: Set your api key

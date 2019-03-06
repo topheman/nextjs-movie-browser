@@ -26,6 +26,26 @@ const Header: React.FunctionComponent<{
   return (
     <div className={classNames(className)} {...filterHtmlProps(remainingProps)}>
       <h1>{process.env.NEXTJS_APP_CLIENT_TITLE}</h1>
+      <ul
+        style={{
+          position: "absolute",
+          top: "0px",
+          right: "10px",
+          textAlign: "right",
+          listStyle: "none"
+        }}
+      >
+        <li>
+          <a href="https://twitter.com/topheman" title="@topheman on twitter">
+            twitter
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/topheman" title="topheman on github">
+            github
+          </a>
+        </li>
+      </ul>
       <LanguageManagerConsumer>
         {({ defaultLanguageFullCode, translationLanguageFullCode }) => {
           // make sure to re-render `Search` on language change

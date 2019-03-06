@@ -23,7 +23,7 @@ const MoviePreview: React.FunctionComponent<IProps> = ({
 }) => {
   return (
     <>
-      <h2 dir="auto">
+      <h2 dir="auto" data-testid="movie-preview-title">
         {mode === "preview" && (
           <Link tmdbEntity={{ ...data, media_type }}>
             <a>👈</a>
@@ -35,7 +35,9 @@ const MoviePreview: React.FunctionComponent<IProps> = ({
       </h2>
       {mode === "full" && (
         <>
-          <h3>{t("movie-label-synopsis")}</h3>
+          <h3 data-testid="movie-preview-title-synopsis">
+            {t("movie-label-synopsis")}
+          </h3>
           <TextContent>{data.overview}</TextContent>
         </>
       )}

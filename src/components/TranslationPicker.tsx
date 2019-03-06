@@ -8,7 +8,7 @@ import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import TranslationsStore from "../stores/TranslationsStore";
 import { filterHtmlProps } from "../utils/helpers";
 
-interface II18nPopupProps {
+interface ITranslationPickerProps {
   defaultLanguages: LanguageList;
   translationsStore?: TranslationsStore;
   popupOpen: boolean;
@@ -23,7 +23,7 @@ interface II18nPopupProps {
  * See https://developers.themoviedb.org/3/getting-started/languages
  */
 
-const I18nPopup: React.FunctionComponent<II18nPopupProps> = ({
+const TranslationPicker: React.FunctionComponent<ITranslationPickerProps> = ({
   defaultLanguages,
   translationsStore,
   popupOpen,
@@ -62,6 +62,7 @@ const I18nPopup: React.FunctionComponent<II18nPopupProps> = ({
               <button
                 onClick={() => togglePopupOpen(!popupOpen)}
                 style={{ color: languageOK ? "black" : "darkorange" }}
+                data-testid="translation-picker-btn"
               >
                 {translationLanguageFullCode || defaultLanguageFullCode}
               </button>
@@ -102,4 +103,4 @@ const I18nPopup: React.FunctionComponent<II18nPopupProps> = ({
   );
 };
 
-export default inject("translationsStore")(observer(I18nPopup));
+export default inject("translationsStore")(observer(TranslationPicker));

@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference types="cypress-testing-library" />
 
 describe("Home", () => {
   beforeEach(() => {

@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import { apiTmdb } from "../services/apis";
 import { withNamespaces } from "../../i18n";
-import I18nPopup from "./I18nPopup";
+import TranslationPicker from "./TranslationPicker";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import ShowLoadingState from "./ShowLoadingState";
 import Search from "./Search";
@@ -21,7 +21,7 @@ const Header: React.FunctionComponent<{
   t: i18next.TranslationFunction;
   className?: string;
 }> = ({ t, className, ...remainingProps }) => {
-  // this state is not in I18nPopup because components connected to mobx can't use hooks for the moment
+  // this state is not in TranslationPicker because components connected to mobx can't use hooks for the moment
   const [languageChoiceOpen, toggleLanguageChoiceOpen] = useState(false);
   return (
     <div className={classNames(className)} {...filterHtmlProps(remainingProps)}>
@@ -50,7 +50,7 @@ const Header: React.FunctionComponent<{
           );
         }}
       </LanguageManagerConsumer>
-      <I18nPopup
+      <TranslationPicker
         popupOpen={languageChoiceOpen}
         togglePopupOpen={toggleLanguageChoiceOpen}
         defaultLanguages={defaultLanguages}

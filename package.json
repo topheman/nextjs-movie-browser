@@ -5,10 +5,10 @@
   "description": "",
   "repository": "https://github.com/topheman/nextjs-movie-browser",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon server",
+    "dev": "cross-env NODE_ENV=development nodemon server",
     "build": "next build",
     "heroku-postbuild": "next build",
-    "start": "NODE_ENV=production node server",
+    "start": "cross-env NODE_ENV=production node server",
     "test": "npm-run-all --parallel --silent test:unit test:cypress",
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",

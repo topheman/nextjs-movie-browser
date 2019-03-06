@@ -6,6 +6,7 @@ const nextI18NextMiddleware = require("next-i18next/middleware");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const url = require("url");
+const chalk = require("chalk");
 
 const { loadConfig } = require("../scripts/config/next-env");
 const nextI18next = require("../i18n");
@@ -132,5 +133,15 @@ app.prepare().then(() => {
     console.log(
       `> Ready on http://localhost:${port} - mode: ${process.env.NODE_ENV}`
     );
+    if (
+      process.env.DEBUG === "false" ||
+      (typeof process.env.DEBUG === "undefined" &&
+        process.env.STRIP_SERVER_CONSOLE === "true")
+    ) {
+      console.log(
+        chalk`> {bold console.log} statements are {bold removed} - to show them, run {bold DEBUG=true npm run test:cypress}`
+      );
+      console.log = function() {};
+    }
   });
 });

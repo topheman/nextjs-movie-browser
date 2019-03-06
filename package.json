@@ -13,7 +13,7 @@
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",
     "test:unit:coverage": "jest --coverage",
-    "test:cypress": "npm run build && npm run cy:start-server-and-test",
+    "test:cypress": "npm run build && cross-env STRIP_SERVER_CONSOLE=true npm run cy:start-server-and-test",
     "test:cypress:dev": "npm-run-all --parallel --race dev cy:open",
     "test:cypress:debug-build": "npm run build && cross-env CYPRESS_LAUNCH_MODE=debug-build npm-run-all --parallel --race start cy:open",
     "cy:open": "cypress open",

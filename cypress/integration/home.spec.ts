@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe("Home", () => {
   beforeEach(() => {
     // make sure to start from a blank page for each test

@@ -5,13 +5,12 @@ import Downshift from "downshift";
 import axios, { CancelToken, Canceler } from "axios";
 import classNames from "classnames";
 
-import { debounce } from "../utils/helpers";
+import { filterHtmlProps, debounce } from "../utils/helpers";
 import {
   TmdbSearchResultsList,
   TmdbSearchResultsEntity,
   TmdbSearchResults
 } from "../@types";
-import { filterHtmlProps } from "../utils/helpers";
 
 const DEBOUNCE_MS = 300;
 

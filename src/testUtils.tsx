@@ -17,7 +17,7 @@ import { setDefaultLanguageFromCookie } from "./services/i18n/utils";
  * - import { I18nextProvider } from "react-i18next";
  * - const I18nextProvider = require("react-i18next").I18nextProvider;
  */
-const I18nextProvider = require("../node_modules/react-i18next/dist/commonjs/I18nextProvider")
+const I18nextProvider = require("../node_modules/react-i18next/dist/commonjs/I18nextProvider") // tslint:disable-line
   .I18nextProvider;
 
 export {
@@ -33,18 +33,18 @@ type CompType = (props: any) => JSX.Element;
 /**
  * If your component is wrapped in `withNamespaces` and uses the `t` prop,
  * we need to mock it - see `src/services/i18n/NamespaceMock`
- * 
+ *
  * MAKE sure you mocked withNamespaces in the setup of the tests (setupTests.js):
- * 
-```
-const { withNamespacesMock } = require("./services/i18n/NamespaceMock");
-
-jest.mock("react-i18next", () => ({
-  withNamespaces: () => Component => Component
-}));
-```
- * @param ui 
- * @param renderOptions 
+ *
+ * ```
+ * const { withNamespacesMock } = require("./services/i18n/NamespaceMock");
+ *
+ * jest.mock("react-i18next", () => ({
+ *   withNamespaces: () => Component => Component
+ * }));
+ * ```
+ * @param ui
+ * @param renderOptions
  */
 export const renderI18nNamespacesWrappedComponent = (
   Comp: React.Component | CompType,
@@ -53,9 +53,9 @@ export const renderI18nNamespacesWrappedComponent = (
 ) => {
   i18n.language = initialLanguage;
   const DecoratedWithTranslation = appWithTranslationMock(Comp, {
-    i18n: i18nInstance,
     defaultNS,
-    initialLanguage
+    initialLanguage,
+    i18n: i18nInstance
   });
   return render(
     <I18nextProvider
@@ -112,9 +112,9 @@ export const renderI18nWithLanguageManagerProvider = (
     </I18nextProvider>
   );
   const AppWithTranslation = appWithTranslationMock(App, {
-    i18n: i18nInstance,
     defaultNS,
-    initialLanguage
+    initialLanguage,
+    i18n: i18nInstance
   });
   return render(<AppWithTranslation />, renderOptions);
 };

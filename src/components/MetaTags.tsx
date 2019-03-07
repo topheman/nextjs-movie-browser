@@ -29,9 +29,9 @@ export const commonMetaTagsExtractProps = ({
   twitterHandle = process.env.NEXTJS_APP_CLIENT_TWITTER_HANDLE
 }: IUrlInfos): PropsMetaTags => {
   return {
-    url: (basePath && pathname && `${basePath}${pathname}`) || undefined,
     siteName,
     twitterHandle,
+    url: (basePath && pathname && `${basePath}${pathname}`) || undefined,
     twitterCard: "summary"
   };
 };

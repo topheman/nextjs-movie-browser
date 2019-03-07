@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const next = require("next");
+const nextJs = require("next");
 const nextI18NextMiddleware = require("next-i18next/middleware");
 const cookieParser = require("cookie-parser");
 const path = require("path");
@@ -17,7 +17,7 @@ loadConfig();
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
+const app = nextJs({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -129,7 +129,9 @@ app.prepare().then(() => {
     }
   });
   server.listen(port, err => {
-    if (err) throw err;
+    if (err) {
+      throw err;
+    }
     console.log(
       `> Ready on http://localhost:${port} - mode: ${process.env.NODE_ENV}`
     );
@@ -141,7 +143,7 @@ app.prepare().then(() => {
       console.log(
         chalk`> {bold console.log} statements are {bold removed} - to show them, run {bold DEBUG=true npm run test:cypress}`
       );
-      console.log = function() {};
+      console.log = function() {}; // tslint:disable-line
     }
   });
 });

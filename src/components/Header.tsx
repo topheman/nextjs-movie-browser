@@ -53,9 +53,9 @@ const Header: React.FunctionComponent<{
             <Search
               searchResource={(value: string, { cancelToken }) =>
                 apiTmdb().searchMulti(value, {
+                  cancelToken,
                   language:
-                    translationLanguageFullCode || defaultLanguageFullCode,
-                  cancelToken
+                    translationLanguageFullCode || defaultLanguageFullCode
                 })
               }
               goToResource={searchResult => {

@@ -8,7 +8,7 @@ export interface TranslationsStoreInitialState {
 }
 
 const removeFalsy = <T>(obj: T): T => {
-  let newObj: T = {} as T;
+  const newObj: T = {} as T;
   Object.keys(obj).forEach(prop => {
     const key = prop as keyof typeof obj; // needed for typescript
     if (obj[key]) {

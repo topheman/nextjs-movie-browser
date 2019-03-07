@@ -109,8 +109,8 @@ class LanguageManagerProviderUndecorated extends Component<
   componentWillUnmount() {
     Router.events.off("routeChangeComplete", this.routeChangeCompleteEvent);
   }
-  routeChangeCompleteEvent = (url: string) => {
-    const match = url.match(/translationLanguageFullCode=([\w,-]+)/);
+  routeChangeCompleteEvent = (routeUrl: string) => {
+    const match = routeUrl.match(/translationLanguageFullCode=([\w,-]+)/);
     if (match) {
       this.setState({
         translationLanguageFullCode: match[1]
@@ -140,9 +140,9 @@ class LanguageManagerProviderUndecorated extends Component<
         `translationLanguageFullCode=${language}`
       );
     } else {
-      newQuery =
-        (parsedUrl.query ? "&" : "") +
-        `translationLanguageFullCode=${language}`;
+      newQuery = `${
+        parsedUrl.query ? "&" : ""
+      }translationLanguageFullCode=${language}`;
     }
     const replaceUrl = url.format({
       pathname: this.props.router.pathname,

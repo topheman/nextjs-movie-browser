@@ -14,9 +14,9 @@ import {
 let setupRecorder: AxiosMockManagerSetupRecorder;
 let processResponseBeforeSave: AxiosMockManagerProcessResponseBeforeSave;
 if (process.env.RECORD_MOCKS === "true" && typeof window !== "undefined") {
-  setupRecorder = require("../../../libs/axios-mock-manager/recorder")
+  setupRecorder = require("../../../libs/axios-mock-manager/recorder") // tslint:disable-line
     .setupRecorder;
-  processResponseBeforeSave = require("../../../libs/axios-mock-manager/recorder")
+  processResponseBeforeSave = require("../../../libs/axios-mock-manager/recorder") // tslint:disable-line
     .processResponseBeforeSave;
 }
 
@@ -124,12 +124,12 @@ const decorateApi = ({
       const query = "/search/multi";
       return client
         .get(query, {
+          cancelToken,
           params: {
+            page,
             query: queryValue,
-            language: language || "en",
-            page
-          },
-          cancelToken
+            language: language || "en"
+          }
         })
         .then(({ data }) => data);
     },

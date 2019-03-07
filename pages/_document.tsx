@@ -29,9 +29,9 @@ export default class MyDocument extends Document<{
     );
     return {
       ...initialProps,
-      basePath: getBasePath(ctx.req as any, undefined),
       defaultLanguageShortCode,
-      defaultLanguageFullCode
+      defaultLanguageFullCode,
+      basePath: getBasePath(ctx.req as any, undefined)
     };
   }
 

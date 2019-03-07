@@ -11,8 +11,11 @@ export function setDefaultLanguageFromCookie(
 ): void;
 
 export function languageManagerMiddleware({
-  defaultLanguageShortCode: string,
-  defaultLanguageFullCode: string
+  defaultLanguageShortCode,
+  defaultLanguageFullCode
+}: {
+  defaultLanguageShortCode: string;
+  defaultLanguageFullCode: string;
 }): (
   req: Express.Request,
   res: Express.Response,

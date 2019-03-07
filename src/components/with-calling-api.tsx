@@ -52,7 +52,9 @@ const withCallingApi = <ApiEntity extends any>({
 }) => (Comp: any) => {
   type IComponentProps = AppWithIdNextRootPageProps<ApiEntity>;
 
-  type IComponentState = { data: ApiEntity | undefined };
+  interface IComponentState {
+    data: ApiEntity | undefined;
+  }
 
   type IGetInitialProps = AppWithIdNextRootPageGetInitialProps;
 
@@ -102,7 +104,7 @@ const withCallingApi = <ApiEntity extends any>({
       }
       return {
         data,
-        namespacesRequired: namespacesRequired
+        namespacesRequired
       };
     }
     constructor(props: IComponentProps) {

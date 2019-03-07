@@ -9,8 +9,7 @@
  * - wrap the global render function with your Providers
  */
 
-import App from "next/app"; // using `CustomNextApp` bellow (for types)
-import { Container } from "next/app";
+import App, { Container } from "next/app"; // using `CustomNextApp` bellow (for types)
 import { Provider as MobxProvider } from "mobx-react";
 import Router, { RouterProps } from "next/router";
 import { NextComponentType } from "next";
@@ -124,14 +123,14 @@ class MyApp extends App {
     // });
 
     const basePageProps = {
+      translationLanguageFullCode,
+      defaultLanguageShortCode,
+      defaultLanguageFullCode,
       basePath: getBasePath(
         ctx.req,
         typeof location !== "undefined" ? location : undefined
       ),
-      initialMobxState: mobxStore, // store that will be serialized for ssr (see constructor)
-      translationLanguageFullCode,
-      defaultLanguageShortCode,
-      defaultLanguageFullCode
+      initialMobxState: mobxStore // store that will be serialized for ssr (see constructor)
     };
     let pageProps = {
       ...basePageProps

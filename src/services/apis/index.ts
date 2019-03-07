@@ -19,9 +19,9 @@ let preprocessMock: AxiosMockManagerPreprocessMock;
 // only load mocked client and mocks if in mock mode
 if (process.env.MOCKS_ENABLED === "true") {
   console.log("Loading mocks");
-  makeMockedClient = require("../../libs/axios-mock-manager/adapter")
+  makeMockedClient = require("../../libs/axios-mock-manager/adapter") // tslint:disable-line
     .makeMockedClient;
-  mocks = require("./__mocks__/tmdb/e2e.simple.fixtures.json");
+  mocks = require("./__mocks__/tmdb/e2e.simple.fixtures.json"); // tslint:disable-line
   preprocessMock = mock => {
     return {
       ...mock,
@@ -50,11 +50,11 @@ const config: ApiManagerConfig = {
       baseURL: process.env.NEXTJS_APP_CLIENT_TMDB_API_ROOT_URL
     },
     managerConfig: {
-      decorateApi: decorateTmdbApi,
       mocks,
       makeMockedClient,
       // @ts-ignore - 'preprocessMock' is used before being assigned - but it's not ...
-      preprocessMock: preprocessMock
+      preprocessMock,
+      decorateApi: decorateTmdbApi
     }
   }
 };

@@ -29,10 +29,10 @@ const SelectLanguage: React.FunctionComponent<
         }}
         value={value}
       >
-        {languagesList.map(({ code, label }) => {
+        {languagesList.map(({ code, label: languageLabel }) => {
           return (
             <option key={code} value={code}>
-              {label}
+              {languageLabel}
             </option>
           );
         })}

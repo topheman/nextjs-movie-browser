@@ -7,17 +7,17 @@ export const sum = (a: number, b: number): number => a + b;
  *
  * TODO: if necessary, use a package that supports arabic, cyrillic, etc ...
  */
-export function normalizeString(string: string) {
+export function normalizeString(str: string) {
   const accents =
     "ÀÁÂÃÄÅĄĀāàáâãäåąßÒÓÔÕÕÖØŐòóôőõöøĎďDŽdžÈÉÊËĘèéêëęðÇçČčĆćÐÌÍÎÏĪìíîïīÙÚÛÜŰùűúûüĽĹŁľĺłÑŇŃňñńŔŕŠŚŞšśşŤťŸÝÿýŽŻŹžżźđĢĞģğ";
   const out =
     "AAAAAAAAaaaaaaaasOOOOOOOOoooooooDdDZdzEEEEEeeeeeeCcCcCcDIIIIIiiiiiUUUUUuuuuuLLLlllNNNnnnRrSSSsssTtYYyyZZZzzzdGGgg";
-  return (string || "")
+  return (str || "")
     .toLowerCase()
     .split("")
     .map(
       (letter: string): string => {
-        let index = accents.indexOf(letter);
+        const index = accents.indexOf(letter);
         return index !== -1 ? out[index] : letter;
       }
     ) // remove accents
@@ -37,7 +37,7 @@ export function debounce(func: any, wait: number, immediate?: boolean) {
   return function debounced(...args: any[]) {
     // @ts-ignore
     const context = this as any;
-    const later = function later() {
+    const later = function laterFn() {
       timeout = null;
       if (!immediate) {
         func.apply(context, args);

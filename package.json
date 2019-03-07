@@ -44,7 +44,6 @@
     "React"
   ],
   "author": "Christophe Rosset <tophe@topheman.com> (http://labs.topheman.com/)",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
     "axios-mock-adapter": "^1.16.0",

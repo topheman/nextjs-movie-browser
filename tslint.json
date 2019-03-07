@@ -1,0 +1,16 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {},
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": [
+      ".next/**",
+      ".vscode/**",
+      "bin/yarn*",
+      "coverage/**",
+      "node_modules/**"
+    ]
+  }
+}

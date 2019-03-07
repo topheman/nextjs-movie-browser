@@ -20,6 +20,7 @@
     "cy:run": "cypress run",
     "cy:start-server-and-test": "npx start-server-and-test start :3000 cy:run",
     "ts:check": "tsc --noEmit",
+    "lint": "npx tslint -c tslint.json '**/*.{js,ts,tsx}'",
     "pretty": "npx prettier --write '**/*.{tsx,ts,js,jsx,json,css,scss,md}'",
     "lint:precommit": "echo \"No precommit linting yet\" && exit 0",
     "test:precommit": "npm run ts:check && npm test"
@@ -96,6 +97,8 @@
     "prettier": "1.16.0",
     "react-testing-library": "^5.5.3",
     "start-server-and-test": "^1.7.11",
+    "tslint": "^5.13.1",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.2.4"
   }
 }

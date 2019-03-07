@@ -1,3 +1,4 @@
+/* tslint:disable */
 /**
  * Based on generated types made with https://jvilk.com/MakeTypes/
  */

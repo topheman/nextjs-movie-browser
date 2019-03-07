@@ -13,6 +13,7 @@
   - [i18n - Implementation](#i18n---implementation)
   - [i18n - Unit tests](#i18n---unit-tests)
 - [Heroku](#heroku)
+- [Tslint](#tslint)
 
 ## TypeScript support
 
@@ -194,3 +195,45 @@ Sources:
 
 - `heroku config:set NPM_CONFIG_PRODUCTION=false`: Make sure to also download dev dependencies (like babel, typescript ...) or hoist them in your regular dependencies.
 - `heroku config:set NEXTJS_APP_CLIENT_TMDB_API_KEY=your-api-key`: Set your api key
+
+## Tslint
+
+[Tslint](https://palantir.github.io/tslint/) is a linter for both `.ts` and `.js` files, if you know [eslint](https://eslint.org/), it works the same way (with configurable rules and sharable configurations).
+
+On this project, I'm using the following configs:
+
+- [tslint:recommended](https://palantir.github.io/tslint/usage/configuration/#configuration-presets)
+- [tslint-config-airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - a TypeScript version of the eslint-config-airbnb
+- [tslint-config-prettier](https://github.com/prettier/tslint-config-prettier) - a config that disables all conflicting rules between Tslint and prettier (Tslint is for linting, prettier is for formatting)
+
+### Lint JavaScript files with Tslint
+
+To your [tslint.json](tslint.json) file, add:
+
+```json
+{
+  "jsRules": true
+}
+```
+
+Make sure you lint the js files in your linting script in your [package.json](package.json):
+
+```json
+{
+  "scripts": {
+    "lint": "npx tslint --project tsconfig.json -c tslint.json '**/*.{js,ts,tsx}'"
+  }
+}
+```
+
+### Get linting error feedback in vscode
+
+Install the [Tslint plugin](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin).
+
+If you want feedback for js files as well as for ts ones, to your [.vscode/settings.json](.vscode/settings.json), add:
+
+```json
+{
+  "tslint.jsEnable": true
+}
+```

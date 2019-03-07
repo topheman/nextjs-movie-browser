@@ -22,7 +22,7 @@
     "ts:check": "tsc --noEmit",
     "lint": "npx tslint --project tsconfig.json -c tslint.json '**/*.{js,ts,tsx}'",
     "pretty": "npx prettier --write '**/*.{tsx,ts,js,jsx,json,css,scss,md}'",
-    "lint:precommit": "echo \"No precommit linting yet\" && exit 0",
+    "lint:precommit": "npm run lint",
     "test:precommit": "npm run ts:check && npm test"
   },
   "lint-staged": {

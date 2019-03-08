@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "description": "",
-  "repository": "https://github.com/topheman/nextjs-movie-browser",
+  "repository": {
+    "url": "https://github.com/topheman/nextjs-movie-browser.git",
+    "type": "git"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server",
     "build": "next build",
@@ -13,6 +16,7 @@
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",
     "test:unit:coverage": "jest --coverage",
+    "test:unit:verbose": "jest --verbose",
     "test:cypress": "npm run build && cross-env STRIP_SERVER_CONSOLE=true npm run cy:start-server-and-test",
     "test:cypress:dev": "npm-run-all --parallel --race dev cy:open",
     "test:cypress:debug-build": "npm run build && cross-env CYPRESS_LAUNCH_MODE=debug-build npm-run-all --parallel --race start cy:open",
@@ -23,7 +27,8 @@
     "lint": "npx tslint --project tsconfig.json -c tslint.json '**/*.{js,ts,tsx}'",
     "pretty": "npx prettier --write '**/*.{tsx,ts,js,jsx,json,css,scss,md}'",
     "lint:precommit": "npm run lint",
-    "test:precommit": "npm run ts:check && npm test"
+    "test:precommit": "npm run ts:check && npm test",
+    "generate-changelog": "./bin/generate-changelog.js"
   },
   "lint-staged": {
     "**/*.{tsx,ts,js,jsx,json,css,scss,md}": [
@@ -87,6 +92,8 @@
     "cross-env": "^5.2.0",
     "cypress": "^3.1.5",
     "cypress-testing-library": "^2.3.6",
+    "generate-changelog": "^1.7.1",
+    "github-url-from-git": "^1.5.0",
     "husky": "^1.3.1",
     "jest": "^23.6.0",
     "jest-dom": "^3.0.0",

@@ -175,8 +175,8 @@ What `.env` file can be used ?
 
 Files on the left have more priority than files on the right:
 
-- `npm run dev` / `npm run build`: `.env.development.local`, `.env.development`, `.env.local`, `.env`
-- `NODE_ENV=production npm run build`: `.env.production.local`, `.env.production`, `.env.local`, `.env`
+- `npm run dev`: `.env.development.local`, `.env.development`, `.env.local`, `.env`
+- `npm run build` / `npm start`: `.env.production.local`, `.env.production`, `.env.local`, `.env`
 - `npm test`: `.env.test.local`, `.env.test`, `.env` (note `.env.local` is missing)
 
 Env vars are filtered before being injected:

@@ -1,17 +1,15 @@
 import { useEffect } from "react";
-import i18next from "i18next";
 import { inject, observer } from "mobx-react";
 
 import Layout from "../src/components/Layout";
+import About from "../src/components/About";
 import { withNamespaces } from "../i18n";
 import TranslationsStore from "../src/stores/TranslationsStore";
 import withBlankWrapper from "../src/components/with-blank-wrapper";
 
 const AboutPage = ({
-  t,
   translationsStore
 }: {
-  t: i18next.TranslationFunction;
   translationsStore: TranslationsStore;
 }) => {
   // this page shouldn't expose translations, so reset them
@@ -20,8 +18,7 @@ const AboutPage = ({
   }, []);
   return (
     <Layout>
-      <h1>{t("about-title")}</h1>
-      <p>{t("about-content")}</p>
+      <About />
     </Layout>
   );
 };

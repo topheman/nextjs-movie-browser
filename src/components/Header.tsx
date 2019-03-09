@@ -41,7 +41,10 @@ const Header: React.FunctionComponent<{
           </a>
         </li>
         <li>
-          <a href="https://github.com/topheman" title="topheman on github">
+          <a
+            href="https://github.com/topheman/nextjs-movie-browser"
+            title="sources on github"
+          >
             github
           </a>
         </li>

@@ -38,7 +38,19 @@ const Home: React.FunctionComponent<IProps> = ({
   return (
     <>
       <h1>{t("home-title")}</h1>
-      <p>{t("home-content")}</p>
+      <p>
+        This project is a <strong>NextJS</strong> implementation of the{" "}
+        <em>themoviedb.org</em> website.
+      </p>
+      <p>
+        <Link href={{ pathname: "/about" }} as="/about">
+          <a>Read more about the project</a>
+        </Link>{" "}
+        /{" "}
+        <a href="https://github.com/topheman/nextjs-movie-browser">
+          Checkout the github repo
+        </a>
+      </p>
       {processedData.movie.length > 0 && (
         <>
           <h2>Movies</h2>

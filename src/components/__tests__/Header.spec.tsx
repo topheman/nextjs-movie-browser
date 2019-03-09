@@ -13,7 +13,9 @@ describe("src/component/Header", () => {
   afterEach(cleanup);
   it(`should render "${process.env.NEXTJS_APP_CLIENT_TITLE}"`, () => {
     const { getByText } = renderI18nNamespacesWrappedComponent(HeaderWithMobx);
-    expect(getByText(process.env.NEXTJS_APP_CLIENT_TITLE)).toBeTruthy();
+    expect(
+      getByText(new RegExp(process.env.NEXTJS_APP_CLIENT_TITLE))
+    ).toBeTruthy();
   });
   it("should render correct links", () => {
     const { getByText } = renderI18nNamespacesWrappedComponent(HeaderWithMobx);

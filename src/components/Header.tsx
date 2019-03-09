@@ -25,7 +25,10 @@ const Header: React.FunctionComponent<{
   const [languageChoiceOpen, toggleLanguageChoiceOpen] = useState(false);
   return (
     <div className={classNames(className)} {...filterHtmlProps(remainingProps)}>
-      <h1>{process.env.NEXTJS_APP_CLIENT_TITLE}</h1>
+      <h1>
+        🎬 {process.env.NEXTJS_APP_CLIENT_TITLE}{" "}
+        <img src="/static/themoviedb-logo.svg" style={{ width: 25 }} />
+      </h1>
       <ul
         style={{
           position: "absolute",

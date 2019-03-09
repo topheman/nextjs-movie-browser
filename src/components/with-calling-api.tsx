@@ -31,7 +31,7 @@ const prepareParamsAndCallApi: IPrepareCallApi = async (props, apiCall) => {
  * Decorator for NextJS pages that need to make an api request based on `query.id`
  *
  * Specify:
- * - apiCall: to be called to retrieve data based on id/language
+ * - apiCall: to be called to retrieve data based on id/language - optional (if not passed, data will be null)
  * - namespaces: will be injected in the `withNamespaces` decorator of the component
  * - namespacesRequired: will be returned by `getInitialProps` to prepare the translations needed
  */
@@ -40,7 +40,7 @@ const withCallingApi = <ApiEntity extends any>({
   namespaces,
   namespacesRequired
 }: {
-  apiCall: ({
+  apiCall?: ({
     language,
     id
   }: {
@@ -50,10 +50,10 @@ const withCallingApi = <ApiEntity extends any>({
   namespaces: string;
   namespacesRequired: string[];
 }) => (Comp: any) => {
-  type IComponentProps = AppWithIdNextRootPageProps<ApiEntity>;
+  type IComponentProps = AppWithIdNextRootPageProps<ApiEntity | null>;
 
   interface IComponentState {
-    data: ApiEntity | undefined;
+    data: ApiEntity | undefined | null;
   }
 
   type IGetInitialProps = AppWithIdNextRootPageGetInitialProps;
@@ -87,19 +87,22 @@ const withCallingApi = <ApiEntity extends any>({
     static async getInitialProps(
       props: IGetInitialProps
     ): Promise<{
-      data: ApiEntity;
+      data: ApiEntity | null;
       namespacesRequired: string[];
     }> {
       console.log(`${PageWithId.displayName}.getInitialProps`);
-      const data = await prepareParamsAndCallApi(props, ({ language, id }) =>
-        apiCall({ id, language })
-      );
+      let data = null;
+      if (typeof apiCall !== "undefined") {
+        data = await prepareParamsAndCallApi(props, ({ language, id }) =>
+          apiCall({ id, language })
+        );
+      }
       // store injected from _app.tsx, used in ssr
       const translationsStore =
         props.mobxStore && props.mobxStore.translationsStore;
       if (translationsStore) {
         translationsStore.setTranslations(
-          (data.translations && data.translations.translations) || []
+          (data && data.translations && data.translations.translations) || []
         );
       }
       return {
@@ -129,29 +132,40 @@ const withCallingApi = <ApiEntity extends any>({
     componentDidMount() {
       console.log(`${PageWithId.displayName}.componentDidMount`);
       this.props.translationsStore.setTranslations(
-        (this.props.data.translations &&
+        (this.props.data &&
+          this.props.data.translations &&
           this.props.data.translations.translations) ||
           []
       );
-      this.setStateData(this.props.data);
+      if (this.props.data) {
+        this.setStateData(this.props.data);
+      }
     }
     componentDidUpdate(prevProps: IComponentProps) {
       console.log(`${PageWithId.displayName}.componentDidUpdate`);
       // update translations client side when change from getInitialProps
       this.props.translationsStore.setTranslations(
-        (this.props.data.translations &&
+        (this.props.data &&
+          this.props.data.translations &&
           this.props.data.translations.translations) ||
           []
       );
       // just after first load (from ssr), ensure state is updated if data provided by getInitialProps changes
-      if (prevProps.data.id !== this.props.data.id) {
+      if (
+        prevProps.data &&
+        this.props.data &&
+        prevProps.data.id !== this.props.data.id
+      ) {
         this.setStateData(this.props.data);
       }
       // re-call api with different language when it changes
       if (
-        prevProps.translationLanguageFullCode !==
+        this.props.data &&
+        typeof apiCall !== "undefined" &&
+        (prevProps.translationLanguageFullCode !==
           this.props.translationLanguageFullCode ||
-        prevProps.defaultLanguageFullCode !== this.props.defaultLanguageFullCode
+          prevProps.defaultLanguageFullCode !==
+            this.props.defaultLanguageFullCode)
       ) {
         this.props.uiStore.setLoadingState({ loading: true });
         prepareParamsAndCallApi(
@@ -178,7 +192,7 @@ const withCallingApi = <ApiEntity extends any>({
               this.props.translationsStore.availableLanguagesCodes
             }
           />
-          {!this.state.data ? (
+          {!this.state.data && typeof apiCall !== "undefined" ? (
             <Error />
           ) : (
             <Comp

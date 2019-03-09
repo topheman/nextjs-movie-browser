@@ -1,18 +1,37 @@
 import React from "react";
 import i18next from "i18next";
 
+import MetaTags, {
+  commonMetaTagsExtractProps,
+  PropsMetaTags
+} from "./MetaTags";
 import { withNamespaces } from "../../i18n";
 import { PageRootComponent } from "../@types";
 
-// TODO - MetaTags
+const aboutMetaTagsExtractProps = ({
+  basePath
+}: {
+  basePath: string;
+}): PropsMetaTags => {
+  return {
+    title: process.env.NEXTJS_APP_CLIENT_TITLE as string,
+    description: "A NextJS implementation of the themoviedb.org website.",
+    image: `${basePath}/static/nextjs-movie-browser.png`
+  };
+};
 
 interface IProps extends PageRootComponent<any> {
   t: i18next.TranslationFunction;
 }
 
-const About: React.FunctionComponent<IProps> = ({ t }) => {
+const About: React.FunctionComponent<IProps> = ({ basePath, pathname, t }) => {
   return (
     <>
+      <MetaTags
+        {...commonMetaTagsExtractProps({ basePath, pathname })}
+        {...aboutMetaTagsExtractProps({ basePath })}
+        twitterCard="summary_large_image"
+      />
       <h1>{t("about-title")}</h1>
       <p>
         This project is a <strong>NextJS</strong> implementation of the{" "}

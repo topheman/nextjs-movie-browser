@@ -1,6 +1,10 @@
 import React from "react";
 import i18next from "i18next";
 
+import MetaTags, {
+  commonMetaTagsExtractProps,
+  PropsMetaTags
+} from "./MetaTags";
 import Link, { TmdbEntityMinimum } from "./Link";
 import { withNamespaces } from "../../i18n";
 import {
@@ -9,15 +13,25 @@ import {
   TmdbTrendingResultsEntity
 } from "../@types";
 
-// TODO - MetaTags + refactor: split in sub components
+const homeMetaTagsExtractProps = ({
+  basePath
+}: {
+  basePath: string;
+}): PropsMetaTags => {
+  return {
+    title: process.env.NEXTJS_APP_CLIENT_TITLE as string,
+    description: "A NextJS implementation of the themoviedb.org website.",
+    image: `${basePath}/static/nextjs-movie-browser.png`
+  };
+};
 
 interface IProps extends PageRootComponent<TmdbTrendingResults> {
   t: i18next.TranslationFunction;
 }
 
 const Home: React.FunctionComponent<IProps> = ({
-  // basePath,
-  // pathname,
+  basePath,
+  pathname,
   t,
   data
 }) => {
@@ -37,6 +51,11 @@ const Home: React.FunctionComponent<IProps> = ({
   );
   return (
     <>
+      <MetaTags
+        {...commonMetaTagsExtractProps({ basePath, pathname })}
+        {...homeMetaTagsExtractProps({ basePath })}
+        twitterCard="summary_large_image"
+      />
       <h1>{t("home-title")}</h1>
       <p>
         This project is a <strong>NextJS</strong> implementation of the{" "}

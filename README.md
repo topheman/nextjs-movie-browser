@@ -2,6 +2,8 @@
 
 [![Demo](https://img.shields.io/badge/demo-online-blue.svg)](https://topheman-movie-browser.herokuapp.com)
 
+<p align="center"><img src="./static/nextjs-movie-browser.png" width=530 /></p>
+
 This project is a **NextJS** implementation of the [themoviedb.org](https://www.themoviedb.org) website. The main goal was to dive deep into the NextJS framework with the following constaints/features:
 
 - **SSR (Server Side Rendering)**: use NextJS to Server Side render the page with the data retrieved from the API and have a transparent client side navigation

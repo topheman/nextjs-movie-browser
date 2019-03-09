@@ -14,5 +14,5 @@ module.exports = {
     "<rootDir>/cypress/"
   ],
   moduleFileExtensions: ["tsx", "ts", "jsx", "js"],
-  collectCoverage: true
+  collectCoverage: false
 };

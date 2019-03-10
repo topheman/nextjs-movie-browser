@@ -8,6 +8,7 @@
     "url": "https://github.com/topheman/nextjs-movie-browser.git",
     "type": "git"
   },
+  "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server",
     "build": "next build",

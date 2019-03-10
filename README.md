@@ -26,7 +26,7 @@ Here is a list of some of the technologies I'm using:
 - [TypeScript](NOTES.md#typescript-support) / [Tslint](NOTES.md#tslint) / [Prettier](https://github.com/prettier/prettier)
 - [Jest](NOTES.md#jest-support) / [Cypress.io](https://www.cypress.io/) / [react-testing-library](https://github.com/kentcdodds/react-testing-library) / [cypress-testing-library](https://github.com/kentcdodds/cypress-testing-library)
 
-ℹ️ The v1 is focused on SSR / i18n (backend and client behaviour), it has a basic design that lets you focus on those parts.
+ℹ️ The [v1](#versions) was focused on SSR / i18n (backend and client behaviour), it has a basic design that lets you focus on those parts, the [v2](#versions) is currently focused on the design part.
 
 🗒 [Read the notes I took along the way](NOTES.md).
 
@@ -207,6 +207,20 @@ npm run generate-changelog -- v1.1.0 v1.2.0
 Ready to be pasted to the github releases part.
 
 ## FAQ
+
+### Versions
+
+#### v2 (current)
+
+This is a work in progress of the design part.
+
+#### v1
+
+The v1 has a strong setup for the SSR / SEO / i18n part also for code quality (type checking, linting, unit/e2e testing, git hooks ...).
+
+It has a very basic design. I mainly focused on the NextJS part in order to do only design on the v2.
+
+The code is available on this [branch](https://github.com/topheman/nextjs-movie-browser/tree/v1.x).
 
 ### Precommit hook
 

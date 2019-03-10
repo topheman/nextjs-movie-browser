@@ -13,12 +13,14 @@ import { getBasePath } from "../src/utils/url";
 import DocumentLinkTags from "../src/components/DocumentLinkTags";
 
 export default class MyDocument extends Document<{
+  isProduction: boolean;
   defaultLanguageShortCode: string;
   defaultLanguageFullCode: string;
   basePath: string;
 }> {
   static async getInitialProps(ctx: NextDocumentContext) {
     console.log("MyDocument.getInitialProps");
+    const isProduction = process.env.NODE_ENV === "production";
     const initialProps = await Document.getInitialProps(ctx);
     const defaultLanguageShortCode = getDefaultLanguageFromCookie(
       ctx.req && ctx.req.headers.cookie
@@ -29,9 +31,27 @@ export default class MyDocument extends Document<{
     );
     return {
       ...initialProps,
+      isProduction,
       defaultLanguageShortCode,
       defaultLanguageFullCode,
       basePath: getBasePath(ctx.req as any, undefined)
+    };
+  }
+
+  // Function will be called below to inject
+  // script contents onto page
+  setGoogleTags() {
+    return {
+      __html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        if (location.hostname !== "localhost") {
+          gtag('js', new Date());
+          gtag('config', '${
+            process.env.NEXTJS_APP_CLIENT_GOOGLE_ANALYTICS_ID
+          }');
+        }
+      `
     };
   }
 
@@ -53,6 +73,17 @@ export default class MyDocument extends Document<{
             <Main />
             <div id="modal" />
             <NextScript />
+            {this.props.isProduction && (
+              <>
+                <script
+                  async
+                  src={`https://www.googletagmanager.com/gtag/js?id=${
+                    process.env.NEXTJS_APP_CLIENT_GOOGLE_ANALYTICS_ID
+                  }`}
+                />
+                <script dangerouslySetInnerHTML={this.setGoogleTags()} />
+              </>
+            )}
           </body>
         </html>
         <script

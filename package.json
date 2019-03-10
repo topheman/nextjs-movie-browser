@@ -2,7 +2,8 @@
   "name": "nextjs-movie-browser",
   "version": "0.0.1",
   "private": true,
-  "description": "",
+  "description": "A NextJS implementation of the themoviedb.org website.",
+  "keywords": ["NextJS", "ReactJS", "TypeScript", "Tslint","Jest", "Cypress.io", "i18n"],
   "repository": {
     "url": "https://github.com/topheman/nextjs-movie-browser.git",
     "type": "git"
@@ -44,10 +45,6 @@
   "engines": {
     "node": "^10.15.0"
   },
-  "keywords": [
-    "next.js",
-    "React"
-  ],
   "author": "Christophe Rosset <tophe@topheman.com> (http://labs.topheman.com/)",
   "dependencies": {
     "axios": "^0.18.0",

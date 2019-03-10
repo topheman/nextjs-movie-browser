@@ -1,10 +1,7 @@
 import React from "react";
 import i18next from "i18next";
 
-import MetaTags, {
-  commonMetaTagsExtractProps,
-  PropsMetaTags
-} from "./MetaTags";
+import MetaTags, { commonMetaTagsExtractProps } from "./MetaTags";
 import Link, { TmdbEntityMinimum } from "./Link";
 import { withNamespaces } from "../../i18n";
 import {
@@ -12,18 +9,6 @@ import {
   PageRootComponent,
   TmdbTrendingResultsEntity
 } from "../@types";
-
-const homeMetaTagsExtractProps = ({
-  basePath
-}: {
-  basePath: string;
-}): PropsMetaTags => {
-  return {
-    title: process.env.NEXTJS_APP_CLIENT_TITLE as string,
-    description: "A NextJS implementation of the themoviedb.org website.",
-    image: `${basePath}/static/nextjs-movie-browser.png`
-  };
-};
 
 interface IProps extends PageRootComponent<TmdbTrendingResults> {
   t: i18next.TranslationFunction;
@@ -53,7 +38,6 @@ const Home: React.FunctionComponent<IProps> = ({
     <>
       <MetaTags
         {...commonMetaTagsExtractProps({ basePath, pathname })}
-        {...homeMetaTagsExtractProps({ basePath })}
         twitterCard="summary_large_image"
       />
       <h1>{t("home-title")}</h1>

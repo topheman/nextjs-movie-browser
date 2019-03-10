@@ -18,6 +18,7 @@ export interface PropsMetaTags {
   title?: string;
   url?: string;
   description?: string;
+  keywords?: string;
   image?: string;
   children?: any;
 }
@@ -32,7 +33,19 @@ export const commonMetaTagsExtractProps = ({
     siteName,
     twitterHandle,
     url: (basePath && pathname && `${basePath}${pathname}`) || undefined,
-    twitterCard: "summary"
+    twitterCard: "summary",
+    title: process.env.NEXTJS_APP_CLIENT_TITLE as string,
+    description: "A NextJS implementation of the themoviedb.org website.",
+    keywords: [
+      "NextJS",
+      "ReactJS",
+      "TypeScript",
+      "Tslint",
+      "Jest",
+      "Cypress.io",
+      "i18n"
+    ].join(", "),
+    image: `${basePath}/static/nextjs-movie-browser.png`
   };
 };
 
@@ -45,7 +58,8 @@ const MetaTags: React.FunctionComponent<PropsMetaTags> = ({
   image,
   type,
   title,
-  description
+  description,
+  keywords
 }) => {
   return (
     <Head>
@@ -81,6 +95,7 @@ const MetaTags: React.FunctionComponent<PropsMetaTags> = ({
           key="twitter-description"
         />
       )}
+      {keywords && <meta name="keywords" content={keywords} key="keywords" />}
       {image && (
         <meta name="twitter:image" content={image} key="twitter-image" />
       )}

@@ -26,7 +26,7 @@ Here is a list of some of the technologies I'm using:
 - [TypeScript](NOTES.md#typescript-support) / [Tslint](NOTES.md#tslint) / [Prettier](https://github.com/prettier/prettier)
 - [Jest](NOTES.md#jest-support) / [Cypress.io](https://www.cypress.io/) / [react-testing-library](https://github.com/kentcdodds/react-testing-library) / [cypress-testing-library](https://github.com/kentcdodds/cypress-testing-library)
 
-ℹ️ The v1 is focused on SSR / i18n (backend and client behaviour), it has a more than simple design (which can be interesting if you want to focus only on the NextJS part).
+ℹ️ The v1 is focused on SSR / i18n (backend and client behaviour), it has a basic design that lets you focus on those parts.
 
 🗒 [Read the notes I took along the way](NOTES.md).
 

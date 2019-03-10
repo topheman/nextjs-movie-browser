@@ -54,6 +54,7 @@ const Home: React.FunctionComponent<IProps> = ({
           Checkout the github repo
         </a>
       </p>
+      <p>ℹ️ This v1 has a basic design, it's focused on the SSR / i18n part.</p>
       {processedData.movie.length > 0 && (
         <>
           <h2>Movies</h2>

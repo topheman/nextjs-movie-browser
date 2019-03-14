@@ -16,10 +16,11 @@ const HeaderWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #900000;
+  background-color: white;
   width: 100%;
   z-index: 999;
-  height: 60px;
+  height: ${props =>
+    `calc(${props.theme.headerTopHeight} + ${props.theme.searchHeight})`};
 `;
 
 const Header: React.FunctionComponent<{

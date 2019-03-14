@@ -14,13 +14,12 @@ import {
 
 const DEBOUNCE_MS = 300;
 
-interface SearchProps {
+interface SearchProps extends React.HTMLAttributes<HTMLElement> {
   searchResource: (
     queryValue: string,
     { cancelToken }: { cancelToken?: CancelToken }
   ) => Promise<TmdbSearchResults>;
   goToResource: (searchResult: TmdbSearchResultsEntity) => void;
-  className?: string;
 }
 
 interface SearchState {

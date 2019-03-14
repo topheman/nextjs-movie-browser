@@ -7,12 +7,15 @@ import Footer from "./Footer";
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
+    padding: 0;
     background-color: #fff8f8;
-    padding: 8px;
+    font-family: Arial,sans-serif;
+  }
+  main {
+    margin-top: 90px;
+    padding: 0 8px;
   }
 `;
-
-// remove global padding
 
 const Wrapper = styled.div`
   max-width: 920px;

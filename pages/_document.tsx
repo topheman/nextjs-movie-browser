@@ -88,6 +88,11 @@ export default class MyDocument extends Document<{
         <html lang={this.props.defaultLanguageShortCode}>
           <Head>
             <style>{`/* custom! */`}</style>
+            <meta
+              name="viewport"
+              content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=yes"
+              key="viewport"
+            />
           </Head>
           <DocumentLinkTags />
           <body className="custom_class">

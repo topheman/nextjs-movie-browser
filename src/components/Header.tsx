@@ -2,6 +2,7 @@ import React from "react";
 import i18next from "i18next";
 import Router from "next/router";
 import classNames from "classnames";
+import styled from "styled-components";
 
 import { apiTmdb } from "../services/apis";
 import { withNamespaces } from "../../i18n";
@@ -11,12 +12,25 @@ import Search from "./Search";
 import { makeLinkProps } from "./Link";
 import { filterHtmlProps } from "../utils/helpers";
 
+const HeaderWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #900000;
+  width: 100%;
+  z-index: 999;
+  height: 60px;
+`;
+
 const Header: React.FunctionComponent<{
   t: i18next.TranslationFunction;
   className?: string;
 }> = ({ t, className, ...remainingProps }) => {
   return (
-    <div className={classNames(className)} {...filterHtmlProps(remainingProps)}>
+    <HeaderWrapper
+      className={classNames(className)}
+      {...filterHtmlProps(remainingProps)}
+    >
       <HeaderTop />
       <LanguageManagerConsumer>
         {({ defaultLanguageFullCode, translationLanguageFullCode }) => {
@@ -38,11 +52,12 @@ const Header: React.FunctionComponent<{
                 console.log("goToResource", href, as);
                 Router.push(href, as);
               }}
+              style={{ position: "absolute", top: "60px" }}
             />
           );
         }}
       </LanguageManagerConsumer>
-    </div>
+    </HeaderWrapper>
   );
 };
 

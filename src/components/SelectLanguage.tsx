@@ -6,7 +6,7 @@ import { filterHtmlProps } from "../utils/helpers";
 const SelectLanguage: React.FunctionComponent<
   {
     languagesList: LanguageList;
-    label: React.ReactNode;
+    label?: React.ReactNode;
     onLanguageChange: (languageCode: string) => void;
     value: string | undefined;
     "data-testid": string;
@@ -21,7 +21,7 @@ const SelectLanguage: React.FunctionComponent<
 }) => {
   return (
     <label {...filterHtmlProps(remainingProps)}>
-      <span>{label}</span>
+      {label && <span style={{ marginRight: 8 }}>{label}</span>}
       <select
         data-testid={dataTestid}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {

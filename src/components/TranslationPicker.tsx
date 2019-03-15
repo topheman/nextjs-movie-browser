@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import i18next from "i18next";
 import { inject, observer } from "mobx-react";
 import styled from "styled-components";
 
 import { LanguageList } from "../@types";
+import { withNamespaces } from "../../i18n";
 import SelectLanguage from "./SelectLanguage";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import TranslationsStore from "../stores/TranslationsStore";
@@ -11,6 +13,7 @@ import withBlankWrapper from "./with-blank-wrapper";
 
 export interface TranslationPickerProps
   extends React.HTMLAttributes<HTMLElement> {
+  t: i18next.TranslationFunction;
   defaultLanguages: LanguageList;
   translationsStore?: TranslationsStore;
   className?: string;
@@ -27,6 +30,16 @@ const PickerButton = styled.button`
   :hover {
     background: white;
     color: black;
+  }
+`;
+
+const Title = styled.h2`
+  font-size: 1.2rem;
+  margin: 0.5em 0;
+  white-space: nowrap;
+  span {
+    color: gray;
+    font-size: 0.8em;
   }
 `;
 
@@ -50,6 +63,7 @@ const PickerWrapper = styled.div<{ popupOpen: boolean }>`
  */
 
 const TranslationPicker: React.FunctionComponent<TranslationPickerProps> = ({
+  t,
   defaultLanguages,
   translationsStore,
   ...remainingProps
@@ -111,32 +125,44 @@ const TranslationPicker: React.FunctionComponent<TranslationPickerProps> = ({
               </PickerButton>
               <PickerWrapper popupOpen={popupOpen}>
                 {translationLanguages && translationLanguages.length > 0 && (
+                  <>
+                    <Title>
+                      {t("common-translation-picker-translations")}{" "}
+                      <span>{translationLanguages.length}</span>
+                    </Title>
+                    <SelectLanguage
+                      style={{ display: "block", whiteSpace: "nowrap" }}
+                      languagesList={[
+                        { code: "", label: "Choose your language" }
+                      ].concat(translationLanguages)}
+                      onLanguageChange={languageCode => {
+                        if (languageCode === "") {
+                          return resetTranslationLanguage();
+                        }
+                        return switchTranslationLanguage(languageCode);
+                      }}
+                      value={translationLanguageFullCode}
+                      data-testid="switch-translation-language"
+                    />
+                  </>
+                )}
+                <>
+                  <Title>
+                    {t("common-translation-picker-language-preferences")}
+                  </Title>
                   <SelectLanguage
                     style={{ display: "block", whiteSpace: "nowrap" }}
-                    label="Translation language"
-                    languagesList={[
-                      { code: "", label: "Choose your language" }
-                    ].concat(translationLanguages)}
-                    onLanguageChange={languageCode => {
-                      if (languageCode === "") {
-                        return resetTranslationLanguage();
-                      }
-                      return switchTranslationLanguage(languageCode);
-                    }}
-                    value={translationLanguageFullCode}
-                    data-testid="switch-translation-language"
+                    label={t(
+                      "common-translation-picker-label-default-language"
+                    )}
+                    languagesList={defaultLanguages}
+                    onLanguageChange={languageCode =>
+                      switchDefaultLanguage(languageCode)
+                    }
+                    value={defaultLanguageFullCode}
+                    data-testid="switch-default-language"
                   />
-                )}
-                <SelectLanguage
-                  style={{ display: "block", whiteSpace: "nowrap" }}
-                  label="Default language"
-                  languagesList={defaultLanguages}
-                  onLanguageChange={languageCode =>
-                    switchDefaultLanguage(languageCode)
-                  }
-                  value={defaultLanguageFullCode}
-                  data-testid="switch-default-language"
-                />
+                </>
               </PickerWrapper>
             </>
           );
@@ -146,6 +172,6 @@ const TranslationPicker: React.FunctionComponent<TranslationPickerProps> = ({
   );
 };
 
-export default inject("translationsStore")(
-  observer(withBlankWrapper(TranslationPicker))
+export default withNamespaces("common")(
+  inject("translationsStore")(observer(withBlankWrapper(TranslationPicker)))
 );

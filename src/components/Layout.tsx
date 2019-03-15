@@ -16,8 +16,11 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
   body {
     margin: 0;
     padding: 0;
-    background-color: #fff8f8;
+    background-color: #fafafa;
     font-family: Arial,sans-serif;
+  }
+  h1,h2,h3,h4,h5,h6,a {
+    color: ${props => props.theme.primary};
   }
   main {
     margin-top: ${props =>

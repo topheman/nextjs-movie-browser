@@ -1,9 +1,10 @@
 // based on https://github.com/topheman/npm-registry-browser/blob/master/src/components/Search.js
 
-import { Component } from "react";
+import React, { Component } from "react";
 import Downshift from "downshift";
 import axios, { CancelToken, Canceler } from "axios";
 import classNames from "classnames";
+import styled from "styled-components";
 
 import { filterHtmlProps, debounce } from "../utils/helpers";
 import {
@@ -14,13 +15,13 @@ import {
 
 const DEBOUNCE_MS = 300;
 
-interface SearchProps {
+interface SearchProps extends React.HTMLAttributes<HTMLElement> {
   searchResource: (
     queryValue: string,
     { cancelToken }: { cancelToken?: CancelToken }
   ) => Promise<TmdbSearchResults>;
   goToResource: (searchResult: TmdbSearchResultsEntity) => void;
-  className?: string;
+  placeholder: string;
 }
 
 interface SearchState {
@@ -28,6 +29,63 @@ interface SearchState {
   error: boolean;
   results: TmdbSearchResultsList;
 }
+
+const Wrapper = styled.div`
+  height: ${props => props.theme.searchHeight};
+  max-width: ${props => props.theme.maxWidth};
+  background-image: url(/static/magnifier-icon.svg);
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  input {
+    border: 0px;
+    height: ${props => props.theme.searchHeight};
+    font-size: 100%;
+    width: calc(100% - ${props => props.theme.searchHeight});
+    padding: 0px;
+    padding-left: ${props => props.theme.searchHeight};
+    background: none;
+    outline: none;
+  }
+  span.close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-image: url(/static/close-icon.svg);
+    opacity: 0.5;
+    cursor: pointer;
+    :hover {
+      opacity: 0.8;
+    }
+  }
+`;
+
+const ResultsWrapper = styled.ul`
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  left: 0;
+  list-style: none;
+  border-top: 1px solid gray;
+`;
+
+const ResultItem = styled.li`
+  height: 1.5rem;
+  line-height: 1.5rem;
+  border-bottom: 1px solid gray;
+  span {
+    display: block;
+    max-width: ${props => props.theme.maxWidth};
+    margin: 0 auto;
+  }
+`;
 
 class Search extends Component<SearchProps, SearchState> {
   state = {
@@ -71,48 +129,60 @@ class Search extends Component<SearchProps, SearchState> {
       goToResource,
       searchResource: _,
       className,
+      placeholder,
       ...remainingProps
     } = this.props;
     const { loading, error, results } = this.state;
     return (
       <Downshift itemToString={() => ""} id="resources-search">
         {({
-          getLabelProps,
+          getRootProps,
           getInputProps,
           getMenuProps,
           isOpen,
           getItemProps,
           highlightedIndex,
-          clearSelection
+          clearSelection,
+          inputValue
         }) => (
-          <div
+          <Wrapper
+            {...getRootProps()}
             className={classNames(className)}
             {...filterHtmlProps(remainingProps)}
           >
-            <label {...getLabelProps()}>Search</label>
-            <input
-              {...getInputProps({
-                onKeyDown: (event: any) => {
-                  if (event.key === "Enter" && highlightedIndex !== null) {
-                    goToResource(results[highlightedIndex]);
+            <InputWrapper>
+              <input
+                {...getInputProps({
+                  placeholder,
+                  onKeyDown: (event: any) => {
+                    if (event.key === "Enter" && highlightedIndex !== null) {
+                      goToResource(results[highlightedIndex]);
+                    }
+                  },
+                  onChange: (event: any) => {
+                    const value = event.target.value;
+                    // the API only answer to queries with 2 chars or more
+                    if (value.length > 1) {
+                      this.search(value);
+                    } else {
+                      this.setState({ results: [] });
+                    }
                   }
-                },
-                onChange: (event: any) => {
-                  const value = event.target.value;
-                  // the API only answer to queries with 2 chars or more
-                  if (value.length > 1) {
-                    this.search(value);
-                  } else {
-                    this.setState({ results: [] });
-                  }
-                }
-              })}
-            />
-            <button onClick={() => clearSelection()}>X</button>
+                })}
+              />
+              {inputValue && (
+                <span
+                  className="close"
+                  onClick={() => clearSelection()}
+                  role="button"
+                  title="clear"
+                />
+              )}
+            </InputWrapper>
             {isOpen && !error && !loading && results.length > 0 && (
-              <ul {...getMenuProps()}>
+              <ResultsWrapper {...getMenuProps()}>
                 {results.map((item, index) => (
-                  <li
+                  <ResultItem
                     key={item.id}
                     data-testid={`search-result-${item.media_type}-${item.id}`}
                     {...getItemProps({
@@ -123,15 +193,17 @@ class Search extends Component<SearchProps, SearchState> {
                       }
                     })}
                   >
-                    {item.name ||
-                      item.original_name ||
-                      item.title ||
-                      item.original_title}
-                  </li>
+                    <span>
+                      {item.name ||
+                        item.original_name ||
+                        item.title ||
+                        item.original_title}
+                    </span>
+                  </ResultItem>
                 ))}
-              </ul>
+              </ResultsWrapper>
             )}
-          </div>
+          </Wrapper>
         )}
       </Downshift>
     );

@@ -1,26 +1,25 @@
 // Based on https://github.com/topheman/npm-registry-browser/blob/master/src/components/Footer.js
 
 import React from "react";
-import classNames from "classnames";
+import styled from "styled-components";
 
 import { filterHtmlProps } from "../utils/helpers";
+
+const Wrapper = styled.footer`
+  text-align: center;
+`;
 
 interface FooterProps {
   fromFullYear: number;
   toFullYear?: number;
-  className?: string;
 }
 
 const Footer: React.FunctionComponent<FooterProps> = ({
   fromFullYear,
   toFullYear,
-  className,
   ...remainingProps
 }) => (
-  <footer
-    className={classNames(className)}
-    {...filterHtmlProps(remainingProps)}
-  >
+  <Wrapper {...filterHtmlProps(remainingProps)}>
     <p>
       ©
       {fromFullYear === toFullYear
@@ -36,12 +35,11 @@ const Footer: React.FunctionComponent<FooterProps> = ({
       </a>{" "}
       but is not endorsed or certified by TMDb.
     </p>
-  </footer>
+  </Wrapper>
 );
 
 Footer.defaultProps = {
-  toFullYear: new Date().getFullYear(),
-  className: undefined
+  toFullYear: new Date().getFullYear()
 };
 
 export default Footer;

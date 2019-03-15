@@ -4,14 +4,16 @@
       "presets": ["next/babel", "@zeit/next-typescript/babel"],
       "plugins": [
         ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["@babel/plugin-proposal-class-properties", { "loose": true }]
+        ["@babel/plugin-proposal-class-properties", { "loose": true }],
+        ["styled-components", { "ssr": true, "displayName": true }]
       ]
     },
     "production": {
       "presets": ["next/babel", "@zeit/next-typescript/babel"],
       "plugins": [
         ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["@babel/plugin-proposal-class-properties", { "loose": true }]
+        ["@babel/plugin-proposal-class-properties", { "loose": true }],
+        ["styled-components", { "ssr": true, "displayName": false }]
       ]
     },
     "test": {
@@ -28,7 +30,8 @@
       ],
       "plugins": [
         ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["@babel/plugin-proposal-class-properties", { "loose": true }]
+        ["@babel/plugin-proposal-class-properties", { "loose": true }],
+        ["styled-components", { "ssr": true, "displayName": false }]
       ]
     }
   }

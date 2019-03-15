@@ -1,4 +1,8 @@
 {
   "common-label-home": "Accueil",
-  "common-label-about": "A propos"
+  "common-label-about": "A propos",
+  "common-search-placeholder": "Rechercher un film, une série, un artiste ...",
+  "common-translation-picker-translations": "Traductions",
+  "common-translation-picker-language-preferences": "Préférences de langue",
+  "common-translation-picker-label-default-language": "Langage par défaut"
 }

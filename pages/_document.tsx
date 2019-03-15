@@ -7,6 +7,7 @@ import Document, {
   NextScript,
   NextDocumentContext
 } from "next/document";
+import { ServerStyleSheet } from "styled-components";
 
 import { getDefaultLanguageFromCookie } from "../src/services/i18n/utils";
 import { getBasePath } from "../src/utils/url";
@@ -21,7 +22,6 @@ export default class MyDocument extends Document<{
   static async getInitialProps(ctx: NextDocumentContext) {
     console.log("MyDocument.getInitialProps");
     const isProduction = process.env.NODE_ENV === "production";
-    const initialProps = await Document.getInitialProps(ctx);
     const defaultLanguageShortCode = getDefaultLanguageFromCookie(
       ctx.req && ctx.req.headers.cookie
     );
@@ -29,13 +29,34 @@ export default class MyDocument extends Document<{
       ctx.req && ctx.req.headers.cookie,
       true
     );
-    return {
-      ...initialProps,
-      isProduction,
-      defaultLanguageShortCode,
-      defaultLanguageFullCode,
-      basePath: getBasePath(ctx.req as any, undefined)
-    };
+    const basePath = getBasePath(ctx.req as any, undefined);
+
+    const sheet = new ServerStyleSheet();
+    const originalRenderPage = ctx.renderPage;
+
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+        });
+
+      const initialProps = await Document.getInitialProps(ctx);
+      return {
+        ...initialProps,
+        isProduction,
+        defaultLanguageShortCode,
+        defaultLanguageFullCode,
+        basePath,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        )
+      };
+    } finally {
+      sheet.seal();
+    }
   }
 
   // Function will be called below to inject
@@ -67,6 +88,11 @@ export default class MyDocument extends Document<{
         <html lang={this.props.defaultLanguageShortCode}>
           <Head>
             <style>{`/* custom! */`}</style>
+            <meta
+              name="viewport"
+              content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=yes"
+              key="viewport"
+            />
           </Head>
           <DocumentLinkTags />
           <body className="custom_class">

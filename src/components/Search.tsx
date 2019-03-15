@@ -21,6 +21,7 @@ interface SearchProps extends React.HTMLAttributes<HTMLElement> {
     { cancelToken }: { cancelToken?: CancelToken }
   ) => Promise<TmdbSearchResults>;
   goToResource: (searchResult: TmdbSearchResultsEntity) => void;
+  placeholder: string;
 }
 
 interface SearchState {
@@ -61,6 +62,27 @@ const InputWrapper = styled.div`
     :hover {
       opacity: 0.8;
     }
+  }
+`;
+
+const ResultsWrapper = styled.ul`
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  left: 0;
+  list-style: none;
+  border-top: 1px solid gray;
+`;
+
+const ResultItem = styled.li`
+  height: 1.5rem;
+  line-height: 1.5rem;
+  border-bottom: 1px solid gray;
+  span {
+    display: block;
+    max-width: ${props => props.theme.maxWidth};
+    margin: 0 auto;
   }
 `;
 
@@ -106,6 +128,7 @@ class Search extends Component<SearchProps, SearchState> {
       goToResource,
       searchResource: _,
       className,
+      placeholder,
       ...remainingProps
     } = this.props;
     const { loading, error, results } = this.state;
@@ -129,6 +152,7 @@ class Search extends Component<SearchProps, SearchState> {
             <InputWrapper>
               <input
                 {...getInputProps({
+                  placeholder,
                   onKeyDown: (event: any) => {
                     if (event.key === "Enter" && highlightedIndex !== null) {
                       goToResource(results[highlightedIndex]);
@@ -155,9 +179,9 @@ class Search extends Component<SearchProps, SearchState> {
               )}
             </InputWrapper>
             {isOpen && !error && !loading && results.length > 0 && (
-              <ul {...getMenuProps()}>
+              <ResultsWrapper {...getMenuProps()}>
                 {results.map((item, index) => (
-                  <li
+                  <ResultItem
                     key={item.id}
                     data-testid={`search-result-${item.media_type}-${item.id}`}
                     {...getItemProps({
@@ -168,13 +192,15 @@ class Search extends Component<SearchProps, SearchState> {
                       }
                     })}
                   >
-                    {item.name ||
-                      item.original_name ||
-                      item.title ||
-                      item.original_title}
-                  </li>
+                    <span>
+                      {item.name ||
+                        item.original_name ||
+                        item.title ||
+                        item.original_title}
+                    </span>
+                  </ResultItem>
                 ))}
-              </ul>
+              </ResultsWrapper>
             )}
           </Wrapper>
         )}

@@ -21,6 +21,7 @@ const HeaderWrapper = styled.div`
   z-index: 999;
   height: ${props =>
     `calc(${props.theme.headerTopHeight} + ${props.theme.searchHeight})`};
+  border-bottom: 1px solid #dedede;
 `;
 
 const SearchStyled = styled(Search)`
@@ -60,6 +61,7 @@ const Header: React.FunctionComponent<{
                 console.log("goToResource", href, as);
                 Router.push(href, as);
               }}
+              placeholder={t("common-search-placeholder")}
             />
           );
         }}

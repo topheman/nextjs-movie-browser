@@ -48,6 +48,7 @@ const InputWrapper = styled.div`
     padding: 0px;
     padding-left: ${props => props.theme.searchHeight};
     background: none;
+    outline: none;
   }
   span.close {
     position: absolute;

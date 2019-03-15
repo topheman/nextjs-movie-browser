@@ -85,12 +85,12 @@ const Header: React.FunctionComponent<{
           <a>{process.env.NEXTJS_APP_CLIENT_TITLE}</a>
         </Link>
       </Title>
-      <SiteNetworkStyled />
       <TranslationPickerStyled
         popupOpen={languageChoiceOpen}
         togglePopupOpen={toggleLanguageChoiceOpen}
         defaultLanguages={defaultLanguages}
       />
+      <SiteNetworkStyled />
       <ShowLoadingState>
         {({ loading }) => <>{loading && <LoaderStyled size={0.6} />}</>}
       </ShowLoadingState>

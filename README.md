@@ -7,6 +7,7 @@
 This project is a **NextJS** implementation of the [themoviedb.org](https://www.themoviedb.org) website. The main goal was to dive deep into the NextJS framework with the following constaints/features:
 
 - **SSR (Server Side Rendering)**: use NextJS to Server Side render the page with the data retrieved from the API and have a transparent client side navigation
+  - **critical-path CSS**: extracting critical CSS is made easy using a CSS-in-JS library like styled-component
 - **SEO friendly**: server side render meta tags relative to content based on API result
 - **Social Media cards friendly**: server side render meta tags relative to twitter/facebook ... to customize thumbnails/description when page is shared (also works for slack, messenger, WhatsApp ...)
 - **i18n**
@@ -25,6 +26,7 @@ Here is a list of some of the technologies I'm using:
 - [NextJS](https://github.com/zeit/next.js/) / [ReactJS](https://github.com/facebook/react)
 - [TypeScript](NOTES.md#typescript-support) / [Tslint](NOTES.md#tslint) / [Prettier](https://github.com/prettier/prettier)
 - [Jest](NOTES.md#jest-support) / [Cypress.io](https://www.cypress.io/) / [react-testing-library](https://github.com/kentcdodds/react-testing-library) / [cypress-testing-library](https://github.com/kentcdodds/cypress-testing-library)
+- [styled-components](https://www.styled-components.com/)
 
 ℹ️ The [v1](#versions) was focused on SSR / i18n (backend and client behaviour), it has a basic design that lets you focus on those parts, the [v2](#versions) is currently focused on the design part.
 

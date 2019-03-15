@@ -2,6 +2,7 @@ import React from "react";
 import i18next from "i18next";
 
 import MetaTags, { commonMetaTagsExtractProps } from "./MetaTags";
+import Link from "./Link";
 import { withNamespaces } from "../../i18n";
 import { PageRootComponent } from "../@types";
 
@@ -18,6 +19,12 @@ const About: React.FunctionComponent<IProps> = ({ basePath, pathname, t }) => {
       />
       <h1>{t("about-title")}</h1>
       <p>
+        <Link href={{ pathname: "/" }} as="/">
+          <a>🏠Back home</a>
+        </Link>
+        .
+      </p>
+      <p>
         This project is a <strong>NextJS</strong> implementation of the{" "}
         <a href="https://www.themoviedb.org">themoviedb.org</a> website. The
         main goal was to dive deep into the NextJS framework with the following
@@ -28,6 +35,12 @@ const About: React.FunctionComponent<IProps> = ({ basePath, pathname, t }) => {
           <strong>SSR (Server Side Rendering)</strong>: use NextJS to Server
           Side render the page with the data retrieved from the API and have a
           transparent client side navigation
+          <ul>
+            <li>
+              <strong>critical-path CSS</strong>: extracting critical CSS is
+              made easy using a CSS-in-JS library like styled-component
+            </li>
+          </ul>
         </li>
         <li>
           <strong>SEO friendly</strong>: server side render meta tags relative

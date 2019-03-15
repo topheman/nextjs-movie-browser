@@ -46,15 +46,12 @@ const Home: React.FunctionComponent<IProps> = ({
         <em>themoviedb.org</em> website.
       </p>
       <p>
+        ℹ️{" "}
         <Link href={{ pathname: "/about" }} as="/about">
           <a>Read more about the project</a>
-        </Link>{" "}
-        /{" "}
-        <a href="https://github.com/topheman/nextjs-movie-browser">
-          Checkout the github repo
-        </a>
+        </Link>
+        .
       </p>
-      <p>ℹ️ This v1 has a basic design, it's focused on the SSR / i18n part.</p>
       {processedData.movie.length > 0 && (
         <>
           <h2>Movies</h2>

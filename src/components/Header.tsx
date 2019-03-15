@@ -23,6 +23,13 @@ const HeaderWrapper = styled.div`
     `calc(${props.theme.headerTopHeight} + ${props.theme.searchHeight})`};
 `;
 
+const SearchStyled = styled(Search)`
+  max-width: ${props => props.theme.maxWidth};
+  top: 0;
+  left: 0;
+  margin: 0 auto;
+`;
+
 const Header: React.FunctionComponent<{
   t: i18next.TranslationFunction;
   className?: string;
@@ -37,7 +44,7 @@ const Header: React.FunctionComponent<{
         {({ defaultLanguageFullCode, translationLanguageFullCode }) => {
           // make sure to re-render `Search` on language change
           return (
-            <Search
+            <SearchStyled
               searchResource={(value: string, { cancelToken }) =>
                 apiTmdb().searchMulti(value, {
                   cancelToken,
@@ -53,7 +60,6 @@ const Header: React.FunctionComponent<{
                 console.log("goToResource", href, as);
                 Router.push(href, as);
               }}
-              style={{ position: "absolute", top: "60px" }}
             />
           );
         }}

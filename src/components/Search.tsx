@@ -1,9 +1,10 @@
 // based on https://github.com/topheman/npm-registry-browser/blob/master/src/components/Search.js
 
-import { Component } from "react";
+import React, { Component } from "react";
 import Downshift from "downshift";
 import axios, { CancelToken, Canceler } from "axios";
 import classNames from "classnames";
+import styled from "styled-components";
 
 import { filterHtmlProps, debounce } from "../utils/helpers";
 import {
@@ -27,6 +28,41 @@ interface SearchState {
   error: boolean;
   results: TmdbSearchResultsList;
 }
+
+const Wrapper = styled.div`
+  height: ${props => props.theme.searchHeight};
+  max-width: ${props => props.theme.maxWidth};
+  background-image: url(/static/magnifier-icon.svg);
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  input {
+    border: 0px;
+    height: ${props => props.theme.searchHeight};
+    font-size: 100%;
+    width: calc(100% - ${props => props.theme.searchHeight});
+    padding: 0px;
+    padding-left: ${props => props.theme.searchHeight};
+    background: none;
+  }
+  span.close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-image: url(/static/close-icon.svg);
+    opacity: 0.5;
+    cursor: pointer;
+    :hover {
+      opacity: 0.8;
+    }
+  }
+`;
 
 class Search extends Component<SearchProps, SearchState> {
   state = {
@@ -76,38 +112,48 @@ class Search extends Component<SearchProps, SearchState> {
     return (
       <Downshift itemToString={() => ""} id="resources-search">
         {({
-          getLabelProps,
+          getRootProps,
           getInputProps,
           getMenuProps,
           isOpen,
           getItemProps,
           highlightedIndex,
-          clearSelection
+          clearSelection,
+          inputValue
         }) => (
-          <div
+          <Wrapper
+            {...getRootProps()}
             className={classNames(className)}
             {...filterHtmlProps(remainingProps)}
           >
-            <label {...getLabelProps()}>Search</label>
-            <input
-              {...getInputProps({
-                onKeyDown: (event: any) => {
-                  if (event.key === "Enter" && highlightedIndex !== null) {
-                    goToResource(results[highlightedIndex]);
+            <InputWrapper>
+              <input
+                {...getInputProps({
+                  onKeyDown: (event: any) => {
+                    if (event.key === "Enter" && highlightedIndex !== null) {
+                      goToResource(results[highlightedIndex]);
+                    }
+                  },
+                  onChange: (event: any) => {
+                    const value = event.target.value;
+                    // the API only answer to queries with 2 chars or more
+                    if (value.length > 1) {
+                      this.search(value);
+                    } else {
+                      this.setState({ results: [] });
+                    }
                   }
-                },
-                onChange: (event: any) => {
-                  const value = event.target.value;
-                  // the API only answer to queries with 2 chars or more
-                  if (value.length > 1) {
-                    this.search(value);
-                  } else {
-                    this.setState({ results: [] });
-                  }
-                }
-              })}
-            />
-            <button onClick={() => clearSelection()}>X</button>
+                })}
+              />
+              {inputValue && (
+                <span
+                  className="close"
+                  onClick={() => clearSelection()}
+                  role="button"
+                  title="clear"
+                />
+              )}
+            </InputWrapper>
             {isOpen && !error && !loading && results.length > 0 && (
               <ul {...getMenuProps()}>
                 {results.map((item, index) => (
@@ -130,7 +176,7 @@ class Search extends Component<SearchProps, SearchState> {
                 ))}
               </ul>
             )}
-          </div>
+          </Wrapper>
         )}
       </Downshift>
     );

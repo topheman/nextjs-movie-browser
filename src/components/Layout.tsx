@@ -9,7 +9,7 @@ const theme = {
   breakpoint: "640px",
   maxWidth: "920px",
   headerTopHeight: "60px",
-  searchHeight: "30px"
+  searchHeight: "35px"
 };
 
 const GlobalStyle = createGlobalStyle<{ theme: typeof theme }>`

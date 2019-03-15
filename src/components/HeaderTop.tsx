@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import i18next from "i18next";
 import classNames from "classnames";
 import styled from "styled-components";
 
 import { withNamespaces } from "../../i18n";
-import TranslationPicker from "./TranslationPicker";
+import TranslationPicker, { TranslationPickerProps } from "./TranslationPicker";
 import ShowLoadingState from "./ShowLoadingState";
 import Link from "./Link";
 import SiteNetworks from "./SiteNetworks";
@@ -49,7 +49,9 @@ const SiteNetworkStyled = styled(SiteNetworks)`
   }
 `;
 
-const TranslationPickerStyled = styled(TranslationPicker)`
+const TranslationPickerStyled = styled(TranslationPicker)<
+  TranslationPickerProps
+>`
   position: absolute;
   top: 20px;
   right: 110px;
@@ -64,8 +66,8 @@ const LoaderStyled = styled(Loader)`
   right: 50%;
   left: 50%;
   @media screen and (max-width: ${props => props.theme.breakpoint}) {
-    right: 30%;
-    left: 70%;
+    right: 50px;
+    left: auto;
   }
 `;
 
@@ -73,8 +75,6 @@ const Header: React.FunctionComponent<{
   t: i18next.TranslationFunction;
   className?: string;
 }> = ({ t, className, ...remainingProps }) => {
-  // this state is not in TranslationPicker because components connected to mobx can't use hooks for the moment
-  const [languageChoiceOpen, toggleLanguageChoiceOpen] = useState(false);
   return (
     <HeaderTopWrapper
       className={classNames(className)}
@@ -85,11 +85,7 @@ const Header: React.FunctionComponent<{
           <a>{process.env.NEXTJS_APP_CLIENT_TITLE}</a>
         </Link>
       </Title>
-      <TranslationPickerStyled
-        popupOpen={languageChoiceOpen}
-        togglePopupOpen={toggleLanguageChoiceOpen}
-        defaultLanguages={defaultLanguages}
-      />
+      <TranslationPickerStyled defaultLanguages={defaultLanguages} />
       <SiteNetworkStyled />
       <ShowLoadingState>
         {({ loading }) => <>{loading && <LoaderStyled size={0.6} />}</>}

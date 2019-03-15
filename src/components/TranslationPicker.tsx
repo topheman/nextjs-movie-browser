@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { inject, observer } from "mobx-react";
-import classNames from "classnames";
 import styled from "styled-components";
 
 import { LanguageList } from "../@types";
@@ -8,12 +7,12 @@ import SelectLanguage from "./SelectLanguage";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import TranslationsStore from "../stores/TranslationsStore";
 import { filterHtmlProps } from "../utils/helpers";
+import withBlankWrapper from "./with-blank-wrapper";
 
-interface ITranslationPickerProps extends React.HTMLAttributes<HTMLElement> {
+export interface TranslationPickerProps
+  extends React.HTMLAttributes<HTMLElement> {
   defaultLanguages: LanguageList;
   translationsStore?: TranslationsStore;
-  popupOpen: boolean;
-  togglePopupOpen: (open: boolean) => void;
   className?: string;
 }
 
@@ -50,17 +49,34 @@ const PickerWrapper = styled.div<{ popupOpen: boolean }>`
  * See https://developers.themoviedb.org/3/getting-started/languages
  */
 
-const TranslationPicker: React.FunctionComponent<ITranslationPickerProps> = ({
+const TranslationPicker: React.FunctionComponent<TranslationPickerProps> = ({
   defaultLanguages,
   translationsStore,
-  popupOpen,
-  togglePopupOpen,
-  className,
   ...remainingProps
 }) => {
+  const wrapperRef = useRef(null);
+  const [popupOpen, togglePopupOpen] = useState(false);
   const translationLanguages = translationsStore!.availableLanguages;
+
+  // like componentDidMount and componentWillUnmount
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, false);
+    document.addEventListener("touchstart", handleClickOutside, false);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, false);
+      document.removeEventListener("touchstart", handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = (event: any) => {
+    const current = wrapperRef.current as any; // 😢
+    if (current && !current.contains(event.target)) {
+      togglePopupOpen(false);
+    }
+  };
+
   return (
-    <div className={classNames(className)} {...filterHtmlProps(remainingProps)}>
+    <div {...filterHtmlProps(remainingProps)} ref={wrapperRef}>
       <LanguageManagerConsumer>
         {({
           translationLanguageFullCode,
@@ -130,4 +146,6 @@ const TranslationPicker: React.FunctionComponent<ITranslationPickerProps> = ({
   );
 };
 
-export default inject("translationsStore")(observer(TranslationPicker));
+export default inject("translationsStore")(
+  observer(withBlankWrapper(TranslationPicker))
+);

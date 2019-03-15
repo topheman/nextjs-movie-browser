@@ -7,7 +7,7 @@ import hoistNonReactStatics from "hoist-non-react-statics";
  * connected to mobx (since hooks and react-mobx don't work well together yet - see mobx-react-lite eventually)
  */
 const withBlankWrapper = (Comp: any) => {
-  class Wrapper extends Component<{ innerRef: React.Ref<{}> }> {
+  class Wrapper extends Component<{ innerRef?: React.Ref<{}> }> {
     static displayName = `withBlankWrapper(${Comp.displayName ||
       Comp.name ||
       "Component"})`;

@@ -7,5 +7,6 @@
   "movie-label-season": "Saison {{number}}",
   "movie-label-all-seasons": "Toutes les saisons",
   "movie-label-episode-count": "{{count}} épisode",
-  "movie-label-episode-count_plural": "{{count}} épisodes"
+  "movie-label-episode-count_plural": "{{count}} épisodes",
+  "movie-label-featured-crew": "Equipe technique en vedette"
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import MoviePreview from "./MoviePreview";
-import MovieCast from "./MovieCast";
+import MovieContent from "./MovieContent";
 import MetaTags, {
   commonMetaTagsExtractProps,
   PropsMetaTags,
@@ -31,7 +31,7 @@ const Movie: React.FunctionComponent<PageRootComponent<TmdbMovieEntity>> = ({
         {...movieMetaTagsExtractProps(tmdbMovieEntity)}
       />
       <MoviePreview media_type="movie" data={tmdbMovieEntity} />
-      <MovieCast mode="preview" media_type="movie" data={tmdbMovieEntity} />
+      <MovieContent media_type="movie" data={tmdbMovieEntity} />
     </>
   );
 };

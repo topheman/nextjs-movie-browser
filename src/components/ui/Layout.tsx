@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const MainWrapper = styled.div`
+export const MainWrapper = styled.div`
   top: 0;
   left: 0;
   padding: 0;
@@ -14,5 +14,3 @@ const MainWrapper = styled.div`
     }
   }
 `;
-
-export default MainWrapper;

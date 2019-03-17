@@ -3,7 +3,7 @@ import i18next from "i18next";
 
 import MetaTags, { commonMetaTagsExtractProps } from "./MetaTags";
 import Link, { TmdbEntityMinimum } from "./Link";
-import MainWrapper from "./ui/MainWrapper";
+import { MainWrapper } from "./ui/Layout";
 import { withNamespaces } from "../../i18n";
 import {
   TmdbTrendingResults,

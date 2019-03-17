@@ -2,7 +2,7 @@ import styled from "styled-components";
 import i18next from "i18next";
 
 import { withNamespaces } from "../../i18n";
-import { TmdbTvEntity, TmdbMovieEntity, ComponentWithData } from "../@types";
+import { TmdbTvEntity, TmdbMovieEntity } from "../@types";
 import { filterHtmlProps } from "../utils/helpers";
 
 const Wrapper = styled.div`
@@ -16,12 +16,12 @@ const Wrapper = styled.div`
   }
 `;
 
-interface IProps extends ComponentWithData<TmdbTvEntity & TmdbMovieEntity> {
+interface IProps {
   t: i18next.TranslationFunction;
   tmdbEntity: TmdbTvEntity & TmdbMovieEntity;
 }
 
-const TvSeasonCardFull: React.FunctionComponent<IProps> = ({
+const MovieInfosCardFull: React.FunctionComponent<IProps> = ({
   t,
   tmdbEntity,
   ...remainingProps
@@ -99,4 +99,4 @@ const TvSeasonCardFull: React.FunctionComponent<IProps> = ({
   );
 };
 
-export default withNamespaces("movie")(TvSeasonCardFull);
+export default withNamespaces("movie")(MovieInfosCardFull);

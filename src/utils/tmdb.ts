@@ -102,5 +102,8 @@ export const makeCreditsList = (
       }
       return 1;
     });
-  return result.splice(0, limit);
+  if (limit) {
+    return result.splice(0, limit);
+  }
+  return result;
 };

@@ -1,5 +1,17 @@
 {
   "person-label-biography": "Biographie",
   "person-label-movies": "Films",
-  "person-label-series": "Séries TV"
+  "person-label-series": "Séries TV",
+  "person-label-personal-info": "Informations personnelles",
+  "person-label-known-for": "Connu(e) pour",
+  "person-label-gender": "Genre",
+  "person-label-known-credits": "Apparitions connues",
+  "person-label-birthday": "Né(e) le",
+  "person-label-place-of-birth": "Lieu de naissance",
+  "person-label-official-site": "Site officiel",
+  "person-label-also-known-as": "Aussi connu(e) sous le nom",
+  "person-label-acting": "Interprétation",
+  "person-gender-0": "Non spécifié",
+  "person-gender-1": "Femme",
+  "person-gender-2": "Homme"
 }

@@ -7,6 +7,7 @@ import { TmdbPersonEntity, ComponentWithData } from "../@types";
 import { Wrapper, ColumnWrapper, Casting, Infos } from "./ui/LayoutContent";
 import PopularCreditCard from "./PopularCreditCard";
 import { makeCreditsList } from "../utils/tmdb";
+import PersonInfosCardFull from "./PersonInfosCardFull";
 
 interface IProps extends ComponentWithData<TmdbPersonEntity> {
   t: i18next.TranslationFunction;
@@ -56,7 +57,9 @@ const MovieContent: React.FunctionComponent<IProps> = ({
           </section>
         </Casting>
         <Infos>
-          <section>Infos</section>
+          <section>
+            <PersonInfosCardFull tmdbEntity={data} />
+          </section>
         </Infos>
       </ColumnWrapper>
     </Wrapper>

@@ -16,24 +16,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const WordsList = styled.ul`
-  list-style: none;
-  padding: 0px;
-  font-style: italic;
-  li {
-    display: inline-block;
-    &:after {
-      content: ",";
-      margin-right: 0.25em;
-    }
-  }
-  li:last-child {
-    &:after {
-      content: "";
-    }
-  }
-`;
-
 interface IProps extends ComponentWithData<TmdbTvEntity & TmdbMovieEntity> {
   t: i18next.TranslationFunction;
   tmdbEntity: TmdbTvEntity & TmdbMovieEntity;
@@ -46,19 +28,21 @@ const TvSeasonCardFull: React.FunctionComponent<IProps> = ({
 }) => {
   return (
     <Wrapper {...filterHtmlProps(remainingProps)}>
-      <h4 style={{ marginTop: 0 }}>{t("movie-infos-label-facts")}</h4>
-      <p>
+      <h4 dir="auto" style={{ marginTop: 0 }}>
+        {t("movie-infos-label-facts")}
+      </h4>
+      <p dir="auto">
         <strong>{t("movie-infos-label-original-title")}</strong>{" "}
         {tmdbEntity.original_name || tmdbEntity.original_title}
       </p>
-      <p>
+      <p dir="auto">
         <strong>{t("movie-infos-label-status")}</strong>{" "}
         {t(
           `movie-status-${tmdbEntity.status.toLowerCase().replace(/ /g, "-")}`
         )}
       </p>
       {tmdbEntity.release_date && (
-        <p>
+        <p dir="auto">
           <strong>{t("movie-infos-label-release-infos")}</strong>{" "}
           <span
             dangerouslySetInnerHTML={{
@@ -70,31 +54,31 @@ const TvSeasonCardFull: React.FunctionComponent<IProps> = ({
         </p>
       )}
       {tmdbEntity.runtime && (
-        <p>
+        <p dir="auto">
           <strong>{t("movie-infos-label-runtime")}</strong> {tmdbEntity.runtime}
           mins
         </p>
       )}
       {tmdbEntity.budget && (
-        <p>
+        <p dir="auto">
           <strong>{t("movie-infos-label-budget")}</strong>{" "}
           {t("movie-currency", { amount: tmdbEntity.budget })}
         </p>
       )}
       {tmdbEntity.revenue && (
-        <p>
+        <p dir="auto">
           <strong>{t("movie-infos-label-revenue")}</strong>{" "}
           {t("movie-currency", { amount: tmdbEntity.revenue })}
         </p>
       )}
       {tmdbEntity.genres && tmdbEntity.genres.length > 0 && (
         <>
-          <h4 style={{ marginBottom: 15 }}>{t("movie-infos-label-genres")}</h4>
-          <WordsList>
-            {tmdbEntity.genres.map(genre => (
-              <li key={genre.id}>{genre.name}</li>
-            ))}
-          </WordsList>
+          <h4 dir="auto" style={{ marginBottom: 15 }}>
+            {t("movie-infos-label-genres")}
+          </h4>
+          <p dir="auto">
+            {tmdbEntity.genres.map(genre => genre.name).join(", ")}
+          </p>
         </>
       )}
       {tmdbEntity.keywords &&
@@ -104,15 +88,15 @@ const TvSeasonCardFull: React.FunctionComponent<IProps> = ({
             <h4 style={{ marginBottom: 15 }}>
               {t("movie-infos-label-keywords")}
             </h4>
-            <WordsList>
-              {tmdbEntity.keywords.keywords.map(keyword => (
-                <li key={keyword.id}>{keyword.name}</li>
-              ))}
-            </WordsList>
+            <p dir="auto">
+              {tmdbEntity.keywords.keywords
+                .map(keyword => keyword.name)
+                .join(", ")}
+            </p>
           </>
         )}
     </Wrapper>
   );
 };
 
-export default withNamespaces(["movie", "common"])(TvSeasonCardFull);
+export default withNamespaces("movie")(TvSeasonCardFull);

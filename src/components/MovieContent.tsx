@@ -41,6 +41,7 @@ const Casting = styled.div`
   padding-bottom: 40px;
   box-sizing: border-box;
   section {
+    display: block;
     width: calc(var(--casting-width) - 40px);
   }
   a.full-casting {
@@ -102,7 +103,9 @@ const MovieContent: React.FunctionComponent<IProps> = ({
           <section>
             {data.credits.cast && data.credits.cast.length > 0 && (
               <>
-                <h3 style={{ marginTop: 0 }}>{t("movie-label-cast")}</h3>
+                <h3 dir="auto" style={{ marginTop: 0 }}>
+                  {t("movie-label-cast")}
+                </h3>
                 <CastingList>
                   {data.credits.cast
                     .filter((_, index) => index < 6)

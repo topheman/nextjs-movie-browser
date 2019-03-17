@@ -40,14 +40,14 @@ const TvSeasonCardFull: React.FunctionComponent<IProps> = ({
       />
       <Content>
         <div>
-          <h2>{season.name}</h2>
-          <h4>
+          <h2 dir="auto">{season.name}</h2>
+          <h4 dir="auto">
             {new Date(season.air_date).getFullYear()} |{" "}
             {t("movie-label-episode-count", {
               count: season.episode_count
             })}
           </h4>
-          <TextContent>{season.overview}</TextContent>
+          <TextContent maxWords={35}>{season.overview}</TextContent>
         </div>
       </Content>
     </Wrapper>

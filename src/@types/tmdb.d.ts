@@ -8,6 +8,7 @@ export interface TmdbMovieEntity {
   belongs_to_collection?: null;
   budget: number;
   genres?: (TmdbGenresEntity)[] | null;
+  keywords?: { keywords: (TmdbKeywordsEntity)[] | null };
   homepage: string;
   id: number;
   imdb_id: string;
@@ -22,7 +23,13 @@ export interface TmdbMovieEntity {
   revenue: number;
   runtime: number;
   spoken_languages?: (TmdbSpokenLanguagesEntity)[] | null;
-  status: string;
+  status:
+    | "Rumored"
+    | "Planned"
+    | "In Production"
+    | "Post Production"
+    | "Released"
+    | "Canceled";
   tagline: string;
   title: string;
   video: boolean;
@@ -32,6 +39,10 @@ export interface TmdbMovieEntity {
   credits?: TmdbCredits;
 }
 export interface TmdbGenresEntity {
+  id: number;
+  name: string;
+}
+export interface TmdbKeywordsEntity {
   id: number;
   name: string;
 }
@@ -203,6 +214,7 @@ export interface TmdbTvEntity {
   episode_run_time?: (number)[] | null;
   first_air_date: string;
   genres?: (TmdbGenresEntity)[] | null;
+  keywords?: { keywords: (TmdbKeywordsEntity)[] | null };
   homepage: string;
   id: number;
   in_production: boolean;
@@ -224,7 +236,13 @@ export interface TmdbTvEntity {
     | (TmdbNetworksEntityOrProductionCompaniesEntity)[]
     | null;
   seasons?: (TmdbTvSeasonsEntity)[] | null;
-  status: string;
+  status:
+    | "Returning Series"
+    | "Planned"
+    | "In Production"
+    | "Ended"
+    | "Canceled"
+    | "Pilot";
   type: string;
   vote_average: number;
   vote_count: number;

@@ -84,7 +84,10 @@ const decorateApi = ({
     (window as any).mockRecorder = mockRecorder;
   }
   return {
-    movie: (id, { language, append = ["credits", "translations"] }) => {
+    movie: (
+      id,
+      { language, append = ["credits", "translations", "keywords"] }
+    ) => {
       const query = `/movie/${id}`;
       return client
         .get(query, {
@@ -109,7 +112,10 @@ const decorateApi = ({
         })
         .then(({ data }) => data);
     },
-    tv: (id, { language, append = ["credits", "translations"] }) => {
+    tv: (
+      id,
+      { language, append = ["credits", "translations", "keywords"] }
+    ) => {
       const query = `/tv/${id}`;
       return client
         .get(query, {

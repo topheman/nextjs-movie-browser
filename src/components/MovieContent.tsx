@@ -7,12 +7,13 @@ import { TmdbMovieEntity, TmdbTvEntity, ComponentWithData } from "../@types";
 import Link from "./Link";
 import CastingCardFull from "./CastingCardFull";
 import TvSeasonCardFull from "./TvSeasonCardFull";
+import MovieInfosCardFull from "./MovieInfosCardFull";
 
 const Wrapper = styled.div`
   margin-top: 0;
   margin-bottom: 0;
   width: 100%;
-  --infos-width: 280px;
+  --infos-width: 200px;
   --casting-width: calc(${props => props.theme.maxWidth} - var(--infos-width));
 `;
 
@@ -121,9 +122,9 @@ const MovieContent: React.FunctionComponent<IProps> = ({
                 </Link>
               </>
             )}
-            <h3 dir="auto">{t("movie-label-current-season")}</h3>
             {currentSeason && (
               <>
+                <h3 dir="auto">{t("movie-label-current-season")}</h3>
                 <TvSeasonCardFull
                   season={currentSeason}
                   style={{ marginBottom: 15 }}
@@ -139,7 +140,9 @@ const MovieContent: React.FunctionComponent<IProps> = ({
           </section>
         </Casting>
         <Infos>
-          <section />
+          <section>
+            <MovieInfosCardFull tmdbEntity={data} />
+          </section>
         </Infos>
       </ColumnWrapper>
     </Wrapper>

@@ -5,5 +5,5 @@ import Movie from "../src/components/Movie";
 export default withCallingApi({
   apiCall: ({ id, language }) => apiTmdb().movie(id, { language }),
   namespaces: "movie",
-  namespacesRequired: ["movie", "common"]
+  namespacesRequired: ["common", "movie"]
 })(Movie);

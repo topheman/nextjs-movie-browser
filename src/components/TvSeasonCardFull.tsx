@@ -13,8 +13,8 @@ const Wrapper = styled.div`
 `;
 
 const Content = styled.div`
-  width: 450px;
-  padding: 20px;
+  max-width: 540px;
+  padding: 20px 0px 20px 20px;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;

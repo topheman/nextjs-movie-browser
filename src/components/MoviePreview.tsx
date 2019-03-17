@@ -38,6 +38,16 @@ const Wrapper = styled(MainWrapper)<{ backdrop_path: string }>`
       "poster .";
     padding: 20px 0px;
   }
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    width: 100vw;
+    background-image: url(${props =>
+      makeImageTmdbUrl(props.backdrop_path, "w500_and_h282_face")});
+    background-size: contain;
+    background-position: 0 0;
+    section {
+      display: block;
+    }
+  }
 `;
 
 const Poster = styled.div<{ poster_path: string }>`
@@ -48,10 +58,14 @@ const Poster = styled.div<{ poster_path: string }>`
   background-image: url(${props =>
     makeImageTmdbUrl(props.poster_path, "w300")});
   @media screen and (max-width: ${props => props.theme.breakpoint}) {
-    width: 200px;
-    height: 300px;
+    grid-area: none;
+    width: 80px;
+    height: 120px;
+    margin-top: 90px;
+    margin-left: 20px;
     background-image: url(${props =>
       makeImageTmdbUrl(props.poster_path, "w200")});
+    background-size: contain;
   }
 `;
 
@@ -59,12 +73,22 @@ const Title = styled.h2`
   grid-area: title;
   margin: 0px;
   padding: 0 8px 0 20px;
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    grid-area: none;
+    margin-top: -40px;
+    margin-left: 90px;
+  }
 `;
 
 const Content = styled.div`
   grid-area: content;
   margin: 0px;
   padding: 0 8px 0 20px;
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    grid-area: none;
+    padding: 0 8px;
+    margin: 30px 0px 0px;
+  }
 `;
 
 const CrewList = styled.ol`
@@ -89,6 +113,12 @@ const CrewList = styled.ol`
   }
   .jobs {
     font-size: 0.9em;
+  }
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    li {
+      width: 50%;
+      flex-basis: 50%;
+    }
   }
 `;
 

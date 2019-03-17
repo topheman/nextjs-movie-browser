@@ -27,6 +27,12 @@ const ColumnWrapper = styled.div`
     flex-wrap: wrap;
     box-sizing: border-box;
   }
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    display: grid;
+    grid-template-areas: "casting" "infos";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
 `;
 
 const Casting = styled.div`
@@ -47,6 +53,20 @@ const Casting = styled.div`
   a.full-casting {
     width: 100%;
   }
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    grid-area: casting;
+    width: 100vw;
+    padding-right: 0;
+    padding-bottom: 30px;
+    section  {
+      padding-top: 10px;
+      width: 100vw;
+    }
+    section > h3,
+    section > a {
+      padding: 0 8px;
+    }
+  }
 `;
 
 const Infos = styled.div`
@@ -60,6 +80,15 @@ const Infos = styled.div`
   display: flex;
   section {
     width: var(--infos-width);
+  }
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    grid-area: infos;
+    width: 100vw;
+    padding: 0 8px;
+    section {
+      width: 100%;
+      padding-top: 8px;
+    }
   }
 `;
 

@@ -127,7 +127,7 @@ export interface TmdbPersonEntity {
 }
 export interface TmdbPersonMovieCredits {
   cast?: (TmdbPersonCastEntity)[] | null;
-  crew?: (TmdbPersonPersonCrewEntity)[] | null;
+  crew?: (TmdbPersonCrewEntity)[] | null;
 }
 export interface TmdbPersonCastEntity {
   release_date: string;

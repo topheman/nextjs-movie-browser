@@ -39,7 +39,6 @@ const PersonInfosCardFull: React.FunctionComponent<IProps> = ({
     },
     { deduplicate: true }
   );
-  console.log(creditsList);
   return (
     <Wrapper {...filterHtmlProps(remainingProps)}>
       <h4 dir="auto" style={{ marginTop: 0 }}>

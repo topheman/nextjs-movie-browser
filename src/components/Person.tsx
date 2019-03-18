@@ -1,6 +1,5 @@
 import React from "react";
 import PersonPreview from "./PersonPreview";
-// import PersonCredits from "./PersonCredits";
 import PersonContent from "./PersonContent";
 import MetaTags, {
   commonMetaTagsExtractProps,

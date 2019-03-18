@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Link from "./Link";
 import { filterHtmlProps } from "../utils/helpers";
-import { makeImageTmdbUrl, CastOrCrewEntity } from "../utils/tmdb";
+import { makeImageTmdbUrl, BasicCreditsEntity } from "../utils/tmdb";
 
 const Wrapper = styled.div`
   width: 140px;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `;
 
 interface Props {
-  data: CastOrCrewEntity;
+  data: BasicCreditsEntity;
 }
 
 const CastingCardFull: React.FunctionComponent<Props> = ({
@@ -43,7 +43,7 @@ const CastingCardFull: React.FunctionComponent<Props> = ({
           />
         </a>
       </Link>
-      <p>{data.title || data.name}</p>
+      <p>{data.title}</p>
     </Wrapper>
   );
 };

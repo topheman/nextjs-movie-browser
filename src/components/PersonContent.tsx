@@ -41,7 +41,7 @@ const MovieContent: React.FunctionComponent<IProps> = ({
       movie_credits: data.movie_credits,
       tv_credits: data.tv_credits
     },
-    8
+    { limit: 8, deduplicate: true }
   );
   return (
     <Wrapper>

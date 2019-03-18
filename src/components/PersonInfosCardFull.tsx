@@ -32,10 +32,13 @@ const PersonInfosCardFull: React.FunctionComponent<IProps> = ({
   tmdbEntity,
   ...remainingProps
 }) => {
-  const creditsList = makeCreditsList({
-    movie_credits: tmdbEntity.movie_credits,
-    tv_credits: tmdbEntity.tv_credits
-  });
+  const creditsList = makeCreditsList(
+    {
+      movie_credits: tmdbEntity.movie_credits,
+      tv_credits: tmdbEntity.tv_credits
+    },
+    { deduplicate: true }
+  );
   console.log(creditsList);
   return (
     <Wrapper {...filterHtmlProps(remainingProps)}>

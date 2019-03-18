@@ -137,13 +137,13 @@ export interface TmdbPersonCastEntity {
   video: boolean;
   title: string;
   popularity: number;
-  genre_ids?: (number | null)[] | null;
+  genre_ids?: (number)[] | null;
   original_language: string;
   character: string;
   original_title: string;
-  poster_path?: string | null;
+  poster_path: string;
   id: number;
-  backdrop_path?: string | null;
+  backdrop_path: string;
   overview: string;
   credit_id: string;
 }
@@ -171,11 +171,11 @@ export interface TmdbPersonTvCredits {
   crew?: (TmdbPersonTvCrewEntity)[] | null;
 }
 export interface TmdbPersonTvCastEntity {
-  origin_country?: (string | null)[] | null;
+  origin_country?: (string)[];
   original_name: string;
-  genre_ids?: (number | null)[] | null;
+  genre_ids?: (number)[] | null;
   vote_count: number;
-  backdrop_path?: string | null;
+  backdrop_path: string;
   name: string;
   first_air_date: string;
   original_language: string;
@@ -186,7 +186,7 @@ export interface TmdbPersonTvCastEntity {
   credit_id: string;
   vote_average: number;
   overview: string;
-  poster_path?: string | null;
+  poster_path: string;
 }
 export interface TmdbPersonTvCrewEntity {
   id: number;
@@ -195,13 +195,13 @@ export interface TmdbPersonTvCrewEntity {
   episode_count: number;
   job: string;
   overview: string;
-  origin_country?: (string)[] | null;
+  origin_country?: (string)[];
   original_name: string;
   vote_count: number;
   name: string;
   popularity: number;
   credit_id: string;
-  backdrop_path?: string | null;
+  backdrop_path: string;
   first_air_date: string;
   vote_average: number;
   genre_ids?: (number)[] | null;
@@ -226,7 +226,7 @@ export interface TmdbTvEntity {
   networks?: (NetworksEntityOrProductionCompaniesEntity)[] | null;
   number_of_episodes: number;
   number_of_seasons: number;
-  origin_country?: (string)[] | null;
+  origin_country?: (string)[];
   original_language: string;
   original_name: string;
   overview: string;
@@ -321,12 +321,12 @@ export interface TmdbSearchResultsEntity {
   name?: string;
   vote_count?: number;
   vote_average?: number;
-  poster_path?: string;
+  poster_path: string;
   first_air_date?: string;
   popularity: number;
-  genre_ids?: (number | null)[];
+  genre_ids?: (number)[] | null;
   original_language?: string;
-  backdrop_path?: string;
+  backdrop_path: string;
   overview?: string;
   origin_country?: (string)[];
   video?: boolean;
@@ -380,5 +380,5 @@ export interface TmdbTrendingResultsEntity {
   original_name?: string | null;
   name?: string | null;
   first_air_date?: string | null;
-  origin_country?: (string)[] | null;
+  origin_country?: (string)[];
 }

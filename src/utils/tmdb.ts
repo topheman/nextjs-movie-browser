@@ -54,10 +54,47 @@ export const makeCrewListWithJobs = (
   );
 };
 
-export type CastOrCrewEntity = TmdbPersonCastEntity &
-  TmdbPersonCrewEntity &
-  TmdbPersonTvCastEntity &
-  TmdbPersonTvCrewEntity & { media_type: "tv" | "movie" };
+// Accepts any kind of credits
+export type AnyCreditsEntity = Omit<
+  Partial<
+    TmdbPersonCastEntity &
+      TmdbPersonCrewEntity &
+      TmdbPersonTvCastEntity &
+      TmdbPersonTvCrewEntity
+  >,
+  "id"
+> & { id: number; media_type: "tv" | "movie" };
+
+// Only nececarry infos to deduplicate
+export type BasicCreditsEntity = Pick<
+  AnyCreditsEntity,
+  | "id"
+  | "title"
+  | "original_title"
+  | "poster_path"
+  | "media_type"
+  | "popularity"
+>;
+const toBasicCredits = (credit: AnyCreditsEntity): BasicCreditsEntity => {
+  const {
+    id,
+    name,
+    title,
+    original_name,
+    original_title,
+    poster_path,
+    media_type,
+    popularity
+  } = credit;
+  return {
+    id,
+    poster_path,
+    media_type,
+    popularity,
+    original_title: original_name || original_title,
+    title: name || title
+  };
+};
 
 export const makeCreditsList = (
   {
@@ -67,41 +104,72 @@ export const makeCreditsList = (
     movie_credits?: TmdbPersonMovieCredits;
     tv_credits?: TmdbPersonTvCredits;
   },
-  limit?: number
-): CastOrCrewEntity[] => {
-  const result = []
+  {
+    deduplicate = false,
+    limit
+  }: { deduplicate?: boolean; limit?: number } = {} as any
+): BasicCreditsEntity[] => {
+  let result: BasicCreditsEntity[] = []
     .concat(
       (movie_credits &&
         movie_credits.cast &&
-        movie_credits.cast.map(movie => ({ ...movie, media_type: "movie" }))) ||
+        movie_credits.cast.map(movie =>
+          toBasicCredits({
+            ...(movie as TmdbPersonCastEntity),
+            media_type: "movie"
+          })
+        )) ||
         ([] as any)
     )
     .concat(
       (movie_credits &&
         movie_credits.crew &&
-        movie_credits.crew.map(movie => ({ ...movie, media_type: "movie" }))) ||
+        movie_credits.crew.map(movie =>
+          toBasicCredits({ ...movie, media_type: "movie" })
+        )) ||
         ([] as any)
     )
     .concat(
       (tv_credits &&
         tv_credits.cast &&
-        tv_credits.cast.map(movie => ({ ...movie, media_type: "tv" }))) ||
+        tv_credits.cast.map(movie =>
+          toBasicCredits({ ...movie, media_type: "tv" })
+        )) ||
         ([] as any)
     )
     .concat(
       (tv_credits &&
         tv_credits.crew &&
-        tv_credits.crew.map(movie => ({ ...movie, media_type: "tv" }))) ||
+        tv_credits.crew.map(movie =>
+          toBasicCredits({ ...movie, media_type: "tv" })
+        )) ||
         ([] as any)
-    )
-    .sort((a, b) => {
+    );
+
+  if (deduplicate) {
+    result = result.reduce<BasicCreditsEntity[]>((
+      acc,
+      cur: BasicCreditsEntity
+    ) => {
       if (
-        (a as CastOrCrewEntity).popularity > (b as CastOrCrewEntity).popularity
+        !acc.find(el => el.id === cur.id && el.media_type === cur.media_type)
       ) {
-        return -1;
+        acc.push(cur);
       }
-      return 1;
-    });
+      return acc;
+    }, []);
+  }
+
+  result.sort((a, b) => {
+    if (
+      ((a as BasicCreditsEntity).popularity || 0) >
+      ((b as BasicCreditsEntity).popularity || 0)
+    ) {
+      return -1;
+    }
+    return 1;
+  });
+
   if (limit) {
     return result.splice(0, limit);
   }

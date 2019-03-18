@@ -80,10 +80,16 @@ const ResultItem = styled.li`
   height: 1.5rem;
   line-height: 1.5rem;
   border-bottom: 1px solid gray;
+  cursor: pointer;
   span {
     display: block;
     max-width: ${props => props.theme.maxWidth};
     margin: 0 auto;
+  }
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    line-height: 2rem;
+    height: 2rem;
+    padding-left: 8px;
   }
 `;
 
@@ -134,7 +140,13 @@ class Search extends Component<SearchProps, SearchState> {
     } = this.props;
     const { loading, error, results } = this.state;
     return (
-      <Downshift itemToString={() => ""} id="resources-search">
+      <Downshift
+        itemToString={() => ""}
+        id="resources-search"
+        onChange={item => {
+          goToResource(item);
+        }}
+      >
         {({
           getRootProps,
           getInputProps,
@@ -154,11 +166,6 @@ class Search extends Component<SearchProps, SearchState> {
               <input
                 {...getInputProps({
                   placeholder,
-                  onKeyDown: (event: any) => {
-                    if (event.key === "Enter" && highlightedIndex !== null) {
-                      goToResource(results[highlightedIndex]);
-                    }
-                  },
                   onChange: (event: any) => {
                     const value = event.target.value;
                     // the API only answer to queries with 2 chars or more

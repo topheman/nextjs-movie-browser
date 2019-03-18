@@ -75,7 +75,13 @@ class Search extends Component<SearchProps, SearchState> {
     } = this.props;
     const { loading, error, results } = this.state;
     return (
-      <Downshift itemToString={() => ""} id="resources-search">
+      <Downshift
+        itemToString={() => ""}
+        id="resources-search"
+        onChange={item => {
+          goToResource(item);
+        }}
+      >
         {({
           getLabelProps,
           getInputProps,
@@ -92,11 +98,6 @@ class Search extends Component<SearchProps, SearchState> {
             <label {...getLabelProps()}>Search</label>
             <input
               {...getInputProps({
-                onKeyDown: (event: any) => {
-                  if (event.key === "Enter" && highlightedIndex !== null) {
-                    goToResource(results[highlightedIndex]);
-                  }
-                },
                 onChange: (event: any) => {
                   const value = event.target.value;
                   // the API only answer to queries with 2 chars or more

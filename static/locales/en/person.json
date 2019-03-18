@@ -13,5 +13,8 @@
   "person-gender-0": "Not specified",
   "person-gender-1": "Female",
   "person-gender-2": "Male",
-  "person-date": "{{date, MM/DD/YYYY}}"
+  "person-date": "{{date, MM/DD/YYYY}}",
+  "person-filmography-as": "as",
+  "person-filmography-tv-as": "({{numberEpisodes}} episode) as",
+  "person-filmography-tv-as_plural": "({{numberEpisodes}} episodes) as"
 }

@@ -175,3 +175,61 @@ export const makeCreditsList = (
   }
   return result;
 };
+
+export const makeFilmography = ({
+  movie_credits,
+  tv_credits
+}: {
+  movie_credits?: TmdbPersonMovieCredits;
+  tv_credits?: TmdbPersonTvCredits;
+}) => {
+  let result: { [key: string]: AnyCreditsEntity[] } = {};
+  if (movie_credits && movie_credits.cast) {
+    result = movie_credits.cast.reduce((acc, cur) => {
+      if (!acc.Acting) {
+        acc.Acting = [];
+      }
+      acc.Acting.push({ ...cur, media_type: "movie" });
+      return acc;
+    }, result);
+  }
+  if (movie_credits && movie_credits.crew) {
+    result = movie_credits.crew.reduce((acc, cur) => {
+      if (!acc[cur.department]) {
+        acc[cur.department] = [];
+      }
+      acc[cur.department].push({ ...cur, media_type: "movie" });
+      return acc;
+    }, result);
+  }
+  if (tv_credits && tv_credits.cast) {
+    result = tv_credits.cast.reduce((acc, cur) => {
+      if (!acc.Acting) {
+        acc.Acting = [];
+      }
+      acc.Acting.push({ ...cur, media_type: "tv" });
+      return acc;
+    }, result);
+  }
+  if (tv_credits && tv_credits.crew) {
+    result = tv_credits.crew.reduce((acc, cur) => {
+      if (!acc[cur.department]) {
+        acc[cur.department] = [];
+      }
+      acc[cur.department].push({ ...cur, media_type: "tv" });
+      return acc;
+    }, result);
+  }
+  Object.keys(result).forEach(key => {
+    result[key].sort((a, b) => {
+      if (
+        ((a.first_air_date || a.release_date) as string) >
+        ((b.first_air_date || b.release_date) as string)
+      ) {
+        return -1;
+      }
+      return 1;
+    });
+  });
+  return result;
+};

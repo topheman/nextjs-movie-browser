@@ -8,6 +8,7 @@ import { Wrapper, ColumnWrapper, Casting, Infos } from "./ui/LayoutContent";
 import PopularCreditCard from "./PopularCreditCard";
 import { makeCreditsList } from "../utils/tmdb";
 import PersonInfosCardFull from "./PersonInfosCardFull";
+import Filmography from "./Filmography";
 
 interface IProps extends ComponentWithData<TmdbPersonEntity> {
   t: i18next.TranslationFunction;
@@ -54,6 +55,10 @@ const MovieContent: React.FunctionComponent<IProps> = ({ t, data }) => {
                   <PopularCreditCard key={credit.id} data={credit} as="li" />
                 ))}
               </PopularCreditsList>
+              <Filmography
+                movie_credits={data.movie_credits}
+                tv_credits={data.tv_credits}
+              />
             </>
           </section>
         </Casting>

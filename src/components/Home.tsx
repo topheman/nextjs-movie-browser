@@ -3,6 +3,7 @@ import i18next from "i18next";
 
 import MetaTags, { commonMetaTagsExtractProps } from "./MetaTags";
 import Link, { TmdbEntityMinimum } from "./Link";
+import { MainWrapper } from "./ui/Layout";
 import { withNamespaces } from "../../i18n";
 import {
   TmdbTrendingResults,
@@ -40,54 +41,58 @@ const Home: React.FunctionComponent<IProps> = ({
         {...commonMetaTagsExtractProps({ basePath, pathname })}
         twitterCard="summary_large_image"
       />
-      <h1>{t("home-title")}</h1>
-      <p>
-        This project is a <strong>NextJS</strong> implementation of the{" "}
-        <em>themoviedb.org</em> website.
-      </p>
-      <p>
-        ℹ️{" "}
-        <Link href={{ pathname: "/about" }} as="/about">
-          <a>Read more about the project</a>
-        </Link>
-        .
-      </p>
-      {processedData.movie.length > 0 && (
-        <>
-          <h2>Movies</h2>
-          <ul>
-            {processedData.movie.map(movie => (
-              <li key={movie.id}>
-                <Link
-                  tmdbEntity={
-                    { media_type: "movie", ...movie } as TmdbEntityMinimum
-                  }
-                >
-                  <a>{movie.title}</a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-      {processedData.tv.length > 0 && (
-        <>
-          <h2>Series</h2>
-          <ul>
-            {processedData.tv.map(tv => (
-              <li key={tv.id}>
-                <Link
-                  tmdbEntity={
-                    { media_type: "tv" as "tv", ...tv } as TmdbEntityMinimum
-                  }
-                >
-                  <a>{tv.name}</a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <MainWrapper>
+        <section style={{ marginTop: 110 }}>
+          <h1>{t("home-title")}</h1>
+          <p>
+            This project is a <strong>NextJS</strong> implementation of the{" "}
+            <em>themoviedb.org</em> website.
+          </p>
+          <p>
+            ℹ️{" "}
+            <Link href={{ pathname: "/about" }} as="/about">
+              <a>Read more about the project</a>
+            </Link>
+            .
+          </p>
+          {processedData.movie.length > 0 && (
+            <>
+              <h2>Movies</h2>
+              <ul>
+                {processedData.movie.map(movie => (
+                  <li key={movie.id}>
+                    <Link
+                      tmdbEntity={
+                        { media_type: "movie", ...movie } as TmdbEntityMinimum
+                      }
+                    >
+                      <a>{movie.title}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {processedData.tv.length > 0 && (
+            <>
+              <h2>Series</h2>
+              <ul>
+                {processedData.tv.map(tv => (
+                  <li key={tv.id}>
+                    <Link
+                      tmdbEntity={
+                        { media_type: "tv" as "tv", ...tv } as TmdbEntityMinimum
+                      }
+                    >
+                      <a>{tv.name}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </section>
+      </MainWrapper>
     </>
   );
 };

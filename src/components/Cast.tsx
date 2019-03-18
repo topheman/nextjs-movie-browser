@@ -1,6 +1,6 @@
 import React from "react";
 
-import MoviePreview from "./MoviePreview";
+import SimpleBanner from "./SimpleBanner";
 import MovieCast from "./MovieCast";
 import MetaTags, {
   commonMetaTagsExtractProps,
@@ -46,7 +46,7 @@ const Cast: React.FunctionComponent<CastProps> = ({
         {...commonMetaTagsExtractProps({ basePath, pathname })}
         {...movieOrTvMetaTagsExtractProps(tmdbEntity, media_type)}
       />
-      <MoviePreview media_type={media_type} mode="preview" data={tmdbEntity} />
+      <SimpleBanner media_type={media_type} data={tmdbEntity} />
       <MovieCast media_type={media_type} data={tmdbEntity} />
     </>
   );

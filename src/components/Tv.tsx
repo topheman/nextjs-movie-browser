@@ -1,8 +1,7 @@
 import React from "react";
 
 import MoviePreview from "./MoviePreview";
-import MovieCast from "./MovieCast";
-import CurrentSeason from "./CurrentSeason";
+import MovieContent from "./MovieContent";
 import MetaTags, {
   commonMetaTagsExtractProps,
   PropsMetaTags,
@@ -33,8 +32,7 @@ const Tv: React.FunctionComponent<PageRootComponent<TmdbTvEntity>> = ({
         {...tvMetaTagsExtractProps(tmdbTvEntity)}
       />
       <MoviePreview media_type="tv" data={tmdbTvEntity} />
-      <MovieCast mode="preview" media_type="tv" data={tmdbTvEntity} />
-      <CurrentSeason data={tmdbTvEntity} />
+      <MovieContent media_type="tv" data={tmdbTvEntity} />
     </>
   );
 };

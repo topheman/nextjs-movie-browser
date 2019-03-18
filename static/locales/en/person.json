@@ -1,5 +1,17 @@
 {
   "person-label-biography": "Biography",
   "person-label-movies": "Movies",
-  "person-label-series": "TV Series"
+  "person-label-series": "TV Series",
+  "person-label-personal-info": "Personal Info",
+  "person-label-known-for": "Known For",
+  "person-label-gender": "Gender",
+  "person-label-known-credits": "Known Credits",
+  "person-label-birthday": "Birthday",
+  "person-label-place-of-birth": "Place of Birth",
+  "person-label-official-site": "Official Site",
+  "person-label-also-known-as": "Also Known As",
+  "person-gender-0": "Not specified",
+  "person-gender-1": "Female",
+  "person-gender-2": "Male",
+  "person-date": "{{date, MM/DD/YYYY}}"
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import PersonPreview from "./PersonPreview";
-import PersonCredits from "./PersonCredits";
+import PersonContent from "./PersonContent";
 import MetaTags, {
   commonMetaTagsExtractProps,
   PropsMetaTags,
@@ -31,7 +31,7 @@ const Person: React.FunctionComponent<PageRootComponent<TmdbPersonEntity>> = ({
         {...personMetaTagsExtractProps(tmdbPersonEntity)}
       />
       <PersonPreview data={tmdbPersonEntity} />
-      <PersonCredits data={tmdbPersonEntity} />
+      <PersonContent data={tmdbPersonEntity} />
     </>
   );
 };

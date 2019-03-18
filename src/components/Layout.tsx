@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -19,21 +19,17 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
     background-color: #fafafa;
     font-family: Arial,sans-serif;
   }
-  h1,h2,h3,h4,h5,h6,a {
+  h1,h2,h3,h4,h5,h6,a,strong {
     color: ${props => props.theme.primary};
   }
   main {
+    position: relative;
+    top: 0;
+    left: 0;
+    padding: 0;
     margin-top: ${props =>
-      `calc(${props.theme.headerTopHeight} + ${
-        props.theme.searchHeight
-      } + 10px)`};
-    padding: 0 8px;
+      `calc(${props.theme.headerTopHeight} + ${props.theme.searchHeight})`};
   }
-`;
-
-const Wrapper = styled.div`
-  max-width: ${props => props.theme.maxWidth};
-  margin: 0 auto;
 `;
 
 export default (props: any) => (
@@ -42,12 +38,12 @@ export default (props: any) => (
       <title key="title">{process.env.NEXTJS_APP_CLIENT_TITLE}</title>
     </Head>
     <ThemeProvider theme={theme}>
-      <Wrapper>
+      <>
         <GlobalStyle theme={theme} />
         <Header />
         <main>{props.children}</main>
         <Footer fromFullYear={2019} />
-      </Wrapper>
+      </>
     </ThemeProvider>
   </>
 );

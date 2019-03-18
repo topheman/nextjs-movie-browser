@@ -4,5 +4,6 @@
   "common-search-placeholder": "Search for a movie, tv show, person ...",
   "common-translation-picker-translations": "Translations",
   "common-translation-picker-language-preferences": "Language preferences",
-  "common-translation-picker-label-default-language": "Default language"
+  "common-translation-picker-label-default-language": "Default language",
+  "common-label-back-mainpage": "Back to Main page"
 }

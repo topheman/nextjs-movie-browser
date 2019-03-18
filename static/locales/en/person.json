@@ -13,5 +13,5 @@
   "person-gender-0": "Not specified",
   "person-gender-1": "Female",
   "person-gender-2": "Male",
-  "person-date": "{{date, DD/MM/YYYY}}"
+  "person-date": "{{date, MM/DD/YYYY}}"
 }

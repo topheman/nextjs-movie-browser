@@ -31,11 +31,7 @@ const PopularCreditsList = styled.ul`
   }
 `;
 
-const MovieContent: React.FunctionComponent<IProps> = ({
-  // t,
-  // media_type,
-  data
-}) => {
+const MovieContent: React.FunctionComponent<IProps> = ({ t, data }) => {
   const popularCredits = makeCreditsList(
     {
       movie_credits: data.movie_credits,
@@ -48,12 +44,17 @@ const MovieContent: React.FunctionComponent<IProps> = ({
       <ColumnWrapper>
         <Casting>
           <section>
-            <PopularCreditsList>
-              {popularCredits.map(credit => (
-                // @ts-ignore
-                <PopularCreditCard key={credit.id} data={credit} as="li" />
-              ))}
-            </PopularCreditsList>
+            <>
+              <h3 dir="auto" style={{ marginTop: 0 }}>
+                {t("person-label-known-for")}
+              </h3>
+              <PopularCreditsList>
+                {popularCredits.map(credit => (
+                  // @ts-ignore
+                  <PopularCreditCard key={credit.id} data={credit} as="li" />
+                ))}
+              </PopularCreditsList>
+            </>
           </section>
         </Casting>
         <Infos>
@@ -66,4 +67,4 @@ const MovieContent: React.FunctionComponent<IProps> = ({
   );
 };
 
-export default withNamespaces("movie")(MovieContent);
+export default withNamespaces("person")(MovieContent);

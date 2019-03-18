@@ -13,5 +13,6 @@
   "person-label-acting": "Interprétation",
   "person-gender-0": "Non spécifié",
   "person-gender-1": "Femme",
-  "person-gender-2": "Homme"
+  "person-gender-2": "Homme",
+  "person-date": "{{date, DD/MM/YYYY}}"
 }

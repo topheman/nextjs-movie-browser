@@ -22,6 +22,12 @@ const CastingList = styled.ul`
   }
 `;
 
+const TvSeasonCardFullStyled = styled(TvSeasonCardFull)`
+  @media screen and (max-width: ${props => props.theme.breakpoint}) {
+    flex-wrap: initial;
+  }
+`;
+
 interface IProps extends ComponentWithData<TmdbMovieEntity & TmdbTvEntity> {
   t: i18next.TranslationFunction;
   media_type: "movie" | "tv";
@@ -75,7 +81,7 @@ const MovieContent: React.FunctionComponent<IProps> = ({
             {currentSeason && (
               <>
                 <h3 dir="auto">{t("movie-label-current-season")}</h3>
-                <TvSeasonCardFull
+                <TvSeasonCardFullStyled
                   season={currentSeason}
                   style={{ marginBottom: 15 }}
                 />

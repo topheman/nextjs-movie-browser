@@ -69,10 +69,14 @@ const MoviePreview: React.FunctionComponent<IProps> = ({
             </Link>
           )}
           {(data as TmdbMovieEntity).title || (data as TmdbTvEntity).name}{" "}
-          {(data as TmdbMovieEntity).release_date &&
+          {((data as TmdbMovieEntity).release_date &&
             `(${new Date(
               (data as TmdbMovieEntity).release_date
-            ).getFullYear()})`}
+            ).getFullYear()})`) ||
+            ((data as TmdbTvEntity).first_air_date &&
+              `(${new Date(
+                (data as TmdbTvEntity).first_air_date
+              ).getFullYear()})`)}
         </Title>
         <Content>
           <h3 data-testid="movie-preview-title-synopsis">

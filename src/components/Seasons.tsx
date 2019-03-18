@@ -1,6 +1,6 @@
 import React from "react";
 
-import MoviePreview from "./MoviePreview";
+import SimpleBanner from "./SimpleBanner";
 import TvSeasons from "./TvSeasons";
 import MetaTags, {
   commonMetaTagsExtractProps,
@@ -29,7 +29,7 @@ const Seasons: React.FunctionComponent<PageRootComponent<TmdbTvEntity>> = ({
         {...commonMetaTagsExtractProps({ basePath, pathname })}
         {...tvMetaTagsExtractProps(tmdbTvEntity)}
       />
-      <MoviePreview media_type="tv" mode="preview" data={tmdbTvEntity} />
+      <SimpleBanner media_type="tv" data={tmdbTvEntity} />
       <TvSeasons data={tmdbTvEntity} />
     </>
   );

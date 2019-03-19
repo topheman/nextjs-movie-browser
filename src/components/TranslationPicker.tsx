@@ -26,6 +26,7 @@ const PickerButton = styled.button`
   border-radius: 0.25rem;
   transition: background 0.3s, color 0.3s;
   position: relative;
+  height: 35px;
   cursor: pointer;
   :hover {
     background: white;
@@ -47,7 +48,7 @@ const PickerWrapper = styled.div<{ popupOpen: boolean }>`
   display: ${props => (props.popupOpen ? "initial" : "none")};
   z-index: 999;
   position: absolute;
-  top: 25px;
+  top: 38px;
   right: 0px;
   border-radius: 0.25rem;
   padding: 0.5rem;

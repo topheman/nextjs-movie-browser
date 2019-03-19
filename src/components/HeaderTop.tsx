@@ -25,16 +25,19 @@ const HeaderTopWrapper = styled.div`
 
 const Title = styled.h1`
   position: absolute;
-  top: 15px;
+  top: 0px;
   left: 10px;
   margin: 0px;
+  height: ${props => props.theme.headerTopHeight};
+  line-height: ${props => props.theme.headerTopHeight};
   font-weight: 100;
   font-size: 1.5rem;
   @media screen and (max-width: ${props => props.theme.breakpoint}) {
-    top: 18px;
+    /* top: 18px; */
     font-size: 1.1rem;
   }
   a {
+    display: block;
     text-decoration: none;
     color: white;
   }
@@ -53,8 +56,8 @@ const TranslationPickerStyled = styled(TranslationPicker)<
   TranslationPickerProps
 >`
   position: absolute;
-  top: 20px;
-  right: 110px;
+  top: 13px;
+  right: 108px;
   @media screen and (max-width: ${props => props.theme.breakpoint}) {
     right: 10px;
   }

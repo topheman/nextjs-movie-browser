@@ -75,7 +75,7 @@ const SiteNetwork: React.FunctionComponent<
     </li>
     <li className="github">
       <a
-        href="https://github.com/topheman/npm-registry-browser"
+        href="https://github.com/topheman/nextjs-movie-browser"
         title="Fork on github"
       >
         <span className="icon" />

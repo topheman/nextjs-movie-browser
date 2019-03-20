@@ -7,11 +7,9 @@ class UIStore {
     this.loading = loading;
   }
   @action setMenuOpen(menuOpen: boolean) {
-    console.log("setMenuOpen", this.menuOpen);
     this.menuOpen = menuOpen;
   }
   @action toggleMenuOpen() {
-    console.log("toggleMenuOpen", this.menuOpen);
     this.menuOpen = !this.menuOpen;
   }
 }

@@ -9,6 +9,9 @@ import React from "react";
 const TextContent: React.FunctionComponent<
   { children: string; maxWords?: number } & React.HTMLAttributes<HTMLElement>
 > = ({ children, maxWords, style, ...props }) => {
+  if (typeof children !== "string") {
+    return null;
+  }
   let content = children;
   if (typeof maxWords !== "undefined") {
     content = content

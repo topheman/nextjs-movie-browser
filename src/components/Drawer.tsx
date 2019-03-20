@@ -72,26 +72,29 @@ const SidebarContent: React.FunctionComponent<{
   t: i18next.TranslationFunction;
   closeDrawer: () => void;
 }> = ({ t, closeDrawer }) => {
+  // only add prefetch in prod (not in test, it will fail) @todo, mock router on the testing side
+  const prefetchProps =
+    process.env.NODE_ENV === "production" ? { prefetch: true } : {};
   return (
     <SidebarContentWrapper>
       <h3>Menu</h3>
       <ul>
         <li className="home">
-          <Link href={{ pathname: "/" }} as="/">
+          <Link href={{ pathname: "/" }} as="/" {...prefetchProps}>
             <a onClick={closeDrawer}>
               <span>{t("common-label-home")}</span>
             </a>
           </Link>
         </li>
         <li className="about">
-          <Link href={{ pathname: "/about" }} as="/about">
+          <Link href={{ pathname: "/about" }} as="/about" {...prefetchProps}>
             <a onClick={closeDrawer}>
               <span>{t("common-label-about")}</span>
             </a>
           </Link>
         </li>
         <li className="qrcode">
-          <Link href={{ pathname: "/qrcode" }} as="/qrcode">
+          <Link href={{ pathname: "/qrcode" }} as="/qrcode" {...prefetchProps}>
             <a onClick={closeDrawer}>
               <span>{t("common-label-show-qrcode")}</span>
             </a>

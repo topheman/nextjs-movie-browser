@@ -33,7 +33,10 @@ const Title = styled.h1`
   font-weight: 100;
   font-size: 1.5rem;
   @media screen and (max-width: ${props => props.theme.breakpoint}) {
-    /* top: 18px; */
+    font-size: 0.9rem;
+  }
+  @media screen and (min-width: ${props =>
+      props.theme.breakpoint}) and (max-width: 750px) {
     font-size: 1.1rem;
   }
   a {

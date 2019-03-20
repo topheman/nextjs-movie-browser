@@ -158,7 +158,13 @@ class Drawer extends React.Component<Props> {
           onSetOpen={open => this.props.uiStore!.setMenuOpen(open)}
           // @ts-ignore
           styles={{
-            sidebar: { background: "white", zIndex: 3 },
+            sidebar: {
+              background: "white",
+              zIndex: 3,
+              transition: "transform .1s ease-out",
+              WebkitTransition: "-webkit-transform .1s ease-out",
+              willChange: "transform"
+            },
             overlay: { zIndex: 2 }
           }}
         >

@@ -7,20 +7,35 @@ import React from "react";
  * - text-align: initial to make sure to override `-webkit-match-parent` if set (which won't take language direction in account)
  */
 const TextContent: React.FunctionComponent<
-  { children: string } & React.HTMLAttributes<HTMLElement>
-> = ({ children, style, ...props }) => (
-  <>
-    {children.split(`\n\n`).map((paragraph, index) => (
-      <p
-        dir="auto"
-        style={{ textAlign: "initial", ...style }}
-        {...props}
-        key={index}
-      >
-        {paragraph}
-      </p>
-    ))}
-  </>
-);
+  { children: string; maxWords?: number } & React.HTMLAttributes<HTMLElement>
+> = ({ children, maxWords, style, ...props }) => {
+  if (typeof children !== "string") {
+    return null;
+  }
+  let content = children;
+  if (typeof maxWords !== "undefined") {
+    content = content
+      .split(" ")
+      .splice(0, maxWords)
+      .join(" ");
+    if (children.length !== content.length) {
+      content += " ...";
+    }
+  }
+  return (
+    <>
+      {content.split(`\n\n`).map((paragraph, index) => (
+        <p
+          dir="auto"
+          style={{ textAlign: "initial", ...style }}
+          {...props}
+          key={index}
+        >
+          {paragraph}
+        </p>
+      ))}
+    </>
+  );
+};
 
 export default TextContent;

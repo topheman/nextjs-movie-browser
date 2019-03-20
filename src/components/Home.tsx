@@ -50,8 +50,32 @@ const Home: React.FunctionComponent<IProps> = ({
             <em>themoviedb.org</em> website.
           </p>
           <p>
+            The challenge of this project was to dive deep in{" "}
+            <strong>Server Side Rendering</strong> (also making it SEO and
+            Social Media friendly) and using a few technologies like:
+          </p>
+          <ul>
+            <li>
+              <strong>NextJS</strong>
+            </li>
+            <li>
+              <strong>TypeScript</strong>
+            </li>
+            <li>
+              <strong>CSSinJS</strong> (styled-components)
+            </li>
+          </ul>
+          <p>
+            The goal is not to replace themoviedb.org in any way but to improve
+            my level in those{" "}
             <Link href={{ pathname: "/about" }} as="/about">
-              <a>
+              <a title="More infos">technologies</a>
+            </Link>
+            .
+          </p>
+          <p>
+            <Link href={{ pathname: "/about" }} as="/about">
+              <a title="More infos">
                 <InfosIcon style={{ margin: "0 7px -7px 0px" }} /> Read more
                 about the project
               </a>

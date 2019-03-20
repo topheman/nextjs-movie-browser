@@ -24,7 +24,7 @@ const About: React.FunctionComponent<IProps> = ({ basePath, pathname, t }) => {
           <h1>{t("common-about-title")}</h1>
           <p>
             <Link href={{ pathname: "/" }} as="/">
-              <a>
+              <a title="Back to Home page">
                 <HomeIcon style={{ margin: "0 7px -7px 0px" }} /> Back to Home
                 page
               </a>

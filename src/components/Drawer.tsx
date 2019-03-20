@@ -82,21 +82,21 @@ const SidebarContent: React.FunctionComponent<{
       <ul>
         <li className="home">
           <Link href={{ pathname: "/" }} as="/" {...prefetchProps}>
-            <a onClick={closeDrawer}>
+            <a onClick={closeDrawer} title={t("common-label-home")}>
               <span>{t("common-label-home")}</span>
             </a>
           </Link>
         </li>
         <li className="about">
           <Link href={{ pathname: "/about" }} as="/about" {...prefetchProps}>
-            <a onClick={closeDrawer}>
+            <a onClick={closeDrawer} title={t("common-label-about")}>
               <span>{t("common-label-about")}</span>
             </a>
           </Link>
         </li>
         <li className="qrcode">
           <Link href={{ pathname: "/qrcode" }} as="/qrcode" {...prefetchProps}>
-            <a onClick={closeDrawer}>
+            <a onClick={closeDrawer} title={t("common-label-show-qrcode")}>
               <span>{t("common-label-show-qrcode")}</span>
             </a>
           </Link>
@@ -108,17 +108,26 @@ const SidebarContent: React.FunctionComponent<{
           <a
             onClick={closeDrawer}
             href="https://github.com/topheman/nextjs-movie-browser"
+            title="nextjs-movie-browser on github"
           >
             <span>Github</span>
           </a>
         </li>
         <li className="twitter">
-          <a onClick={closeDrawer} href="https://twitter.com/topheman">
+          <a
+            onClick={closeDrawer}
+            href="https://twitter.com/topheman"
+            title="@topheman on twitter"
+          >
             <span>Twitter</span>
           </a>
         </li>
         <li className="labs">
-          <a onClick={closeDrawer} href="http://labs.topheman.com">
+          <a
+            onClick={closeDrawer}
+            href="http://labs.topheman.com"
+            title="Visit my other projects"
+          >
             <span>labs.topheman.com</span>
           </a>
         </li>

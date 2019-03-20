@@ -6,5 +6,6 @@
   "common-translation-picker-language-preferences": "Préférences de langue",
   "common-translation-picker-label-default-language": "Langage par défaut",
   "common-label-back-mainpage": "Retour à l'écran principal",
-  "common-label-show-qrcode": "Afficher Qrcode"
+  "common-label-show-qrcode": "Afficher Qrcode",
+  "common-about-title": "A propos"
 }

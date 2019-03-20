@@ -21,7 +21,7 @@ const About: React.FunctionComponent<IProps> = ({ basePath, pathname, t }) => {
       />
       <MainWrapper>
         <section style={{ marginTop: 110 }}>
-          <h1>{t("about-title")}</h1>
+          <h1>{t("common-about-title")}</h1>
           <p>
             <Link href={{ pathname: "/" }} as="/">
               <a>
@@ -93,4 +93,4 @@ const About: React.FunctionComponent<IProps> = ({ basePath, pathname, t }) => {
   );
 };
 
-export default withNamespaces(["about", "common"])(About);
+export default withNamespaces("common")(About);

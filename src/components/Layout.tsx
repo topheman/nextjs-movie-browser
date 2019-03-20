@@ -33,7 +33,11 @@ const GlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
   }
 `;
 
-export default (props: any) => (
+interface Props {
+  currentUrl: string;
+}
+
+const Layout: React.FunctionComponent<Props> = props => (
   <>
     <Head>
       <title key="title">{process.env.NEXTJS_APP_CLIENT_TITLE}</title>
@@ -44,9 +48,11 @@ export default (props: any) => (
         <Drawer>
           <Header />
           <main>{props.children}</main>
-          <Footer fromFullYear={2019} />
+          <Footer fromFullYear={2019} currentUrl={props.currentUrl} />
         </Drawer>
       </>
     </ThemeProvider>
   </>
 );
+
+export default Layout;

@@ -13,7 +13,7 @@ class ErrorPage extends React.Component<{ statusCode: number }> {
 
   render() {
     return (
-      <Layout>
+      <Layout currentUrl="">
         <Error statusCode={this.props.statusCode} />
       </Layout>
     );

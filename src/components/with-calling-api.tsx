@@ -185,7 +185,9 @@ const withCallingApi = <ApiEntity extends any>({
     render() {
       console.log(`${PageWithId.displayName}.render`);
       return (
-        <Layout>
+        <Layout
+          currentUrl={`${this.props.basePath}${getPathName(this.props.router)}`}
+        >
           <LinkHreflangTags
             url={`${this.props.basePath}${getPathName(this.props.router)}`}
             translationFullCodes={

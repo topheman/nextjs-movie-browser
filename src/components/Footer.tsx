@@ -7,6 +7,7 @@ import { filterHtmlProps } from "../utils/helpers";
 
 const Wrapper = styled.footer`
   text-align: center;
+  margin-top: 30px;
 `;
 
 interface FooterProps {

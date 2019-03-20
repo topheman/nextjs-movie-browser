@@ -4,6 +4,7 @@ import i18next from "i18next";
 import MetaTags, { commonMetaTagsExtractProps } from "./MetaTags";
 import Link, { TmdbEntityMinimum } from "./Link";
 import { MainWrapper } from "./ui/Layout";
+import InfosIcon from "./ui/InfosIcon";
 import { withNamespaces } from "../../i18n";
 import {
   TmdbTrendingResults,
@@ -49,9 +50,11 @@ const Home: React.FunctionComponent<IProps> = ({
             <em>themoviedb.org</em> website.
           </p>
           <p>
-            ℹ️{" "}
             <Link href={{ pathname: "/about" }} as="/about">
-              <a>Read more about the project</a>
+              <a>
+                <InfosIcon style={{ margin: "0 7px -7px 0px" }} /> Read more
+                about the project
+              </a>
             </Link>
             .
           </p>

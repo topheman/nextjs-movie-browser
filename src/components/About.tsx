@@ -2,6 +2,7 @@ import React from "react";
 import i18next from "i18next";
 
 import MetaTags, { commonMetaTagsExtractProps } from "./MetaTags";
+import HomeIcon from "./ui/HomeIcon";
 import Link from "./Link";
 import { MainWrapper } from "./ui/Layout";
 import { withNamespaces } from "../../i18n";
@@ -23,9 +24,11 @@ const About: React.FunctionComponent<IProps> = ({ basePath, pathname, t }) => {
           <h1>{t("about-title")}</h1>
           <p>
             <Link href={{ pathname: "/" }} as="/">
-              <a>🏠Back home</a>
+              <a>
+                <HomeIcon style={{ margin: "0 7px -7px 0px" }} /> Back to Home
+                page
+              </a>
             </Link>
-            .
           </p>
           <p>
             This project is a <strong>NextJS</strong> implementation of the{" "}
@@ -90,4 +93,4 @@ const About: React.FunctionComponent<IProps> = ({ basePath, pathname, t }) => {
   );
 };
 
-export default withNamespaces("about")(About);
+export default withNamespaces(["about", "common"])(About);

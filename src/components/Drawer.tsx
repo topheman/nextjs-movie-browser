@@ -90,13 +90,13 @@ const SidebarContent: React.FunctionComponent<{
             </a>
           </Link>
         </li>
-        {/* <li className="qrcode">
+        <li className="qrcode">
           <Link href={{ pathname: "/qrcode" }} as="/qrcode">
             <a onClick={closeDrawer}>
-              <span>{t("common-label-qrcode")}</span>
+              <span>{t("common-label-show-qrcode")}</span>
             </a>
           </Link>
-        </li> */}
+        </li>
       </ul>
       <h3>External</h3>
       <ul>

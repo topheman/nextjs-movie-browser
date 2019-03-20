@@ -5,9 +5,10 @@ import styled from "styled-components";
 import i18next from "i18next";
 
 import Link from "./Link";
-import Hamburger from "./HamburgerButton";
+import HamburgerButton from "./HamburgerButton";
 import UIStore from "../stores/UIStore";
 import { withNamespaces } from "../../i18n";
+import { filterHtmlProps } from "../utils/helpers";
 
 const SidebarContentWrapper = styled.div`
   padding-top: 30px;
@@ -71,12 +72,12 @@ const SidebarContentWrapper = styled.div`
 const SidebarContent: React.FunctionComponent<{
   t: i18next.TranslationFunction;
   closeDrawer: () => void;
-}> = ({ t, closeDrawer }) => {
+}> = ({ t, closeDrawer, ...remainingProps }) => {
   // only add prefetch in prod (not in test, it will fail) @todo, mock router on the testing side
   const prefetchProps =
     process.env.NODE_ENV === "production" ? { prefetch: true } : {};
   return (
-    <SidebarContentWrapper>
+    <SidebarContentWrapper {...filterHtmlProps(remainingProps)}>
       <h3>Menu</h3>
       <ul>
         <li className="home">
@@ -137,7 +138,7 @@ class Drawer extends React.Component<Props> {
   render() {
     return (
       <>
-        <Hamburger
+        <HamburgerButton
           onClick={() => this.props.uiStore!.toggleMenuOpen()}
           open={this.props.uiStore!.menuOpen}
           color="white"

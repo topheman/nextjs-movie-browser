@@ -18,7 +18,7 @@ const HeaderWrapper = styled.div`
   left: 0;
   background-color: white;
   width: 100%;
-  z-index: 999;
+  z-index: 1;
   height: ${props =>
     `calc(${props.theme.headerTopHeight} + ${props.theme.searchHeight})`};
   border-bottom: 1px solid #dedede;

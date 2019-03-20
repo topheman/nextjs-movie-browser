@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 
+import Drawer from "./Drawer";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -40,9 +41,11 @@ export default (props: any) => (
     <ThemeProvider theme={theme}>
       <>
         <GlobalStyle theme={theme} />
-        <Header />
-        <main>{props.children}</main>
-        <Footer fromFullYear={2019} />
+        <Drawer>
+          <Header />
+          <main>{props.children}</main>
+          <Footer fromFullYear={2019} />
+        </Drawer>
       </>
     </ThemeProvider>
   </>

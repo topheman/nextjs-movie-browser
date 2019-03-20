@@ -26,7 +26,7 @@ const HeaderTopWrapper = styled.div`
 const Title = styled.h1`
   position: absolute;
   top: 0px;
-  left: 10px;
+  left: 55px;
   margin: 0px;
   height: ${props => props.theme.headerTopHeight};
   line-height: ${props => props.theme.headerTopHeight};

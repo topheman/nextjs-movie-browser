@@ -82,6 +82,16 @@ const Home: React.FunctionComponent<IProps> = ({
             </Link>
             .
           </p>
+          <p>
+            Pick a movie or tv serie 👇 and chose a language amongst the
+            available translations{" "}
+            <span
+              style={{ transform: "rotate(220deg)", display: "inline-block" }}
+            >
+              👇
+            </span>{" "}
+            (you can also change the ui language).
+          </p>
           {processedData.movie.length > 0 && (
             <>
               <h2>Movies</h2>

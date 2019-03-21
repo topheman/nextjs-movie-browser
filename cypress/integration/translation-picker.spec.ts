@@ -68,4 +68,15 @@ describe("TranslationPicker", () => {
         });
     });
   });
+  describe("ui", () => {
+    beforeEach(() => {
+      cy.visit("/about");
+    });
+    it("should close when click out", () => {
+      cy.getByTestId("translation-picker-btn").click();
+      cy.get("[data-testid=translation-picker-modal]").should("be.visible");
+      cy.get("body main").click();
+      cy.get("[data-testid=translation-picker-modal]").should("not.be.visible");
+    });
+  });
 });

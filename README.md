@@ -1,6 +1,6 @@
 # nextjs-movie-browser
 
-[![Build Status](https://travis-ci.org/topheman/nextjs-movie-browser.svg?branch=master)](https://travis-ci.org/topheman/nextjs-movie-browser)
+[![Build Status](https://travis-ci.org/topheman/nextjs-movie-browser.svg?branch=v1.x)](https://travis-ci.org/topheman/nextjs-movie-browser)
 [![Cypress](https://img.shields.io/badge/cypress-dashboard-brightgreen.svg)](https://dashboard.cypress.io/#/projects/b2y7nt/runs)
 [![Demo](https://img.shields.io/badge/demo-online-blue.svg)](https://topheman-movie-browser.herokuapp.com)
 

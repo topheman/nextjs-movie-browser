@@ -5,6 +5,7 @@ import styled from "styled-components";
 import i18next from "i18next";
 
 import Link from "./Link";
+import CloseOnEscape from "./CloseOnEscape";
 import HamburgerButton from "./HamburgerButton";
 import UIStore from "../stores/UIStore";
 import { withNamespaces } from "../../i18n";
@@ -160,29 +161,31 @@ class Drawer extends React.Component<Props> {
             cursor: "pointer"
           }}
         />
-        <Sidebar
-          sidebar={
-            <SidebarContent
-              t={this.props.t}
-              closeDrawer={() => this.props.uiStore!.setMenuOpen(false)}
-            />
-          }
-          open={this.props.uiStore!.menuOpen}
-          onSetOpen={open => this.props.uiStore!.setMenuOpen(open)}
-          // @ts-ignore
-          styles={{
-            sidebar: {
-              background: "white",
-              zIndex: 3,
-              transition: "transform .1s ease-out",
-              WebkitTransition: "-webkit-transform .1s ease-out",
-              willChange: "transform"
-            },
-            overlay: { zIndex: 2 }
-          }}
-        >
-          {this.props.children}
-        </Sidebar>
+        <CloseOnEscape onEscape={() => this.props.uiStore!.setMenuOpen(false)}>
+          <Sidebar
+            sidebar={
+              <SidebarContent
+                t={this.props.t}
+                closeDrawer={() => this.props.uiStore!.setMenuOpen(false)}
+              />
+            }
+            open={this.props.uiStore!.menuOpen}
+            onSetOpen={open => this.props.uiStore!.setMenuOpen(open)}
+            // @ts-ignore
+            styles={{
+              sidebar: {
+                background: "white",
+                zIndex: 3,
+                transition: "transform .1s ease-out",
+                WebkitTransition: "-webkit-transform .1s ease-out",
+                willChange: "transform"
+              },
+              overlay: { zIndex: 2 }
+            }}
+          >
+            {this.props.children}
+          </Sidebar>
+        </CloseOnEscape>
       </>
     );
   }

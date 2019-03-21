@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { LanguageList } from "../@types";
 import { withNamespaces } from "../../i18n";
+import CloseOnEscape from "./CloseOnEscape";
 import SelectLanguage from "./SelectLanguage";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import TranslationsStore from "../stores/TranslationsStore";
@@ -124,47 +125,52 @@ const TranslationPicker: React.FunctionComponent<TranslationPickerProps> = ({
               >
                 {translationLanguageFullCode || defaultLanguageFullCode}
               </PickerButton>
-              <PickerWrapper popupOpen={popupOpen}>
-                {translationLanguages && translationLanguages.length > 0 && (
+              <CloseOnEscape onEscape={() => togglePopupOpen(false)}>
+                <PickerWrapper
+                  popupOpen={popupOpen}
+                  data-testid="translation-picker-modal"
+                >
+                  {translationLanguages && translationLanguages.length > 0 && (
+                    <>
+                      <Title>
+                        {t("common-translation-picker-translations")}{" "}
+                        <span>{translationLanguages.length}</span>
+                      </Title>
+                      <SelectLanguage
+                        style={{ display: "block", whiteSpace: "nowrap" }}
+                        languagesList={[
+                          { code: "", label: "Choose your language" }
+                        ].concat(translationLanguages)}
+                        onLanguageChange={languageCode => {
+                          if (languageCode === "") {
+                            return resetTranslationLanguage();
+                          }
+                          return switchTranslationLanguage(languageCode);
+                        }}
+                        value={translationLanguageFullCode}
+                        data-testid="switch-translation-language"
+                      />
+                    </>
+                  )}
                   <>
                     <Title>
-                      {t("common-translation-picker-translations")}{" "}
-                      <span>{translationLanguages.length}</span>
+                      {t("common-translation-picker-language-preferences")}
                     </Title>
                     <SelectLanguage
                       style={{ display: "block", whiteSpace: "nowrap" }}
-                      languagesList={[
-                        { code: "", label: "Choose your language" }
-                      ].concat(translationLanguages)}
-                      onLanguageChange={languageCode => {
-                        if (languageCode === "") {
-                          return resetTranslationLanguage();
-                        }
-                        return switchTranslationLanguage(languageCode);
-                      }}
-                      value={translationLanguageFullCode}
-                      data-testid="switch-translation-language"
+                      label={t(
+                        "common-translation-picker-label-default-language"
+                      )}
+                      languagesList={defaultLanguages}
+                      onLanguageChange={languageCode =>
+                        switchDefaultLanguage(languageCode)
+                      }
+                      value={defaultLanguageFullCode}
+                      data-testid="switch-default-language"
                     />
                   </>
-                )}
-                <>
-                  <Title>
-                    {t("common-translation-picker-language-preferences")}
-                  </Title>
-                  <SelectLanguage
-                    style={{ display: "block", whiteSpace: "nowrap" }}
-                    label={t(
-                      "common-translation-picker-label-default-language"
-                    )}
-                    languagesList={defaultLanguages}
-                    onLanguageChange={languageCode =>
-                      switchDefaultLanguage(languageCode)
-                    }
-                    value={defaultLanguageFullCode}
-                    data-testid="switch-default-language"
-                  />
-                </>
-              </PickerWrapper>
+                </PickerWrapper>
+              </CloseOnEscape>
             </>
           );
         }}

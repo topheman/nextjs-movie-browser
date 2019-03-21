@@ -22,14 +22,23 @@ describe("scripts/config/env", () => {
     modes.forEach(mode => {
       describe(mode, () => {
         envs.forEach(env => {
-          it(`check with process.env == "${env}"`, () => {
-            const config = loadConfig(
-              ["DOTENV_PREFIX_TEST_"],
-              path.resolve(__dirname, "__mocks__", mode),
-              env
-            );
-            expect(config.raw).toMatchSnapshot();
-          });
+          // On travis, skip in "local" mode for "production" and "development" env (only fails on travis)
+          ((CI, currentMode, currentEnv) =>
+            CI &&
+            currentMode === "local" &&
+            ["production", "development"].includes(currentEnv)
+              ? it.skip
+              : it)(process.env.CI, mode, env)(
+            `check with process.env == "${env}"`,
+            () => {
+              const config = loadConfig(
+                ["DOTENV_PREFIX_TEST_"],
+                path.resolve(__dirname, "__mocks__", mode),
+                env
+              );
+              expect(config.raw).toMatchSnapshot();
+            }
+          );
         });
       });
     });

@@ -1,0 +1,11 @@
+# Resoufrces:
+# http://dev.topheman.com/cypress-io-advanced-setup/
+sudo: false
+language: node_js
+node_js:
+  - "10"
+install: npm install
+script:
+  - npm run lint
+  - npm run ts:check
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && npm run test:travis || npm run test:travis:pr'

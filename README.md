@@ -1,5 +1,7 @@
 # nextjs-movie-browser
 
+[![Build Status](https://travis-ci.org/topheman/nextjs-movie-browser.svg?branch=master)](https://travis-ci.org/topheman/nextjs-movie-browser)
+[![Cypress](https://img.shields.io/badge/cypress-dashboard-brightgreen.svg)](https://dashboard.cypress.io/#/projects/b2y7nt/runs)
 [![Demo](https://img.shields.io/badge/demo-online-blue.svg)](https://topheman-movie-browser.herokuapp.com)
 
 <p align="center"><img src="./static/nextjs-movie-browser.png" width=530 /></p>
@@ -190,7 +192,14 @@ See [Heroku](NOTES.md#heroku) section in notes
 
 ## Continuous Integration
 
-Comming soon
+Each `git push` triggers a test suite on [travis](https://travis-ci.org/topheman/nextjs-movie-browser). The following will be ran:
+
+- linting
+- type checking
+- unit tests
+- end to end test with cypress
+
+The end to end test sessions are recorded, you can check them [here](https://dashboard.cypress.io/#/projects/b2y7nt/runs).
 
 ## Commit guidelines
 

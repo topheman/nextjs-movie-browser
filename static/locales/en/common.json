@@ -5,6 +5,8 @@
   "common-translation-picker-translations": "Translations",
   "common-translation-picker-language-preferences": "Language preferences",
   "common-translation-picker-label-default-language": "Default language",
+  "common-translation-picker-explain-available-translations": "Available translations for each content will be exposed here.",
+  "common-translation-picker-explain-exotic-translations": "Make sure to try exotic ones like chinese, hebrew ...",
   "common-label-back-mainpage": "Back to Main page",
   "common-label-show-qrcode": "Show Qrcode",
   "common-about-title": "About"

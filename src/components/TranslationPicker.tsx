@@ -162,45 +162,67 @@ class TranslationPickerClass extends React.Component<
                     popupOpen={popupOpen}
                     data-testid="translation-picker-modal"
                   >
+                    <Title>
+                      {t("common-translation-picker-translations")}
+                      {translationLanguages &&
+                        translationLanguages.length > 0 && (
+                          <span> {translationLanguages.length}</span>
+                        )}
+                    </Title>
+                    {translationLanguages &&
+                      translationLanguages.length === 0 &&
+                      translationLanguageFullCode && (
+                        <button onClick={() => resetTranslationLanguage()}>
+                          Reset
+                        </button>
+                      )}
+                    {translationLanguages &&
+                      translationLanguages.length === 0 &&
+                      !translationLanguageFullCode && (
+                        <>
+                          <p>
+                            {t(
+                              "common-translation-picker-explain-available-translations"
+                            )}
+                          </p>
+                          <p>
+                            {t(
+                              "common-translation-picker-explain-exotic-translations"
+                            )}
+                          </p>
+                        </>
+                      )}
                     {translationLanguages && translationLanguages.length > 0 && (
-                      <>
-                        <Title>
-                          {t("common-translation-picker-translations")}{" "}
-                          <span>{translationLanguages.length}</span>
-                        </Title>
-                        <SelectLanguage
-                          style={{ display: "block", whiteSpace: "nowrap" }}
-                          languagesList={[
-                            { code: "", label: "Choose your language" }
-                          ].concat(translationLanguages)}
-                          onLanguageChange={languageCode => {
-                            if (languageCode === "") {
-                              return resetTranslationLanguage();
-                            }
-                            return switchTranslationLanguage(languageCode);
-                          }}
-                          value={translationLanguageFullCode}
-                          data-testid="switch-translation-language"
-                        />
-                      </>
-                    )}
-                    <>
-                      <Title>
-                        {t("common-translation-picker-language-preferences")}
-                      </Title>
                       <SelectLanguage
                         style={{ display: "block", whiteSpace: "nowrap" }}
-                        label={t(
-                          "common-translation-picker-label-default-language"
-                        )}
-                        languagesList={defaultLanguages}
-                        onLanguageChange={languageCode =>
-                          switchDefaultLanguage(languageCode)
-                        }
-                        value={defaultLanguageFullCode}
-                        data-testid="switch-default-language"
+                        languagesList={[
+                          { code: "", label: "Choose your language" }
+                        ].concat(translationLanguages)}
+                        onLanguageChange={languageCode => {
+                          if (languageCode === "") {
+                            return resetTranslationLanguage();
+                          }
+                          return switchTranslationLanguage(languageCode);
+                        }}
+                        value={translationLanguageFullCode}
+                        data-testid="switch-translation-language"
                       />
-                    </>
+                    )}
+                    <Title>
+                      {t("common-translation-picker-language-preferences")}
+                    </Title>
+                    <SelectLanguage
+                      style={{ display: "block", whiteSpace: "nowrap" }}
+                      label={t(
+                        "common-translation-picker-label-default-language"
+                      )}
+                      languagesList={defaultLanguages}
+                      onLanguageChange={languageCode =>
+                        switchDefaultLanguage(languageCode)
+                      }
+                      value={defaultLanguageFullCode}
+                      data-testid="switch-default-language"
+                    />
                   </PickerWrapper>
                 </CloseOnEscape>
               </>

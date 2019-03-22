@@ -18,6 +18,11 @@
 // cypress lacks support for some method in `cypress open` mode (not same chrome version as in `cypress run`)
 // import "babel-polyfill"; // ⚠️ @TODO
 
+// A cypress plugin to add a tab command (in beta version)
+// - https://github.com/Bkucera/cypress-plugin-tab
+// - https://github.com/cypress-io/cypress/issues/299#issuecomment-469792368
+import "cypress-plugin-tab";
+
 // Import command from cypress-testing-library
 import "cypress-testing-library/add-commands";
 

@@ -243,6 +243,16 @@ That way, once you install the project, you'll have a precommit hook installed. 
 - `npm run ts:check`: type check `.ts` and `.tsx` files
 - `npm test`: runs in parallel unit and e2e tests
 
+## Next steps
+
+- Write more e2e / unit tests
+- Record and use mocks for e2e tests
+- Apply design to `*/cast` and `*/seasons` pages
+- Add missing translations (job / department descriptions for example)
+- Extract part of project
+- Mock next router - [zeit/next.js: Issue #1827](https://github.com/zeit/next.js/issues/1827) [#63fd29e](https://github.com/topheman/nextjs-movie-browser/commit/63fd29e823d706b087473436a70a64928be0161a#diff-08da095f2b11e6bb3655a533a6676e42R75)
+- Write blog posts
+
 ## Resources
 
 This project is based on previous work:

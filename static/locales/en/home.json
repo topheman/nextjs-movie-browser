@@ -1,4 +1,7 @@
 {
   "home-title": "Home",
-  "home-content": "This is the landing page."
+  "home-content": "This project is a <strong>NextJS</strong> implementation of the <em>themoviedb.org</em> website.",
+  "home-label-read-more-about-project": "Read more about the project",
+  "home-movies": "Movies",
+  "home-series": "Series"
 }

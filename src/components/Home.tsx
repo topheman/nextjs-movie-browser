@@ -45,56 +45,19 @@ const Home: React.FunctionComponent<IProps> = ({
       <MainWrapper>
         <section style={{ marginTop: 110 }}>
           <h1>{t("home-title")}</h1>
-          <p>
-            This project is a <strong>NextJS</strong> implementation of the{" "}
-            <em>themoviedb.org</em> website.
-          </p>
-          <p>
-            The challenge of this project was to dive deep in{" "}
-            <strong>Server Side Rendering</strong> (also making it SEO and
-            Social Media friendly) and using a few technologies like:
-          </p>
-          <ul>
-            <li>
-              <strong>NextJS</strong>
-            </li>
-            <li>
-              <strong>TypeScript</strong>
-            </li>
-            <li>
-              <strong>CSSinJS</strong> (styled-components)
-            </li>
-          </ul>
-          <p>
-            The goal is not to replace themoviedb.org in any way but to improve
-            my level in those{" "}
-            <Link href={{ pathname: "/about" }} as="/about">
-              <a title="More infos">technologies</a>
-            </Link>
-            .
-          </p>
+          <p dangerouslySetInnerHTML={{ __html: t("home-content") }} />
           <p>
             <Link href={{ pathname: "/about" }} as="/about">
               <a title="More infos">
-                <InfosIcon style={{ margin: "0 7px -7px 0px" }} /> Read more
-                about the project
+                <InfosIcon style={{ margin: "0 7px -7px 0px" }} />{" "}
+                {t("home-label-read-more-about-project")}
               </a>
             </Link>
             .
           </p>
-          <p>
-            Pick a movie or tv serie 👇 and chose a language amongst the
-            available translations{" "}
-            <span
-              style={{ transform: "rotate(220deg)", display: "inline-block" }}
-            >
-              👇
-            </span>{" "}
-            (you can also change the ui language).
-          </p>
           {processedData.movie.length > 0 && (
             <>
-              <h2>Movies</h2>
+              <h2>{t("home-movies")}</h2>
               <ul>
                 {processedData.movie.map(movie => (
                   <li key={movie.id}>
@@ -112,7 +75,7 @@ const Home: React.FunctionComponent<IProps> = ({
           )}
           {processedData.tv.length > 0 && (
             <>
-              <h2>Series</h2>
+              <h2>{t("home-series")}</h2>
               <ul>
                 {processedData.tv.map(tv => (
                   <li key={tv.id}>

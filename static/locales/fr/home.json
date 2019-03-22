@@ -1,4 +1,7 @@
 {
   "home-title": "Accueil",
-  "home-content": "Ceci est la page d'accueil."
+  "home-content": "Ce projet est une implémentation en <strong>NextJS</strong> du site <em>themoviedb.org</em>.",
+  "home-label-read-more-about-project": "Plus d'informations sur le projet",
+  "home-movies": "Films",
+  "home-series": "Séries"
 }

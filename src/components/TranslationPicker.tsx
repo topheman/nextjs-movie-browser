@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import i18next from "i18next";
 import { inject, observer } from "mobx-react";
 import styled from "styled-components";
@@ -10,15 +10,20 @@ import SelectLanguage from "./SelectLanguage";
 import { LanguageManagerConsumer } from "../services/i18n/LanguageManager";
 import TranslationsStore from "../stores/TranslationsStore";
 import { filterHtmlProps } from "../utils/helpers";
-import withBlankWrapper from "./with-blank-wrapper";
 
-export interface TranslationPickerProps
-  extends React.HTMLAttributes<HTMLElement> {
-  t: i18next.TranslationFunction;
-  defaultLanguages: LanguageList;
-  translationsStore?: TranslationsStore;
-  className?: string;
-}
+const HighLight = styled.span`
+  @keyframes example {
+    from {
+      margin-right: 5px;
+    }
+    to {
+      margin-right: 15px;
+    }
+  }
+  animation-name: example;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+`;
 
 const PickerButton = styled.button`
   border: 2px solid white;
@@ -64,121 +69,149 @@ const PickerWrapper = styled.div<{ popupOpen: boolean }>`
  * See https://developers.themoviedb.org/3/getting-started/languages
  */
 
-const TranslationPicker: React.FunctionComponent<TranslationPickerProps> = ({
-  t,
-  defaultLanguages,
-  translationsStore,
-  ...remainingProps
-}) => {
-  const wrapperRef = useRef(null);
-  const [popupOpen, togglePopupOpen] = useState(false);
-  const translationLanguages = translationsStore!.availableLanguages;
+export interface TranslationPickerProps
+  extends React.HTMLAttributes<HTMLElement> {
+  t: i18next.TranslationFunction;
+  defaultLanguages: LanguageList;
+  translationsStore?: TranslationsStore;
+  className?: string;
+}
 
-  // like componentDidMount and componentWillUnmount
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside, false);
-    document.addEventListener("touchstart", handleClickOutside, false);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, false);
-      document.removeEventListener("touchstart", handleClickOutside, false);
-    };
-  }, []);
+interface TranslationPickerState {
+  popupOpen: boolean;
+}
 
-  const handleClickOutside = (event: any) => {
-    const current = wrapperRef.current as any; // 😢
+class TranslationPickerClass extends React.Component<
+  TranslationPickerProps,
+  TranslationPickerState
+> {
+  wrapperRef = React.createRef<HTMLDivElement>();
+  state = {
+    popupOpen: false
+  };
+
+  handleClickOutside = (event: any) => {
+    const current = this.wrapperRef.current;
     if (current && !current.contains(event.target)) {
-      togglePopupOpen(false);
+      this.togglePopupOpen(false);
     }
   };
 
-  return (
-    <div {...filterHtmlProps(remainingProps)} ref={wrapperRef}>
-      <LanguageManagerConsumer>
-        {({
-          translationLanguageFullCode,
-          defaultLanguageFullCode,
-          switchDefaultLanguage,
-          switchTranslationLanguage,
-          resetTranslationLanguage
-        }) => {
-          /**
-           * `false` if no translation available corresponding to:
-           *   - `translationLanguageFullCode` if set
-           *   - or `defaultLanguageFullCode` in fallback
-           */
-          const languageOK =
-            translationLanguages.length > 0
-              ? translationLanguageFullCode
-                ? translationLanguages.find(
-                    language => language.code === translationLanguageFullCode
-                  )
-                : translationLanguages.find(
-                    language => language.code === defaultLanguageFullCode
-                  )
-              : true;
-          return (
-            <>
-              <PickerButton
-                onClick={() => togglePopupOpen(!popupOpen)}
-                style={{ color: (!languageOK && "darkorange") || undefined }}
-                data-testid="translation-picker-btn"
-              >
-                {translationLanguageFullCode || defaultLanguageFullCode}
-              </PickerButton>
-              <CloseOnEscape onEscape={() => togglePopupOpen(false)}>
-                <PickerWrapper
-                  popupOpen={popupOpen}
-                  data-testid="translation-picker-modal"
+  togglePopupOpen = (popupOpen: boolean) => {
+    this.setState({ popupOpen });
+  };
+
+  componentDidMount() {
+    document.addEventListener("click", this.handleClickOutside, false);
+    document.addEventListener("touchstart", this.handleClickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.addEventListener("click", this.handleClickOutside, false);
+    document.addEventListener("touchstart", this.handleClickOutside, false);
+  }
+
+  render() {
+    const {
+      t,
+      defaultLanguages,
+      translationsStore,
+      ...remainingProps
+    } = this.props;
+    const { popupOpen } = this.state;
+    const translationLanguages = translationsStore!.availableLanguages;
+    return (
+      <div {...filterHtmlProps(remainingProps)} ref={this.wrapperRef}>
+        <LanguageManagerConsumer>
+          {({
+            translationLanguageFullCode,
+            defaultLanguageFullCode,
+            switchDefaultLanguage,
+            switchTranslationLanguage,
+            resetTranslationLanguage
+          }) => {
+            /**
+             * `false` if no translation available corresponding to:
+             *   - `translationLanguageFullCode` if set
+             *   - or `defaultLanguageFullCode` in fallback
+             */
+            const languageOK =
+              translationLanguages.length > 0
+                ? translationLanguageFullCode
+                  ? translationLanguages.find(
+                      language => language.code === translationLanguageFullCode
+                    )
+                  : translationLanguages.find(
+                      language => language.code === defaultLanguageFullCode
+                    )
+                : true;
+            return (
+              <>
+                {translationLanguages &&
+                  translationLanguages.length > 0 &&
+                  !translationLanguageFullCode && <HighLight>👉</HighLight>}
+                <PickerButton
+                  onClick={() => this.togglePopupOpen(!popupOpen)}
+                  style={{ color: (!languageOK && "darkorange") || undefined }}
+                  data-testid="translation-picker-btn"
                 >
-                  {translationLanguages && translationLanguages.length > 0 && (
+                  {translationLanguageFullCode || defaultLanguageFullCode}
+                </PickerButton>
+                <CloseOnEscape onEscape={() => this.togglePopupOpen(false)}>
+                  <PickerWrapper
+                    popupOpen={popupOpen}
+                    data-testid="translation-picker-modal"
+                  >
+                    {translationLanguages && translationLanguages.length > 0 && (
+                      <>
+                        <Title>
+                          {t("common-translation-picker-translations")}{" "}
+                          <span>{translationLanguages.length}</span>
+                        </Title>
+                        <SelectLanguage
+                          style={{ display: "block", whiteSpace: "nowrap" }}
+                          languagesList={[
+                            { code: "", label: "Choose your language" }
+                          ].concat(translationLanguages)}
+                          onLanguageChange={languageCode => {
+                            if (languageCode === "") {
+                              return resetTranslationLanguage();
+                            }
+                            return switchTranslationLanguage(languageCode);
+                          }}
+                          value={translationLanguageFullCode}
+                          data-testid="switch-translation-language"
+                        />
+                      </>
+                    )}
                     <>
                       <Title>
-                        {t("common-translation-picker-translations")}{" "}
-                        <span>{translationLanguages.length}</span>
+                        {t("common-translation-picker-language-preferences")}
                       </Title>
                       <SelectLanguage
                         style={{ display: "block", whiteSpace: "nowrap" }}
-                        languagesList={[
-                          { code: "", label: "Choose your language" }
-                        ].concat(translationLanguages)}
-                        onLanguageChange={languageCode => {
-                          if (languageCode === "") {
-                            return resetTranslationLanguage();
-                          }
-                          return switchTranslationLanguage(languageCode);
-                        }}
-                        value={translationLanguageFullCode}
-                        data-testid="switch-translation-language"
+                        label={t(
+                          "common-translation-picker-label-default-language"
+                        )}
+                        languagesList={defaultLanguages}
+                        onLanguageChange={languageCode =>
+                          switchDefaultLanguage(languageCode)
+                        }
+                        value={defaultLanguageFullCode}
+                        data-testid="switch-default-language"
                       />
                     </>
-                  )}
-                  <>
-                    <Title>
-                      {t("common-translation-picker-language-preferences")}
-                    </Title>
-                    <SelectLanguage
-                      style={{ display: "block", whiteSpace: "nowrap" }}
-                      label={t(
-                        "common-translation-picker-label-default-language"
-                      )}
-                      languagesList={defaultLanguages}
-                      onLanguageChange={languageCode =>
-                        switchDefaultLanguage(languageCode)
-                      }
-                      value={defaultLanguageFullCode}
-                      data-testid="switch-default-language"
-                    />
-                  </>
-                </PickerWrapper>
-              </CloseOnEscape>
-            </>
-          );
-        }}
-      </LanguageManagerConsumer>
-    </div>
-  );
-};
+                  </PickerWrapper>
+                </CloseOnEscape>
+              </>
+            );
+          }}
+        </LanguageManagerConsumer>
+      </div>
+    );
+  }
+}
 
 export default withNamespaces("common")(
-  inject("translationsStore")(observer(withBlankWrapper(TranslationPicker)))
+  inject("translationsStore")(observer(TranslationPickerClass))
 );

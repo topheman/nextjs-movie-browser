@@ -4,7 +4,7 @@ const Error: React.FunctionComponent<{ statusCode?: string | number }> = ({
   statusCode
 }) => {
   return (
-    <p>
+    <p style={{ textAlign: "center", margin: "150px auto 50px" }}>
       {statusCode
         ? `An error ${statusCode} occurred on server`
         : "An error occurred on client"}

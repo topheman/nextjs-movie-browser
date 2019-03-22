@@ -25,7 +25,9 @@ const HamburgerButton: React.FunctionComponent<
       justifyContent: "center",
       alignItems: "center",
       cursor: "pointer",
-      padding: "4px"
+      padding: "4px",
+      background: "transparent",
+      border: 0
     },
     line: {
       height: "2px",
@@ -51,14 +53,14 @@ const HamburgerButton: React.FunctionComponent<
     }
   };
   return (
-    <div
+    <button
       style={{ ...style, ...styles.container } as React.CSSProperties}
       {...filterHtmlProps(remainingProps)}
     >
       <div style={{ ...styles.line, ...styles.lineTop }} />
       <div style={{ ...styles.line, ...styles.lineMiddle }} />
       <div style={{ ...styles.line, ...styles.lineBottom }} />
-    </div>
+    </button>
   );
 };
 

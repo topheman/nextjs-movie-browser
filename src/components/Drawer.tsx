@@ -70,34 +70,37 @@ const SidebarContentWrapper = styled.div`
   }
 `;
 
-const SidebarContent: React.FunctionComponent<{
-  t: i18next.TranslationFunction;
-  closeDrawer: () => void;
-}> = ({ t, closeDrawer, ...remainingProps }) => {
+const SidebarContent: React.FunctionComponent<
+  {
+    t: i18next.TranslationFunction;
+    closeDrawer: () => void;
+  } & React.HTMLAttributes<HTMLElement>
+> = ({ t, closeDrawer, ...remainingProps }) => {
   // only add prefetch in prod (not in test, it will fail) @todo, mock router on the testing side
   const prefetchProps =
     process.env.NODE_ENV === "production" ? { prefetch: true } : {};
+  const anchorProps = { onClick: closeDrawer };
   return (
     <SidebarContentWrapper {...filterHtmlProps(remainingProps)}>
       <h3>Menu</h3>
       <ul>
         <li className="home">
           <Link href={{ pathname: "/" }} as="/" {...prefetchProps}>
-            <a onClick={closeDrawer} title={t("common-label-home")}>
+            <a {...anchorProps} title={t("common-label-home")}>
               <span>{t("common-label-home")}</span>
             </a>
           </Link>
         </li>
         <li className="about">
           <Link href={{ pathname: "/about" }} as="/about" {...prefetchProps}>
-            <a onClick={closeDrawer} title={t("common-label-about")}>
+            <a {...anchorProps} title={t("common-label-about")}>
               <span>{t("common-label-about")}</span>
             </a>
           </Link>
         </li>
         <li className="qrcode">
           <Link href={{ pathname: "/qrcode" }} as="/qrcode" {...prefetchProps}>
-            <a onClick={closeDrawer} title={t("common-label-show-qrcode")}>
+            <a {...anchorProps} title={t("common-label-show-qrcode")}>
               <span>{t("common-label-show-qrcode")}</span>
             </a>
           </Link>
@@ -107,7 +110,7 @@ const SidebarContent: React.FunctionComponent<{
       <ul>
         <li className="github">
           <a
-            onClick={closeDrawer}
+            {...anchorProps}
             href="https://github.com/topheman/nextjs-movie-browser"
             title="nextjs-movie-browser on github"
           >
@@ -116,7 +119,7 @@ const SidebarContent: React.FunctionComponent<{
         </li>
         <li className="twitter">
           <a
-            onClick={closeDrawer}
+            {...anchorProps}
             href="https://twitter.com/topheman"
             title="@topheman on twitter"
           >
@@ -125,7 +128,7 @@ const SidebarContent: React.FunctionComponent<{
         </li>
         <li className="labs">
           <a
-            onClick={closeDrawer}
+            {...anchorProps}
             href="http://labs.topheman.com"
             title="Visit my other projects"
           >
@@ -160,6 +163,8 @@ class Drawer extends React.Component<Props> {
             zIndex: 4,
             cursor: "pointer"
           }}
+          tabIndex={0}
+          aria-label="Menu"
         />
         <CloseOnEscape onEscape={() => this.props.uiStore!.setMenuOpen(false)}>
           <Sidebar
@@ -167,6 +172,12 @@ class Drawer extends React.Component<Props> {
               <SidebarContent
                 t={this.props.t}
                 closeDrawer={() => this.props.uiStore!.setMenuOpen(false)}
+                style={{
+                  visibility: this.props.uiStore!.menuOpen
+                    ? "visible"
+                    : "hidden"
+                }}
+                data-testid="sidebar"
               />
             }
             open={this.props.uiStore!.menuOpen}

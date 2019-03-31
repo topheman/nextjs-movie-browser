@@ -63,8 +63,9 @@ export const Title = styled.h2`
   padding: 0 8px 0 20px;
   @media screen and (max-width: ${props => props.theme.breakpoint}) {
     grid-area: none;
-    margin-top: -15px;
+    margin-top: -45px;
     margin-left: 90px;
+    text-shadow: 0 1px 0 white, 0 -1px 0 white, -1px 0 0 white, 1px 0 0 white;
   }
 `;
 

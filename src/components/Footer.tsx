@@ -44,7 +44,7 @@ const Footer: React.FunctionComponent<FooterProps> = ({
         <TwitterButton
           url={currentUrl}
           text="A #NextJS implementation of the themoviedb website by @topheman
-#SSR #TypeScript #i18n #StyledComponents"
+#SSR #TypeScript #i18n #StyledComponents #ReactJS"
         />
       </p>
     </Wrapper>

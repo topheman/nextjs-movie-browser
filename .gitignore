@@ -21,6 +21,11 @@
 .env.test.local
 .env.production.local
 
+!scripts/config/__tests__/__mocks__/**/.env.local
+!scripts/config/__tests__/__mocks__/**/.env.development.local
+!scripts/config/__tests__/__mocks__/**/.env.test.local
+!scripts/config/__tests__/__mocks__/**/.env.production.local
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

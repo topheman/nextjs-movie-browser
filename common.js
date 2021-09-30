@@ -45,8 +45,8 @@ function _getUrlToCommit(pkg, gitRevisionLong) {
 }
 
 function getInfos() {
-  const gitActive = projectIsGitManaged();
-  const gitRev = require("git-rev-sync");
+  const gitActive = false; // projectIsGitManaged(); // temporary disabled
+  const gitRev = null; // require("git-rev-sync"); // temporary disabled
   const moment = require("moment");
   const pkg = require("./package.json");
   const infos = {
